@@ -26,7 +26,7 @@
        <h1>Openbridge Broker API</h1>
        <h2>Overview</h2>
 
-       <p>The API is a powerful data injest service using standard HTTPS POST/GET for fast and easy data colection. The Openbridge API acts as a trusted broker between a client and a third party service enpoint. Those service endpoints can be RESTful, SOAP or any other HTTP based connection. By routing requests through the broker the process of exposing data that may otherwise be resident in a downstream system that is diffuclt to access or completely unavailable.         </p>
+       <p>The API is a powerful data injest service using standard HTTPS POST/GET for fast and easy data colection. The Openbridge API acts as a trusted broker between a client and a third party service enpoint. Those service endpoints can be RESTful, SOAP or any other HTTP based connection.</p>
        <p>The basic process looks like this; </p>
        <pre>
 
@@ -57,9 +57,8 @@
 <li><strong>Service Enpoint:</strong></li>
 </ul>
 
-
-
 <h2>Why Use A Broker?</h2>
+<p>By routing requests through the broker the process of exposing data that may otherwise be resident in a downstream system that is diffuclt to access or completely unavailable.</p>
 <h2>How Does It Work?</h2>
 <p>When you initiate a connection to Openbridge, there are some basic requirements that need to be met in order to successfully send data to a vault. The documentation outlined below assumes your are embedding the API URL into your client application.</p>
 <h3>Openbridge Broker API Base URL</h3>
@@ -83,25 +82,23 @@
 <pre>curl --data '{"api_key":12344556, "host": "example.com", "port": 443, "is_ssl": true, "request": "POST / HTTP/1.0\r\nHost: example.com\r\nContent-Type: application/x-www-form-urlencoded\r\nContent-Length: 5\r\n\r\nfoooo"}' localhost/proxy</pre>
 
 <p>If API Key is not associated with a request, then the server will Broker will resapond with 403 error. </p>
-<p>For security purposes each key can is bound to the URL it was provisioned with. If you attempt to use an API key associated with another URL the server will reject the request. Also, if the API key has been expired or invalidated the server will not allow further requests for that specific URL.  </p>
-<h2>Response Codes</h2>
+<p>For security purposes each key can is bound to the URL it was provisioned with. If you attempt to use an API key associated with another URL the server will reject the request. Also, if the API key has been expired or invalidated the server will not allow further requests for that specific URL. Please note, if the API Key was recently provisioned it may take between 5-10 minutes to have it propogate into our system. If you are still having an issue you can contact support for assistance.</p>
 
-<h3>Enpoint Response Codes</h3>
-<p>The Openbridge Broker API will echo back to your client the response codes presented to us by the service endpoint. Those may be a combination of HTTP response codes as well as application specific codes resident in a response payload. Your application should take care to handle both situations. For example, is the Openbridge Broker API responds to your request with "Request Not Allowed: 403 Forbidden". This means the service enpoint has rejected the request, possibly due to an issue in how you are supplying your credentials. Please note, if the API Key was recently provisioned it may take between 5-10 minutes to have it propogate into our system. If you are still having an issue you can contact support for assistance.
-</p>
-<h3>Openbridgre Broker API Response Codes</h3>
-<p>As mentioned previouslly the Openbridge Broker API will responds to your request with "Request Not Allowed: 403 Forbidden" in the event of an error with your API key. </p>
-<h2>Request Body</h2>
+<h2>Requests</h2>
 
-<p>The Openbridge Broker API does  not require any complex data mapping or schemas. The only requirements the Openbridge Broker API has realting to the request body is that it follows HTTP specifications</p>
+<p>The Openbridge Broker API does not require any complex data mapping or schemas. The only requirements the Openbridge Broker API has realting to the request is that it follows HTTP specifications and contains a valid credentials</p>
 <h3>Service Enpoint Request Requirements</h3>
-<p>However, the request body sent to the API must reflect the structure and format as detailed by the service endpoint you are calling. If your request does not meet the specifications and requirements set forth by the service endpoint you will likely get HTTP or application level error codes in the response.</p>
+<p>While the Openbridge Broker API does not place special requirements on the request that is not true of the service endpoint you are likely calling. Make sure that your requests reflect the structure and format as detailed by the service endpoint you are calling. This includes all details relating to host, header and request body. If your request does not meet the specifications and requirements set forth by the service endpoint you will likely get HTTP or application level error codes in the response. If you are following the documentation service endpoint provides relating to constructing valid requests development and testing will move more quickly.</p>
+
+  <h2>Response Codes</h2>
+<h3>Enpoint Response Codes</h3>
+<p>The Openbridge Broker API will echo back to your client the response codes presented to us by the service endpoint. Those may be a combination of HTTP response codes as well as application specific codes resident in a response payload. Your application should take care to handle both situations. For example, is the Openbridge Broker API responds to your request with "Request Not Allowed: 403 Forbidden". This means the service enpoint has rejected the request, possibly due to an issue in how you are supplying your credentials. Please pay careful attention to the documentation provided by the service endpoint to to assist your application development, testing and deployment efforts.
+</p>
+<h3>Openbridge Broker API Response Codes</h3>
+<p>As mentioned previouslly the Openbridge Broker API will responds to your request with "Request Not Allowed: 403 Forbidden" in the event of an error with your API key. </p>
+
 <h2>Openbridge Broker API Event Processing</h2>
-<p>Since the request body is often slow changing in terms of what is sent as a payload, adjsuting the request body may not happen frequently. However, in the event there are changes in a request body, such as a new attribute, it signals you have changed the underlying data structures. When we detect these changes we simply version the data in your vault. Think of a version as starting a new snapshot. These different snapshots allow you audit changes over time.
-  
-  Position or order can change in the request as we look at the attributes in the rquest body to determine structure.
-  
-  This provides a simple, yet effective mechnism to identify changes over time and provide the apporiate absraction between payloads. </p>
+<p>Since the request body is often slow changing in terms of what is sent as a payload, adjsuting the request body may not happen frequently. However, in the event there are changes in a request body, such as a new attribute, it signals you have changed the underlying data structures. When we detect these changes we simply version the data in your vault. Think of a version as starting a new snapshot. These different snapshots allow you audit changes over time.</p>
       </section>
       <footer>
         <p><small>Hosted on GitHub Pages</small></p>
