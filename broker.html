@@ -1,0 +1,112 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Openbridge.github.io by openbridge</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Openbridge Developer Documentation</h1>
+        <p class="view">Visit us @ <a href="www.openbridge.com">www.openbridge.com</a> or if you need support site head over to <a href="openbridge.zendesk.com">openbridge.zendesk.com </a></p>
+        <h3 class="view">Back to Home</h3>
+      </header>
+      <p>&nbsp;</p>
+      <section>
+
+
+       <h2>Overview</h2>
+
+       <p>The API is a powerful data injest service using standard HTTPS POST/GET for fast and easy data colection. The Openbridge API acts as a trusted broker between a client and a third party service enpoint. Those service endpoints can be RESTful, SOAP or any other HTTP based connection. By routing requests through the broker the process of exposing data that may otherwise be resident in a downstream system that is diffuclt to access or completely unavailable.         </p>
+       <p>The basic process looks like this; </p>
+       <pre>
+
+     +--------------+    +---------------+    +---------------+
+     |              |    |               |    |               |
+     |              |+-->|               |+-->|               |
+     |              |    |               |    |               |
+     |  client      |    |  broker       |    |  endpoint     |
+     |              |<--+|               |<--+|               |
+     |              |    |               |    |               |
+     +--------------+    +---------------+    +---------------+
+                                 +
+                                 |
+                         +------- -------+
+                         |               |
+                         |               |
+                         |  storage      |
+                         |               |
+                         |               |
+                         +---------------+
+
+</pre>
+
+<ul>
+<li><strong>Client:</strong></li>
+<li><strong>Openbridge Broker API:</strong></li>
+<li><strong>Storage:</strong> All requests from clients and responses from enpoints are captured and stored by the broker. The broker supports any HTTP client, in any programming language, that can perform a HTTPS POST/GET to interact with the broker API. Openbridge will setup a dedicated broker for your account and supply a private URL to be used by clients for making POST/GET calls to service endpoints.</li>
+<li><strong>Service Enpoint:</strong></li>
+</ul>
+
+
+
+<h2>Why Use A Broker?</h2>
+<h2>How Does It Work?</h2>
+<p>When you initiate a connection to Openbridge, there are some basic requirements that need to be met in order to successfully send data to a vault. The documentation outlined below assumes your are embedding the API URL into your client application.</p>
+<h3>Openbridge Broker API Base URL</h3>
+<p>All Broker API URLs referenced in this documentation have the following base;</p>
+<pre>https://XXX</pre>
+
+<p>The Openbridge Broker API is served over HTTPS. Unencrypted HTTP is not allowed. To make a call, send a HTTPS POST request to your account's Broker URL. It will look something like this;</p>
+<pre>https://xxxxx/user/"product-id"/"account-sid"/"version"</pre>
+
+<p>Sample CURL GET request:</p>
+<pre>curl --data '{"host": "example.com", "port": 443, "is_ssl": true, "request": "GET / HTTP/1.0\r\nHost: example.com\r\n\r\n"}' localhost/proxy</pre>
+
+<p>Sample CURL POST request:</p>
+<pre>curl --data '{"api_key":12344556, "host": "example.com", "port": 443, "is_ssl": true, "request": "POST / HTTP/1.0\r\nHost: example.com\r\nContent-Type: application/x-www-form-urlencoded\r\nContent-Length: 5\r\n\r\nfoooo"}' localhost/proxy</pre>
+
+<h3>Openbridge Broker API Authentication</h3>
+<p>The Broker API requires you pass a unique 32 bit key associated with URL as part of the payload. This means that the Broker API will require that the "api_key" is a required field as part of payload.
+  
+  For example, notice in the previous CURL request the presence of the "api_key";
+  
+<pre>curl --data '{"api_key":12344556, "host": "example.com", "port": 443, "is_ssl": true, "request": "POST / HTTP/1.0\r\nHost: example.com\r\nContent-Type: application/x-www-form-urlencoded\r\nContent-Length: 5\r\n\r\nfoooo"}' localhost/proxy</pre>
+
+<p>If API Key is not associated with a request, then the server will Broker will resapond with 403 error. </p>
+<p>For security purposes each key can is bound to the URL it was provisioned with. If you attempt to use an API key associated with another URL the server will reject the request. Also, if the API key has been expired or invalidated the server will not allow further requests for that specific URL.  </p>
+<h2>Response Codes</h2>
+
+<h3>Enpoint Response Codes</h3>
+<p>The Openbridge Broker API will echo back to your client the response codes presented to us by the service endpoint. Those may be a combination of HTTP response codes as well as application specific codes resident in a response payload. Your application should take care to handle both situations. For example, is the Openbridge Broker API responds to your request with "Request Not Allowed: 403 Forbidden". This means the service enpoint has rejected the request, possibly due to an issue in how you are supplying your credentials. Please note, if the API Key was recently provisioned it may take between 5-10 minutes to have it propogate into our system. If you are still having an issue you can contact support for assistance.
+</p>
+<h3>Openbridgre Broker API Response Codes</h3>
+<p>As mentioned previouslly the Openbridge Broker API will responds to your request with "Request Not Allowed: 403 Forbidden" in the event of an error with your API key. </p>
+<h2>Request Body</h2>
+
+<p>The Openbridge Broker API does  not require any complex data mapping or schemas. The only requirements the Openbridge Broker API has realting to the request body is that it follows HTTP specifications</p>
+<h3>Service Enpoint Request Requirements</h3>
+<p>However, the request body sent to the API must reflect the structure and format as detailed by the service endpoint you are calling. If your request does not meet the specifications and requirements set forth by the service endpoint you will likely get HTTP or application level error codes in the response.</p>
+<h2>Openbridge Broker API Event Processing</h2>
+<p>Since the request body is often slow changing in terms of what is sent as a payload, adjsuting the request body may not happen frequently. However, in the event there are changes in a request body, such as a new attribute, it signals you have changed the underlying data structures. When we detect these changes we simply version the data in your vault. Think of a version as starting a new snapshot. These different snapshots allow you audit changes over time.
+  
+  Position or order can change in the request as we look at the attributes in the rquest body to determine structure.
+  
+  This provides a simple, yet effective mechnism to identify changes over time and provide the apporiate absraction between payloads. </p>
+      </section>
+      <footer>
+        <p><small>Hosted on GitHub Pages</small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+
+  </body>
+</html>
