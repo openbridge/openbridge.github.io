@@ -122,37 +122,38 @@ For exmaple;
 
 <h4>How To Included Metadata Properties In Your Request</h4>
 <p> Metadata properties are highly flexible and customizable.  However, you should be cognizent of some basic rules to help ensure that the data is usable. The following are the four properties for request metadata;</p>
+<p><strong>Names:</strong>
+</p>
 <ul>
-<li><strong>Names:</strong>
-  <ul>
-    <li>Must be less than X characters long.
-    </li>
-    <li>There cannot be these characters in the names of entities.
-    </li>
-    <li>They cannot be a null value.
-    </li>
+  <li>Must be less than X characters long.
+  </li>
+  <li>There cannot be these characters in the names of entities.
+  </li>
+  <li>They cannot be a null value.
+  </li>
   </ul>
-</li>
-<li><strong>Values:</strong>
-  <ul>
-    <li>String values must be less than X0 characters long.
-    </li>
-    <li>Numeric values must be between X and X.
-    </li>
+<p><strong>Values:</strong>
+</p>
+<ul>
+  <li>String values must be less than X0 characters long.
+  </li>
+  <li>Numeric values must be between X and X.
+  </li>
   </ul>
-</li>
-<li><strong>Types:</strong>
-  <ul>
-    <li>Specifying data types X</li>
+<p><strong>Types:</strong>
+</p>
+<ul>
+  <li>Specifying data types X</li>
   </ul>
-</li>
-<li><strong>Layout/Order:</strong>
-  <ul>
-    <li>Use JSON syntax as a data format. However, do not use nested hierarchy for your properties. </li>
-    <li><pre>xxx</pre></li>
-    </ul>
-</li>
+<p><strong>Layout/Order:</strong>
+</p>
+<ul>
+  <li>Use JSON syntax as a data format. However, do not use nested hierarchy for your properties. </li>
 </ul>
+The following is an example of the JSON format:
+<pre>xxx</pre>
+ 
+
 If you take care to put structure your metadata this way, any data anlaysis or triggering remote events based on the supplied data becomes easierto process. We advise putting some thought into this part of the process as it will help you avoid the old adage of "garbage in, garbage out", something the analysts or developer will thank you for.
 
   <h2>&nbsp;</h2>
