@@ -110,7 +110,7 @@ The Broker allows you to store any transaction between two or more systems. Tran
 <h3>Openbridge Broker API Request Requirments and Options</h3>
 <p>The Openbridge Broker API does not require any complex data mapping or schemas per se. The only requirements the Openbridge Broker API is that a request follows HTTP specifications, contains a valid credentials and follows the service enpoints request requirements. However, we do support more advanced use cases which allow you to append metadata to a request. </p>
 <h3>Enriching Your Request With  Metadata</h3>
-<p>We allow you to append additional metadata to a request that may not otherwise be possible due to limitations on the client or service endpoint sides. For example, a service endpoint may be very rigid in what in the payloads you to deliver. When including metadata in a request Openbridge will store those details, however we will not pass an of that metadata to the service endpoint. This enables you to piggyback additional details on each transaction while not impacting the service endpoint</p>
+<p>We allow you to append additional metadata to a request that may not otherwise be possible due to limitations on the client or service endpoint sides. For example, a service endpoint may be very rigid in what in the payloads you to deliver. When including metadata in a request Openbridge will store those details, however we will not pass an of that metadata to the service endpoint. This enables you to piggyback additional details on each transaction while not impacting the service endpoint.</p>
  
 For exmaple;
 
@@ -123,10 +123,35 @@ For exmaple;
 <h4>How To Included Metadata Properties In Your Request</h4>
 <p> Metadata properties are highly flexible and customizable.  However, you should be cognizent of some basic rules to help ensure that the data is usable. The following are the four properties for request metadata;</p>
 <ul>
-<li><strong>Names:</strong></li>
-<li><strong>Values:</strong></li>
-<li><strong>Types:</strong></li>
-<li><strong>Layout/Order:</strong></li>
+<li><strong>Names:</strong>
+  <ul>
+    <li>Must be less than X characters long.
+    </li>
+    <li>There cannot be these characters in the names of entities.
+    </li>
+    <li>They cannot be a null value.
+    </li>
+  </ul>
+</li>
+<li><strong>Values:</strong>
+  <ul>
+    <li>String values must be less than X0 characters long.
+    </li>
+    <li>Numeric values must be between X and X.
+    </li>
+  </ul>
+</li>
+<li><strong>Types:</strong>
+  <ul>
+    <li>Specifying data types X</li>
+  </ul>
+</li>
+<li><strong>Layout/Order:</strong>
+  <ul>
+    <li>Use JSON syntax as a data format. However, do not use nested hierarchy for your properties. </li>
+    <li><pre>xxx</pre></li>
+    </ul>
+</li>
 </ul>
 If you take care to put structure your metadata this way, any data anlaysis or triggering remote events based on the supplied data becomes easierto process. We advise putting some thought into this part of the process as it will help you avoid the old adage of "garbage in, garbage out", something the analysts or developer will thank you for.
 
@@ -137,7 +162,7 @@ If you take care to put structure your metadata this way, any data anlaysis or t
 </p>
 <p>See <a href="aloha.html">example service endpoint docs</a></p>
 <h3>Openbridge Broker API Response Codes</h3>
-<p>As mentioned previouslly the Openbridge Broker API will responds to your request with "Request Not Allowed: 403 Forbidden" in the event of an error with your API key. Also, if your request is malformed in anyway then we will also respond with X response code prior to sending it to a service enpoint. The following are the details of the Openbridge Broker API response codes</p>
+<p>As mentioned previouslly the Openbridge Broker API will responds to your request with "Request Not Allowed: 403 Forbidden" in the event of an error with your API key. Also, if your request is malformed in anyway then we will also respond with X response code prior to sending it to a service enpoint. The following are the details of the Openbridge Broker API response codes.</p>
 <ul>
   <li><strong>X:</strong></li>
   <li><strong>X:</strong></li>
