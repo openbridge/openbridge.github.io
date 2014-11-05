@@ -23,10 +23,10 @@
       <section>
 <h3 class="view"><a href="index.html">&lt;-Back to Home</a></h3>
 
-       <h1>Openbridge Broker API</h1>
+       <h1>Openbridge Broker Streaming API</h1>
        <h2>Overview</h2>
 
-       <p>The API is a powerful data injest service using standard HTTPS POST/GET for fast and easy data colection. The Openbridge API acts as a trusted broker between a client and a third party service enpoint. Those service endpoints can be RESTful, SOAP or any other HTTP based connection.</p>
+       <p>The API is a powerful injest service for real-time (or close to real-time) data collection. The Openbridge API acts as a trusted broker between a client and a third party service enpoint. Those service endpoints can be RESTful, SOAP or any other HTTP based connection. The API can also be used to support webhooks offered by third parties for direct data collection from those systems. The API employs standard HTTPS POST/GET to enable the broadest capatiblity with diverse devvelopment and production environments.</p>
        <h2>Why Use A Broker?</h2>
 <p>
 The Broker allows you to store any transaction between two or more systems. Transactions like signups, profile updates, payments, redemptions or logins are automatically stored and routed to a dedicated data store.  The Broker APIs makes it simple to implement and deploy, ensuring it has no impact to any legacy systems. 
@@ -34,10 +34,11 @@ The Broker allows you to store any transaction between two or more systems. Tran
 <p>
   Here are some of the uses cases the proxy supports;
 <ul><li><strong>Timeliness:</strong> By routing requests through the broker the process you enable simple, real-time to data that may otherwise be difficult to acess or completely unavaialble in a downstream system.</li>
+<li><strong>Simplicity:</strong> Provides the capability ability to act as a data collection API for any of your third party systems that support webhooks. Simply take your custom URL and pasted it into the webhook field the UI of your prefered tools. Any transactions occuring in your that tools will not be streamed directly to you.</li>
 <li><strong>Accuracy:</strong> You have clean or "pure" view of the actual transactional events. You can make decisions on how to process that data that meets your requirements. No more getting processed "exports" of transactional activity from downstream systems where data might have been manipulated or adjusted, altering the data in a manner that is undesirable, or worse, lost important events.</li>
 <li><strong>Enrich</strong> The ability to append rich meta data to a transaction, even though client or service endpoint systems do not support the storage of those attributes.</li>
 <li><strong>Transparency:</strong> Provides full transparency of over all transactionactional activity between disparate systems for auditing and quality control. This includes the full details of requests from clients and responses from service enpoints.</li>
-<li><strong>Mashup:</strong> Provides full transparency of over all transactionactional activity between disparate systems for auditing and quality control. This includes the full details of requests from clients and responses from service enpoints.</li>
+<li><strong>Mashup:</strong>Trigger external events based on the type of transaction. For example, based on a specific campaign or promo code present in a transaction the system triggers a a customer email on a remote system thanking them for their business, providing them a bounce-back offer to visit later in the week.</li>
 </ul>
 
 <h2>How Does It Work?</h2>
