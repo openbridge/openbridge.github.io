@@ -26,17 +26,20 @@
        <h1>Openbridge Broker Streaming API</h1>
        <h2>Overview</h2>
 
-       <p>The API is a powerful injest service for real-time (or close to real-time) data collection. The Openbridge API acts as a trusted broker between a client and a third party service enpoint. Those service endpoints can be RESTful, SOAP or any other HTTP based connection. The API can also be used to support webhooks offered by third parties for direct data collection from those systems. The API employs standard HTTPS POST/GET to enable the broadest capatiblity with diverse devvelopment and production environments.</p>
+       <p>The API is a powerful injest service for real-time (or close to real-time) data collection. The Openbridge API acts as a trusted broker between a client and a third party service enpoint. Those service endpoints can be RESTful, SOAP or employ any other HTTP based connection. </p>
+       <p>The API employs standard HTTPS POST/GET to enable the broadest capatiblity with diverse devvelopment and production environments.</p>
+       <p>The API can also be used to support webhooks offered by third parties for direct data collection from those systems. </p>
        <h2>Why Use A Broker?</h2>
 <p>
-The Broker allows you to store any transaction between two or more systems. Transactions like signups, profile updates, payments, redemptions or logins are automatically stored and routed to a dedicated data store.  The Broker APIs makes it simple to implement and deploy, ensuring it has no impact to any legacy systems. 
-<br>
+The Broker allows you to store any transaction between two or more systems. Transactions include things like signups, profile updates, payments, redemptions or logins. The Broker APIs makes it simple to implement and deploy, ensuring it has no impact to any legacy systems. 
+<p>All transaction events are automatically stored and routed to a dedicated cusotmer data store. <br>
 <p>
-  Here are some of the uses cases the proxy supports;
-<ul><li><strong>Timeliness:</strong> By routing requests through the broker the process you enable simple, real-time to data that may otherwise be difficult to acess or completely unavaialble in a downstream system.</li>
-<li><strong>Simplicity:</strong> Provides the capability ability to act as a data collection API for any of your third party systems that support webhooks. Simply take your custom URL and pasted it into the webhook field the UI of your prefered tools. Any transactions occuring in your that tools will not be streamed directly to you.</li>
-<li><strong>Accuracy:</strong> You have clean or "pure" view of the actual transactional events. You can make decisions on how to process that data that meets your requirements. No more getting processed "exports" of transactional activity from downstream systems where data might have been manipulated or adjusted, altering the data in a manner that is undesirable, or worse, lost important events.</li>
-<li><strong>Enrich</strong> The ability to append rich meta data to a transaction, even though client or service endpoint systems do not support the storage of those attributes.</li>
+  Here are some of the uses cases the Openbridge Broker API supports;
+<ul>
+<li><strong>Timeliness:</strong> By routing requests through the broker the you enableimmediate, real-time access, to data that may otherwise be difficult view or completely unavaialble due to restrictions in downstream systems.</li>
+<li><strong>Simplicity:</strong> Allows any of your third party systems that support webhooks to stream data direclty to the API. You take your custom URL, paste it into the webhook field in your prefered tools, activate and any transactions occuring in your that tool will be streamed directly to you.</li>
+<li><strong>Accuracy:</strong> You have clean or "pure" view of the transactional events. You can make decisions on how to process that data that meets your requirements. No more getting processed "exports" of transactional activity from downstream systems where data might have been manipulated or adjusted which alters the data in a manner that is undesirable, or worse, loses critical data signals you want to analize.</li>
+<li><strong>Enrich</strong> The ability to append rich meta data to a transaction, even though client or service endpoint systems do not support the storage of those attributes. For example, appending campaign or tracking codes to transactions or attaching social media IDs to an enrollment activity on your site.</li>
 <li><strong>Transparency:</strong> Provides full transparency of over all transactionactional activity between disparate systems for auditing and quality control. This includes the full details of requests from clients and responses from service enpoints.</li>
 <li><strong>Mashup:</strong> Trigger external events based on the type of transaction. For example, based on a specific campaign or promo code present in a transaction the system triggers a a customer email on a remote system thanking them for their business, providing them a bounce-back offer to visit later in the week. <i>(Note: the mashup feature is in beta. Reach out to us if you are interested in being part of an early preview release)</i></li>
 </ul>
@@ -70,14 +73,18 @@ The Broker allows you to store any transaction between two or more systems. Tran
   <li><strong>Storage:</strong> All requests from clients and responses from enpoints are captured and stored by the broker.  Openbridge will setup a dedicated broker for your account and supply a private URL to be used by clients for making POST/GET calls to service endpoints.</li>
   <li><strong>Service Enpoint:</strong>Service endpoint is a web service that accepts the mediated request from the Broker API based on the details supplied by the client application. Endpoint will respond with payload detailing the outcome of that request back to the Broker which passes it back to the client.</li>
 </ul>
-<h3>The Process</h3>
-<p>When you initiate a connection to Openbridge, there are some basic requirements that need to be met in order to successfully send data to a vault. The documentation outlined below assumes your are embedding the API URL into your client application.</p>
+<h2>The Process</h2>
+<p>When you initiate a connection to Openbridge Broker API, there are some basic requirements that need to be met in order to successfully send data to a service endpoint and have us properly stora that data. </p>
+<p>The documentation outlined below assumes your are embedding the API URL into your client application.</p>
 <h3>Openbridge Broker API Base URL</h3>
 <p>All Broker API URLs referenced in this documentation have the following base;</p>
-<pre>https://XXX</pre>
+<pre>https://XXX.XXX.XXX</pre>
 
-<p>The Openbridge Broker API is served over HTTPS. Unencrypted HTTP is not allowed. To make a call, send a HTTPS POST request to your account's Broker URL. It will look something like this;</p>
-<pre>https://xxxxx/user/"product-id"/"account-sid"/"version"</pre>
+<p>The Openbridge Broker API is served over HTTPS. Unencrypted HTTP is allowed, but NOT recommeded. </p>
+
+<h3>Openbridge Broker API Sample POST & GET Requests</h3>
+<p>To make a call, send a HTTPS POST request to your account's Broker URL. It will look something like this;</p>
+<pre>https://XX.XXXXXX.XXX/user/"product-id"/"account-sid"/"version"</pre>
 
 <p>Sample CURL GET request:</p>
 <pre>curl --data '{"host": "example.com", "port": 443, "is_ssl": true, "request": "GET / HTTP/1.0\r\nHost: example.com\r\n\r\n"}' localhost/proxy</pre>
@@ -99,37 +106,48 @@ The Broker allows you to store any transaction between two or more systems. Tran
 
 <h3>Service Enpoint Request Requirements</h3>
 <p>While the Openbridge Broker API does not place special requirements on the request that is not true of the service endpoint you are likely calling. Make sure that your requests reflect the structure and format as detailed by the service endpoint you are calling. This includes all details relating to host, header and request body. If your request does not meet the specifications and requirements set forth by the service endpoint you will likely get HTTP or application level error codes in the response. If you are following the documentation service endpoint provides relating to constructing valid requests development and testing will move more quickly.</p>
+<p>See <a href="aloha.html">examples docs</a> for service endpoint requirements</p>
 <h3>Openbridge Broker API Request Requirments and Options</h3>
-<p>The Openbridge Broker API does not require any complex data mapping or schemas. The only requirements the Openbridge Broker API is that a request follows HTTP specifications, contains a valid credentials and follows the service enpoints request requirements. However, we do support more advanced use cases. </p>
-<h3>Request Metadata</h3>
-<p>Ee allow you to append additional meta-data to a request that may not otherwise be possible due to limitations on the client or service endpoint sides</p>
+<p>The Openbridge Broker API does not require any complex data mapping or schemas per se. The only requirements the Openbridge Broker API is that a request follows HTTP specifications, contains a valid credentials and follows the service enpoints request requirements. However, we do support more advanced use cases which allow you to append metadata to a request. </p>
+<h3>Enriching Your Request With  Metadata</h3>
+<p>We allow you to append additional metadata to a request that may not otherwise be possible due to limitations on the client or service endpoint sides. For example, a service endpoint may be very rigid in what in the payloads you to deliver. When including metadata in a request Openbridge will store those details, however we will not pass an of that metadata to the service endpoint. This enables you to piggyback additional details on each transaction while not impacting the service endpoint</p>
  
 For exmaple;
 
 <ul>
 <li><strong>Marketing Activity:</strong> Capturing infromation about the details of a campaign, such as the source/channel/creative, that might be driving spepcific activity like an enrollment.</li>
 <li><strong>Profile Enrichment:</strong> Additional data such as demographics, location, a favorite movie, prefered contact method or third party IDs/keys</li>
+<li><strong>Security and Auditing:</strong> Additional metadata may represent data that you want to make sure is recorded for a transaction, yet not exposed to a downstream service endpoint. This maybe useful in situations where you need to reconcile activity due to financial considerations like chargebacks per successful transctions, but not for failed or rejected ones.</li>
 </ul>
 
-<h4>How To Included Metadata Properties</h4>
-<p>How to use metadata in your request. Metadata properties are highly flexible and customizable.  However, you should be cognizent of some basic rules to help ensure that the data is usable. The following are the four properties for request metadata;</p>
+<h4>How To Included Metadata Properties In Your Request</h4>
+<p> Metadata properties are highly flexible and customizable.  However, you should be cognizent of some basic rules to help ensure that the data is usable. The following are the four properties for request metadata;</p>
 <ul>
 <li><strong>Names:</strong></li>
 <li><strong>Values:</strong></li>
 <li><strong>Types:</strong></li>
 <li><strong>Layout/Order:</strong></li>
 </ul>
-If you take care to put structure your metadata this way, the data anlaysis and triggering remote events based on the supplies data becomes easier process. Putting some thought into this part of the process will help you avoid the old adage of "garbage in, garbage out", something the analysts or developer will thanks you for.
+If you take care to put structure your metadata this way, any data anlaysis or triggering remote events based on the supplied data becomes easierto process. We advise putting some thought into this part of the process as it will help you avoid the old adage of "garbage in, garbage out", something the analysts or developer will thank you for.
 
   <h2>&nbsp;</h2>
   <h2>Response Codes</h2>
 <h3>Service Enpoint Response Codes</h3>
 <p>The Openbridge Broker API will echo back to your client the response codes presented to us by the service endpoint. Those may be a combination of HTTP response codes as well as application specific codes resident in a response payload. Your application should take care to handle both situations. For example, is the Openbridge Broker API responds to your request with "Request Not Allowed: 403 Forbidden". This means the service enpoint has rejected the request, possibly due to an issue in how you are supplying your credentials. Please pay careful attention to the documentation provided by the service endpoint to to assist your application development, testing and deployment efforts.
 </p>
+<p>See <a href="aloha.html">example service endpoint docs</a></p>
 <h3>Openbridge Broker API Response Codes</h3>
-<p>As mentioned previouslly the Openbridge Broker API will responds to your request with "Request Not Allowed: 403 Forbidden" in the event of an error with your API key. Also, if your request is malformed in anyway then we will also respond with X response code prior to sending it to a service enpoint</p>
+<p>As mentioned previouslly the Openbridge Broker API will responds to your request with "Request Not Allowed: 403 Forbidden" in the event of an error with your API key. Also, if your request is malformed in anyway then we will also respond with X response code prior to sending it to a service enpoint. The following are the details of the Openbridge Broker API response codes</p>
+<ul>
+  <li><strong>X:</strong></li>
+  <li><strong>X:</strong></li>
+  <li><strong>X:</strong></li>
+  <li><strong>X:</strong></li>
+</ul>
+<p>&nbsp;</p>
 
 <h2>Openbridge Broker API Event Processing</h2>
+<h3>Data Pipelining &amp; Storage</h3>
 <p>Since the request body is often slow changing in terms of what is sent as a payload, adjsuting the request body may not happen frequently. However, in the event there are changes in a request body, such as a new attribute, it signals you have changed the underlying data structures. When we detect these changes we simply version the data in your vault. Think of a version as starting a new snapshot. These different snapshots allow you audit changes over time.</p>
       </section>
       <footer>
