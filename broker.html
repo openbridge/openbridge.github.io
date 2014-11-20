@@ -89,10 +89,45 @@ The Broker allows you to store any transaction between two or more systems. Tran
 <pre>https://XX.XXXXXX.XXX/user/"product-id"/"account-sid"/"version"</pre>
 
 <p>Sample CURL GET request:</p>
-<pre>curl --data '{"host": "example.com", "port": 443, "is_ssl": true, "request": "GET / HTTP/1.0\r\nHost: example.com\r\n\r\n"}' localhost/proxy</pre>
+<pre>curl --data '{"api_key":12344556, "host": "example.com", "port": 443, "is_ssl": true, "label": "example", "request_id": 12345, "request": "GET / HTTP/1.0\r\nHost: example.com\r\n\r\n"}' localhost/proxy</pre>
 
 <p>Sample CURL POST request:</p>
-<pre>curl --data '{"api_key":12344556, "host": "example.com", "port": 443, "is_ssl": true, "request": "POST / HTTP/1.0\r\nHost: example.com\r\nContent-Type: application/x-www-form-urlencoded\r\nContent-Length: 5\r\n\r\nfoooo"}' localhost/proxy</pre>
+<pre>curl --data '{"api_key":12344556, "host": "example.com", "port": 443, "is_ssl": true, "label": "example", "request_id": 12345, "request": "POST / HTTP/1.0\r\nHost: example.com\r\nContent-Type: application/x-www-form-urlencoded\r\nContent-Length: 5\r\n\r\nfoooo"}' localhost/proxy</pre>
+
+<ul>
+  <li><strong>api_key:</strong> Authentication key. Think of it as a password</li>
+  <li><strong>host:</strong> This is your target host name. For example if you need to send a request to Twitter API, then host parameter will be <tt>api.twitter.com</tt>. NOTE: this is not a host name of the Broker  </li>
+  <li><strong>port:</strong> The port of the target system. Most likely it will be ether <tt>80</tt> for HTTP requests or <tt>443</tt> for HTTPS.  </li>
+  <li><strong>is_ssl:</strong> It is a boolean that indicates where the connection from the Broker to the target system should be encypted. Please note that seting <tt>port</tt> argument to <tt>443</tt> will not implicitly wraps the connection with ssl. Most likely when the port is 80 this argument should be <tt>false</tt> and when the port is 443 this argument should be <tt>true</tt>. </li>
+  <li><strong>label:</strong> Global identifier that helps you group the data together. Think of it as a table name in relational databases. Like what table my request belongs to?. For example imagine your request is to create a new account. Then give <tt>label</tt> a name that you would normaly give to the table name if you would store it in RDBMS. In that case it might be "account", "customer" or "subscription"</li>
+  <li><strong>request_id:</strong> Identifier that you set to request. This field might be something similar to the "Primary Key" or "Foreign Key" in RDBMS. It doesn't mean that any "Primary Key" functionality will be enforced. However it will definitely help you identifying records. For example: say you sending transaction data through the Broker. You may also track user activity on your website. If you set request_id to become a common field for both systems, then you will be able to easily link two reports together.  </li>
+  <li><strong>request:</strong> HTTP request in <a href="http://tools.ietf.org/html/rfc2616">RFC 2616</a> format. This should be a full request with proper line brakes ('\r\n' instead of '\n') headers and everything else requiered by the RFC 2616. Please note that since the request is getting send as part of the JSON you must escape all of the characters that are not allowed by the JSON. We strongly recomend to not construct the full request to the Broker (<tt>{"host" ..., "port" ..., "request"}</tt>) by hand. Our suggestion is to construct a "dictionary" ( also known as "hash map", "associative array", "key value pairs" ) first and then use one of many existing tools to serialize obj to a JSON formatted string.
+For example:
+
+Lets say you need to send a request to Twitter to update a back ground color on the user page.
+Then your <tt>request</tt> field would look like similar to that:
+
+<pre>"POST /1.1/account/update_profile_colors.json HTTP/1.1\r\nUser-Agent: curl/7.35.0\r\nHost: api.twitter.com\r\nAccept: /\r\nAuthorization: OAuth oauth_consumer_key=\"zZpVTtUIOSKZTmA\", oauth_nonce=\"cab82deasduvfo948c8a5\", oauth_signature=\"zv7apSPPPWAXUAF%2B%2Fm%2BeE%3D\", oauth_signature_method=\"HMAC-SHA1\", oauth_timestamp=\"1415380171\", oauth_token=\"160ABCD12O\", oauth_version=\"1.0\"\r\nContent-Length: 126\r\nContent-Type: application/x-www-form-urlencoded\r\nConnection: close\r\n\r\nprofile_text_color=000000&profile_sidebar_border_color=ff0000&skip_status=1&profile_background_color=0000FF&include_entities=1"</pre>
+
+Lets got step by step:
+
+<ul>
+  <li><tt>POST /1.1/account/update_profile_colors.json HTTP/1.1</tt> is a required HTTP signature. This will be different depending on the type of your request, the end point and the HTTP version.</li>
+  <li><tt>\r\n</tt> Required instead of single '\n'</li>
+  <li><tt>User-Agent ... Connection: close</tt> Is a required header. Please note that this header is required by the target system, not by the Broker. NOTE if "Connection: close" is not set, you need to set it explisitly. </li>
+  <li><tt>\r\n\r\n</tt> Is a required delimiter (2 blank lines) between the header and the body of the POST request.</li>
+  <li><tt>profile_text ... entities=1</tt></li>
+</ul>
+
+
+Another usecase, Image you need to send a soap request to the target system. It's not much different the sending a post request to Twitter. The same rules applied: set the proper header (SOAPAction in this case), two line brakes between the soap envelop and the header. And then you fully constructed XML.
+
+<textarea style="border:none;">  "POST /xml HTTP/1.1\r\nHost: example.com ... Content-Type: text/xml; charset=ISO-8859-1 SOAPAction: ...  Expect: 100-continue ... Connection: close \r\n\r\n<?xml version='1.0' encoding='ISO-8859-1'?>\n<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\ ... <SOAP-ENV:Header> ...  </SOAP-ENV:Header>\n  <SOAP-ENV:Body>\n ...  </SOAP-ENV:Body>"</textarea>
+
+  </li>
+</ul>
+
+
 
 <h3>Openbridge Broker API Authentication</h3>
 <p>The Broker API requires you pass a unique 32 bit key associated with URL as part of the payload. This means that the Broker API will require that the "api_key" is a required field as part of payload.
