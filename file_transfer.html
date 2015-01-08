@@ -1,0 +1,100 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Openbridge.github.io by openbridge</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Openbridge Developer Documentation</h1>
+        <p class="view">Visit us @ <a href="www.openbridge.com">www.openbridge.com</a> or if you need support site head over to <a href="openbridge.zendesk.com">openbridge.zendesk.com </a></p>
+     
+      </header>
+
+      <section>
+<h3 class="view"><a href="index.html">&lt;-Back to Home</a></h3>
+<p><small>Last update: 12-02-2014</small></p><strong>Version: v1.0</strong>
+       <h1>Delivering "Batch" Data </h1>
+       <h2>Overview</h2>
+<p>Data from any number of sources can be posted for processing via batch process. The data for any batch loads should be delivered to the FTP location we have provisioned for you.</p>
+<p>The preferred protocol is SFTP:</p>
+<ul>
+<li><strong>Host:</strong> sftp.openbridge.io</li>
+<li><strong>Port:</strong> 2222</li>
+<li><strong>Protocol:</strong> SFTP</li>
+<li><strong>User:</strong> <em>Provided separately</em></li>
+<li><strong>Password:</strong> <em>Provided separately</em></li>
+</ul>
+<p>We also support secure FTPES (explicit SSL/TLS):</p>
+<ul>
+<li><strong>Host:</strong> ftps.openbridge.io</li>
+<li><strong>Port:</strong> 21</li>
+<li><strong>Protocol:</strong> FTPES</li>
+<li><strong>User:</strong> <em>Provided separately</em></li>
+<li><strong>Password:</strong> <em>Provided separately</em></li>
+</ul>
+<p>If the data is being delivered by a third party, please contact Customer Support to request unique credentials for that provider. This will ensure that third parties only have access to the data they are providing.</p>
+<p>The steps for loading data to a Redshift table(s) via batch process are described below. This process can be used for a one-time (ad hoc) load of data and/or a scheduled batch process that runs periodically (e.g. daily, weekly, monthly) to update tables with new data.</p>
+<p><strong>Create FTP Folders for Each Set of Batch Data</strong></span></p>
+<p>Log into your ftp location and create a folder for each unique set of data you will be loading. The name of the folder is very important as it will be the name of the table in the Redshift database (or other database) where you will access the data. It should therefore be a name that is descriptive enough for the end user to understand its contents. The folder name must also meet certain syntax requirements. These requirements are outlined below&hellip;</p>
+<ol>
+<li>Must start with a letter</li>
+<li>Must contain only lowercase letters</li>
+<li>Can contain numbers and underscores <code>(&lsquo;_&rsquo;)</code> but no spaces or special characters <code> &lsquo;@&rsquo;, &lsquo;#&rsquo;, &lsquo;%&rsquo; </code></li>
+</ol>
+<p><em>Examples:</em></p>
+<ul>
+<li><strong>Valid folder name:</strong> <code>"customer_inquiries_jan_2014"</code></li>
+<li><strong>Invalid folder name:</strong> <code>"Customer inquiries 1/14"</code></li>
+</ul>
+<p>In the &lsquo;Batch Process Diagram&rsquo;, you will see unique folder names have been created within the ftp location for each unique set of data across disparate data sources as well as within the same data source and that these folder names become the corresponding table names in the Redshift database. Even though both <code>&lsquo;customers&rsquo;</code> data and <code>&lsquo;cards&rsquo;</code> data come from the same source, they are given separate folder (and table) names since they contain disparate sets of data.</p>
+<h2>Format Batch Files</h2>
+<p><strong>File Format:</strong> The platform accepts any delimited text format (e.g. comma, tab, pipe, etc.) with column headers (header row) and a valid file type extension (.csv or .txt).</p>
+<p><strong>File Names:</strong> File names should meet the 3 criteria outlined below. This will facilitate any required auditing/QC of data received. Non-standard file naming conventions will make any auditing a manual, resource-intensive process.</p>
+<ol>
+<li><strong>Descriptive:</strong> The file name should include the data source, data description and date/date range associated with the data in each file (e.g. <code>socialcom_paidsocial_20140801.txt</code> or <code> socialcom_paidsocial_20140701_20140801.txt</code>)</li><br>
+<li><strong>Unique:</strong> Unique files will be stored and accessible for auditing purposes. Files posted with the same name will be overwritten, making auditing impossible (e.g. <code>socialcom_paidsocial_20140801.txt, socialcom_paidsocial_20140901.txt, socialcom_paidsocial_20141001.txt</code></li><br>
+<li><strong>Consistent:</strong> File naming patterns should be kept consistent over time to enable automated auditing (e.g. <code>socialcom_paidsocial_20140801.txt, socialcom_paidsocial_20140901.txt, socialcom_paidsocial_20141001.txt </code></li>
+</ol>
+<p><strong>Field Names (Column Headers):</strong>The column headers are important as they will also be the field names used in the corresponding Redshift table. As with the folder name, the column headers should be descriptive enough for the end user to understand its contents. The column headers must meet the same syntax requirements. These requirements are outlined below:</p>
+<ul>
+<li>Must start with a letter</li>
+<li>Must be lowercase</li>
+<li>Can contain numbers and underscores <code>(&lsquo;_&rsquo;)</code> but no spaces or special characters (e.g. <code>&lsquo;@&rsquo;, &lsquo;#&rsquo;, &lsquo;%&rsquo;</code>)</li>
+</ul>
+<p>The following are example of valid and invalid field names:</p>
+<ul>
+<li>Valid column header:<code> "inquiries_to_purchase_pct" </code></li>
+<li>Invalid column header: <code>"Inquiries to Purchase %" </code></li>
+</ul>
+<p>If the field names in the batch file do not meet these requirements, the system will automatically perform the following transformations&hellip;</p>
+<ol>
+<li>Uppercase letters will be converted to lowercase</li>
+<li>Spaces will be converted to underscores <code>(&lsquo;_&rsquo;)</code></li>
+<li>Special characters will be dropped</li>
+</ol>
+<p>In the &lsquo;Batch Process Diagram&rsquo;, you can see that the column headers for each extract become the column headers in the respective Redshift tables. For example, the column header <code>card_id</code> from <code>card_reg_20140610.txt</code> becomes the field name that identifies that data in the <code>cards</code> table.</p>
+<p>Files should be configured to deliver to the appropriate folder as the system will append all data received to the corresponding table.</p>
+<h3>Batch Process Diagram </h3>
+<img src="images/batch_process_diagram.png" alt="" /></p>
+
+
+
+      </section>
+      <footer>
+        <p><small>Hosted on GitHub Pages</small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+
+  </body>
+</html>

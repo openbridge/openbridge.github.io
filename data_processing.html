@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Openbridge.github.io by openbridge</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Openbridge Developer Documentation</h1>
+        <p class="view">Visit us @ <a href="www.openbridge.com">www.openbridge.com</a> or if you need support site head over to <a href="openbridge.zendesk.com">openbridge.zendesk.com </a></p>
+     
+      </header>
+
+      <section>
+<h3 class="view"><a href="index.html">&lt;-Back to Home</a></h3>
+<p><small>Last update: 12-02-2014</small></p><strong>Version: v1.0</strong>
+       <h1>Openbridge Data Bridge Services</h1>
+       <h2>Overview</h2>
+
+<p>Openbridge Event Processing Service is a distributed real-time computation system for processing fast, large streams of data. Processing services are called “topologies”. A topology is a network of resources needed to perform a collection of processes and computations on a “event”. An event is an ordered set of values and typically equates to a “record” in a RDBMS. 
+
+<h2>Topology</h2>
+<p>A topology contains processing logic and algorithms to perform increasingly complex synchronous or asynchronous operations on events  flowing through the system. As a result, topologies encapsulate all the relevant “intelligence” on how to process data.  Topologies are extremely flexible, allowing customers to deploy complex data processing routines based on their business requirements as data is streamed through the system. 
+Events:  Typically an event can be equated with a record. The system guarantees every event will be fully processed.  This provide an “at-least-once” processing guarantee. Messages are only replayed when there are failures.  Combined with Data Replay Services the system is easily able to reprocess current or historical data. 
+There are two types of processing services:
+
+<h3>Pre-Built Topologies</h3>
+
+<p>Pre-Built topologies provide ready-made frameworks that provide a collection of core data processing operations. The pre-built bridges allow quick configuration, testing and deployment into the data warehouse. The following are the current pre-built data bridges;
+
+<ul>
+<li>Deduplication (execute hash checks to identify duplicates, set aside duplicates)
+<li>Data layout/structure (apply configurable “run-time” schema rules to data in-flight)
+<li>Format standardization (transform output to valid CSV format as detailed in RFC4180 specifications
+<li>Routing delivery of data to one or more resource locations (i.e., databases, message brokers, storage, etc.)
+<li>Data loading (i.e., create tables, load data, etc.)
+</ul>
+
+<p>
+
+<h3>Custom-Built Topologies</h3>
+
+<p>Custom-built topologies are tailored applications that allow the processing of data based on the specific  customer requirements of one or more streams of data. This may a custom topology which scores customers based on specific in-store purchase activity combined with enrollment behaviors in a mobile application or website. A custom topology may involve specific processing of data to meet the format and layout requirements to properly load into  proprietary internal systems. Custom topologies may also be used to deconstruct your data at the tuple or column level to be able to ensure certain customer data meets regulatory compliance based on the data country of origin or where an individual may reside
+
+<h2>Note</h2>
+<p> A topology, once deployed, is designed to run indefinitely and operate ephemerally.
+
+      </section>
+      <footer>
+        <p><small>Hosted on GitHub Pages</small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+
+  </body>
+</html>

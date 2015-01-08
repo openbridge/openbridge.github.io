@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Openbridge.github.io by openbridge</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Openbridge Developer Documentation</h1>
+        <p class="view">Visit us @ <a href="www.openbridge.com">www.openbridge.com</a> or if you need support site head over to <a href="openbridge.zendesk.com">openbridge.zendesk.com </a></p>
+     
+      </header>
+
+      <section>
+<h3 class="view"><a href="index.html">&lt;-Back to Home</a></h3>
+<p><small>Last update: 12-02-2014</small></p><strong>Version: v1.0</strong>
+       <h1>Openbridge Data Pipeline Services</h1>
+       <h2>Overview</h2>
+       
+<p>The Openbridge Data Pipeline include two specific resources; Streaming API and Stacks. 
+
+<h2>Streaming API</h2>
+<p>The Streaming API is a powerful data delivery REST API using standard HTTPS POST and JSON payload for fast and easy data integration and collection. You can send just about any data you want to the API. This includes using the API for MailChimp webhooks, capturing leads from Twitter Lead Cards or raw data event feeds from tag management solutions like Ensighten or Tealium. Any data supplied to the API is processed at a record or “event” level and then prepared for import into the Openbridge data warehouse. 
+
+<p>See details on <a href="broker.html">how to deliver data</a> to the Openbridge Streaming API.
+
+<h2>Stacks</h2>
+<p>Stacks are collections of one or more unique files that require processing and import sent to Openbridge via FTP(s). Files may only contain a few hundred records or may contain millions. Once a Stack is delivered to Openbridge, rather than “bulk” process each file, the file is deconstructed to a record or “event” level.  Schemas are then dynamically created based on a real-time analysis of the supplied data. The data is then prepared for import into the Openbridge data warehouse. “Streaming” file data allows for further processing at a record level as well as mashing up data with other streams of data, including with other Stacks and the Streaming API. 
+
+<p>While Streaming API and Stacks are typically used as inbound (PUT, POST, STOR) they can also be used for outbound (GET, RETR) data services.  Streaming API and Stacks contain the definitions for various data sources, destinations, and predefined or custom data processing activities required to process your data into your data warehouse.
+
+<p>See details on <a href="file_transfer.html">how to deliver data</a> to Openbridge Stacks.
+
+
+
+<h2>Notes</h2>
+
+<p>There is a soft limit of up to 10 million transactions per day for the Streaming API and 100GB per day for Stacks. If you can forecast volumes ahead of time we will be able to tailor options for your situation.
+
+<p>Outbound data service may require custom configuration of the system to support customer specific application services and requirements
+
+<p>Complex or unique data types may require additional support to properly generate the schema definitions to properly process. We will work with you to identify the situations on how to handle them when they arise
+ 
+<p>Don’t worry, your service won’t be throttled, terminated or abruptly cancelled if limits are exceeded. In the event you are consistently exceeding your limits we will get in touch with you to discuss the situation and available options.
+
+      </section>
+      <footer>
+        <p><small>Hosted on GitHub Pages</small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+
+  </body>
+</html>
