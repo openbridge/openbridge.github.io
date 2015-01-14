@@ -47,27 +47,39 @@
 <p>Feeds must have specific directories on the Openbridge system that correspond to each reporting suite. For example, the delivery would be sent to the root of the report suite directory like this: <code>".../(report_suite_id)/..." </code>
 </p>
 
-<p>The output from Adobe should be delivered to a unique desitnation and filemask.: <code>"/(report_suite_id)//(report_type)/(report_type_YYYY-mm-dd).tar.gz"</code>
+<p>The output from Adobe should be delivered to a unique desitnation and filemask.: <code>"/adobe/sitecatalyst/datawarehouse/(report_suite_id)//(report_type)/(report_type_YYYY-mm-dd).csv"</code>
+
+<p>An example of  unique desitnation and filemask would like something like this: <code>"/adobe/sitecatalyst/datawarehouse/my-suite-id/adob_site_totals/adob_site_totals_20150101.csv"</code>
+
+<p> This process would be repeated for each unique report type you want to have loaded. For example;
+
+<code>
+  /adobe/sitecatalyst/datawarehouse/my-suite-id/adob_marketingchannel/adob_marketingchannel_20150101.csv
+  /adobe/sitecatalyst/datawarehouse/my-suite-id/adob_pages/adob_pages_20150101.csv
+  /adobe/sitecatalyst/datawarehouse/my-suite-id/adob_products/adob_products_20150101.csv
+  /adobe/sitecatalyst/datawarehouse/my-suite-id/adob_site_totals/adob_site_totals_20150101.csv
+  /adobe/sitecatalyst/datawarehouse/my-suite-id/adob_video/adob_video_20150101.csv
+  /adobe/sitecatalyst/datawarehouse/my-suite-id/adob_visits/adob_visits_20150101.csv
+</code>
 
 <h3>Access Credentials</h3>
 <p>Adobe supports standard username and password credential for both FTP and SFTP. Openbridge will supply these to you to supply to Adobe technical support team. Adobe will only have access to the specific directory path mentioned previously. They are "locked" there and only have access to deliver files to the target directory.
 
 <h3>Delivery Frequency</h3>
-<p>You have the option of requesting Daily Single or Daily Multiple for delivery. We suggest the delivery of a single, consolidated file each day. The clickstream feeds are typically delivered between 1AM and 4AM daily.
-
-
+<p>You have the option of scehduling the frequency of your datawarehouse with the Adobe website. We suggest that the feeds are scheduled daily, delivered between 3AM and 6AM daily.
 
 <h3>Datawarehouse Feed Contents</h3>
 
 <p>The delivery format from Adobe will be uncompressed CSV files. The raw files from Adobe will have headers that look like this:
-
+<br>
   <code>
     | Date  | Visits | Unique Visitors | Something (23) (event23) |
   </code>
 
-  <p>The headers as supplied are technically not valid for import into a database like Redshfit. Our system will automatically adjust the data supplied by Adobe to enable it to be imported
+<p>The headers as supplied are technically not valid for import into a database like Redshfit. In above example there are mixed case, special characters and spacing used for column names. Our system will automatically standardize the headers supplied by Adobe to ensure that downstream databses can properly import the data.
 
-    <p> The resulting header would look something like this:
+<p> The resulting header would look something like this:
+  <br>
       <code>
         | date  | visits | unique_visitors | something_23_event23 |
       </code>
