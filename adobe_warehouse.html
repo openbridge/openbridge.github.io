@@ -46,7 +46,8 @@
 
 <p>Feeds must have specific directories on the Openbridge system that correspond to each reporting suite. For example, the delivery would be sent to the root of the report suite directory like this: <code>".../(report_suite_id)/..." </code>
 </p>
-<p>The delivery format from Adobe will be uncompressed CSV files. will be zipped would follow this convention for the path and filemask.: <code>"/(report_suite_id)/(report_suite_YYYY-mm-dd).tar.gz"</code>
+
+<p>The output from Adobe should be delivered to a unique desitnation and filemask.: <code>"/(report_suite_id)//(report_type)/(report_type_YYYY-mm-dd).tar.gz"</code>
 
 <h3>Access Credentials</h3>
 <p>Adobe supports standard username and password credential for both FTP and SFTP. Openbridge will supply these to you to supply to Adobe technical support team. Adobe will only have access to the specific directory path mentioned previously. They are "locked" there and only have access to deliver files to the target directory.
@@ -56,52 +57,21 @@
 
 
 
-<h3>Clickstream Feed Contents</h3>
-<p>We have provided public repository of samples of clickstream data feeds on Github: <a href="https://github.com/openbridge/adobe-clickstream">https://github.com/openbridge/adobe-clickstream</a>
+<h3>Datawarehouse Feed Contents</h3>
 
-<p>In addition to reviewing the same data we provided, we suggest you review the Adobe specs here: <a href="http://microsite.omniture.com/t2/help/en_US/sc/clickstream/index.html#Clickstream_Data">http://microsite.omniture.com/t2/help/en_US/sc/clickstream/index.html#Clickstream_Data</a>.
+<p>The delivery format from Adobe will be uncompressed CSV files. The raw files from Adobe will have headers that look like this:
 
-<p>If you are planning to use the full payload as defined Adobe there are consideration in complexity and storage volumes. This is due to the fact that there are in excess of 500 columns of data, each with varying lengths and data types. Each record will consume a sizable chunk of space.
+  <code>
+    | Date  | Visits | Unique Visitors | Something (23) (event23) |
+  </code>
 
-<p>Take a look at Adobe's recommended subset of that superset of columns here: <a href="http://microsite.omniture.com/t2/help/en_US/sc/clickstream/index.html#Configuring_Data">http://microsite.omniture.com/t2/help/en_US/sc/clickstream/index.html#Configuring_Data_Feeds</a>
+  <p>The headers as supplied are technically not valid for import into a database like Redshfit. Our system will automatically adjust the data supplied by Adobe to enable it to be imported
 
-<code>
-| Date  | Visits | Unique Visitors | Something (23) (event23) |
+    <p> The resulting header would look something like this:
+      <code>
+        | date  | visits | unique_visitors | something_23_event23 |
+      </code>
 
-</code>
-
-<h3>Lookup/Helper Files</h3>
-<p>Contents of each zip file would contain the following;
-
-<ol>
-<li>column_headers.tsv
-
-<li>browser.tsv
-
-<li>browser_type.tsv
-
-<li>color_depth.tsv
-
-<li>connection_type.tsv
-
-<li>country.tsv
-
-<li>javascript_version.tsv
-
-<li>languages.tsv
-
-<li>operating_systems.tsv
-
-<li>plugins.tsv
-
-<li>resolution.tsv
-
-<li>referrer_type.tsv
-
-<li>search_engines.tsv
-
-<li>event_lookup.tsv
-</ol>
 
 
 
