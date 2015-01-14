@@ -1,0 +1,120 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>openbridge.github.io by openbridge</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Openbridge Developer Documentation</h1>
+        <p class="view">Visit us @ <a href="www.openbridge.com">www.openbridge.com</a> or if you need support site head over to <a href="openbridge.zendesk.com">openbridge.zendesk.com </a></p>
+
+      </header>
+
+      <section>
+<h3 class="view"><a href="index.html">&lt;-Back to Home</a></h3>
+<p><small>Last update: 12-02-2014</small></p><strong>Version: v1.0</strong>
+       <h1>Setting Up Adobe Data Warehouse Feeds</h1>
+       <h2>Overview</h2>
+
+<h3>Delivery Endpoints</h3>
+
+<p>Adobe defaults delivery to FTP. If you want to use SFTP, it will require a special request to the Adobe support team to setup.
+
+<p>Delivery of files to the following
+<ul>
+<li>FTP Hostname = <code>ftp.openbridge.io</code>
+<li>SFTP Hostname = <code>sftp.openbridge.io</code>
+</ul>
+
+<p>The following are the PORT numbers you will need to make sure are used by the system responsible for file delivery
+<ul>
+<li>FTP = <code>port:21</code>
+<li>SFTP = <code>port:2222</code>
+</ul>
+
+<h3>Delivery Directory and Filemasks</h3>
+
+<p>Feeds must have specific directories on the Openbridge system that correspond to each reporting suite. For example, the delivery would be sent to the root of the report suite directory like this: <code>".../(report_suite_id)/..." </code>
+</p>
+<p>The delivery format from Adobe will be uncompressed CSV files. will be zipped would follow this convention for the path and filemask.: <code>"/(report_suite_id)/(report_suite_YYYY-mm-dd).tar.gz"</code>
+
+<h3>Access Credentials</h3>
+<p>Adobe supports standard username and password credential for both FTP and SFTP. Openbridge will supply these to you to supply to Adobe technical support team. Adobe will only have access to the specific directory path mentioned previously. They are "locked" there and only have access to deliver files to the target directory.
+
+<h3>Delivery Frequency</h3>
+<p>You have the option of requesting Daily Single or Daily Multiple for delivery. We suggest the delivery of a single, consolidated file each day. The clickstream feeds are typically delivered between 1AM and 4AM daily.
+
+
+
+<h3>Clickstream Feed Contents</h3>
+<p>We have provided public repository of samples of clickstream data feeds on Github: <a href="https://github.com/openbridge/adobe-clickstream">https://github.com/openbridge/adobe-clickstream</a>
+
+<p>In addition to reviewing the same data we provided, we suggest you review the Adobe specs here: <a href="http://microsite.omniture.com/t2/help/en_US/sc/clickstream/index.html#Clickstream_Data">http://microsite.omniture.com/t2/help/en_US/sc/clickstream/index.html#Clickstream_Data</a>.
+
+<p>If you are planning to use the full payload as defined Adobe there are consideration in complexity and storage volumes. This is due to the fact that there are in excess of 500 columns of data, each with varying lengths and data types. Each record will consume a sizable chunk of space.
+
+<p>Take a look at Adobe's recommended subset of that superset of columns here: <a href="http://microsite.omniture.com/t2/help/en_US/sc/clickstream/index.html#Configuring_Data">http://microsite.omniture.com/t2/help/en_US/sc/clickstream/index.html#Configuring_Data_Feeds</a>
+
+  | Date  | Visits | Unique Visitors | Page Views | Time Spent on Page | Product Interactions (23) (event23) | Where to Buy Clicks  (8) (event8)
+  | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |
+  | Content Cell | Content Cell | Content Cell | Content Cell | Content Cell | Content Cell | Content Cell |
+
+<h3>Lookup/Helper Files</h3>
+<p>Contents of each zip file would contain the following;
+
+<ol>
+<li>column_headers.tsv
+
+<li>browser.tsv
+
+<li>browser_type.tsv
+
+<li>color_depth.tsv
+
+<li>connection_type.tsv
+
+<li>country.tsv
+
+<li>javascript_version.tsv
+
+<li>languages.tsv
+
+<li>operating_systems.tsv
+
+<li>plugins.tsv
+
+<li>resolution.tsv
+
+<li>referrer_type.tsv
+
+<li>search_engines.tsv
+
+<li>event_lookup.tsv
+</ol>
+
+
+
+
+<h3>
+<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
+
+<p>Having trouble with something? Contact us at <a href="http://openbridge.zendesk.com">http://openbridge.zendesk.com</a> or contact <a href="mailto:support@openbridge.com">support@github.com</a> and we’ll help you sort it out.</p>
+      </section>
+      <footer>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+
+  </body>
+</html>
