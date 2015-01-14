@@ -47,19 +47,28 @@
 <p>Feeds must have specific directories on the Openbridge system that correspond to each reporting suite. For example, the delivery would be sent to the root of the report suite directory like this: <code>".../(report_suite_id)/..." </code>
 </p>
 
-<p>The output from Adobe should be delivered to a unique desitnation and filemask.: <code>"/adobe/sitecatalyst/datawarehouse/(report_suite_id)//(report_type)/(report_type_YYYY-mm-dd).csv"</code>
+<p>The output from Adobe should be delivered to a unique desitnation and filemask.: <code>"../(report_suite_id)//(report_type)/(report_type_YYYY-mm-dd).csv"</code>
 
-<p>An example of  unique desitnation and filemask would like something like this: <code>"/adobe/sitecatalyst/datawarehouse/my-suite-id/adob_site_totals/adob_site_totals_20150101.csv"</code>
+<p>An example of  unique desitnation and filemask would like something like this: <code>"../my-suite-id/adob_site_totals/adob_site_totals_20150101.csv"</code>
 
 <p> This process would be repeated for each unique report type you want to have loaded. For example;
+<br>
+<code>
+  ../my-suite-id/adob_marketingchannel/adob_marketingchannel_20150101.csv
+  ../my-suite-id/adob_pages/adob_pages_20150101.csv
+  ../my-suite-id/adob_products/adob_products_20150101.csv
+  ../my-suite-id/adob_site_totals/adob_site_totals_20150101.csv
+  ../my-suite-id/adob_video/adob_video_20150101.csv
+  ../my-suite-id/adob_visits/adob_visits_20150101.csv
+</code>
+
+<p>The root directory for Adobe Datawarehouse feeds would be <code>/adobe/sitecatalyst/datawarehouse/..</code> where the report suite, report type and file are located in sub directories of this root. For example;<br>
+<code>/adobe/sitecatalyst/datawarehouse/my-suite-id/adob_visits/adob_visits_20150101.csv</code>
+
+You typically will not need to worry about the root directory. The account credentials that are supplied to Adobe will drop the connection directly into the root of the datawarehouse folder. For example;
 
 <code>
-  /adobe/sitecatalyst/datawarehouse/my-suite-id/adob_marketingchannel/adob_marketingchannel_20150101.csv
-  /adobe/sitecatalyst/datawarehouse/my-suite-id/adob_pages/adob_pages_20150101.csv
-  /adobe/sitecatalyst/datawarehouse/my-suite-id/adob_products/adob_products_20150101.csv
-  /adobe/sitecatalyst/datawarehouse/my-suite-id/adob_site_totals/adob_site_totals_20150101.csv
-  /adobe/sitecatalyst/datawarehouse/my-suite-id/adob_video/adob_video_20150101.csv
-  /adobe/sitecatalyst/datawarehouse/my-suite-id/adob_visits/adob_visits_20150101.csv
+/adobe/sitecatalyst/datawarehouse/<you are here>
 </code>
 
 <h3>Access Credentials</h3>
@@ -83,10 +92,6 @@
       <code>
         | date  | visits | unique_visitors | something_23_event23 |
       </code>
-
-
-
-
 
 <h3>
 <a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
