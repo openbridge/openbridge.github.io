@@ -1,0 +1,29 @@
+/* Leaflet overrides
+------------------------------------------------------- */
+
+.leaflet-container {
+  font-size: 12px;
+  line-height: 20px;
+}
+.marker-description {
+  max-height: 300px;
+  overflow: auto;
+}
+.leaflet-container .marker-description {
+  min-width: 280px;
+}
+
+.leaflet-container .marker-description img {
+  max-width: 100% !important;
+  margin-bottom: 10px;
+}
+
+.leaflet-overlay-pane path,
+.leaflet-marker-icon {
+  cursor: pointer;
+}
+
+/* quick fix for missing leaflet img markers */
+.leaflet-marker-icon {
+  max-width: none;
+}
