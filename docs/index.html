@@ -11,7 +11,7 @@
 
     <title>
 
-        Documentation · Marketing theme · Official Bootstrap Themes
+        Documentation · Data Pipeline
 
     </title>
 
@@ -82,7 +82,7 @@
       <div class="dc" id="content">
         <div class="e">
           <h1>Documentation</h1>
-          <p>Find out what's included in your Bootstrap theme and how to compile source files. Includes live examples and code snippets for every new component.</p>
+          <p>Find out what's how to use Data Pipeline to process and store your information</p>
         </div>
       </div>
       <div class="e docs-content">
@@ -158,2098 +158,293 @@
 
 <h1 id="intro">Intro</h1>
 
-<p>Hey there! You’re looking at the docs for an Official Bootstrap Theme—thanks for your purchase! This theme has been lovingly crafted by Bootstrap’s founders and friends to help you build awesome projects on the web. Let’s dive in.</p>
+<p>Hey there! You’re looking at the docs for the Openbridge Data Pipeline product! Let’s dive in.</p>
 
-<p>Each theme is designed as it’s own toolkit—a series of well designed, intuitive, and cohesive components—built on top of Bootstrap. If you’ve used Bootstrap itself, you’ll find this all super familiar, but with new aesthetics, new components, beautiful and extensive examples, and easy-to-use build tools and documentation.</p>
-
-<p>Since this theme is based on Bootstrap, and includes nearly everything Bootstrap itself does, you’ll want to give the <a href="http://getbootstrap.com/">official project documentation</a> a once over before continuing. There’s also <a href="http://bootstrap-themes.github.io/marketing/bootstrap/index.html">the kitchen sink</a>—a one-page view of all Bootstrap’s components restyled by this theme.</p>
-
-<p>For everything else, including compiling and using this Bootstrap theme, read through the docs below.</p>
+<p>Each data pipeline is a series of well designed, intuitive, and cohesive components—built on top of he Openbridge platform. If you’ve are familar with loading data to relational data stores you’ll find this all super familiar, but simpler and more automated.</p>
 
 <p>Thanks, and enjoy!</p>
 
-<h1 id="whats-included">What’s included</h1>
+<h1 id="whats-included">Getting Started</h1>
 
-<p>Within your Bootstrap theme you’ll find the following directories and files, grouping common resources and providing both compiled and minified distribution files, as well as raw source files.</p>
+<p>An important concept within for data pipelines is understanding how your data is delivered and subsequently organized. Typically you will want to make sure that the relationship between the file(s) being delivered are processed and stored in the manner that is expected. Not only does this insure accuracy and consistency, it is a key element to "hands-off" automation of those data workflows.</p>
 
-<figure class="da"><pre><code class="arm" data-lang="bash">theme/
-  ├── gulpfile.js
-  ├── package.json
-  ├── README.md
-  ├── docs/
-  ├── less/
-  │   ├── bootstrap/
-  │   ├── custom/
-  │   ├── variables.less
-  │   └── toolkit.less
-  ├── js/
-  │   ├── bootstrap/
-  │   └── custom/
-  ├── fonts/
-  │   ├── bootstrap-entypo.eot
-  │   ├── bootstrap-entypo.svg
-  │   ├── bootstrap-entypo.ttf
-  │   ├── bootstrap-entypo.woff
-  │   └── bootstrap-entypo.woff2
-  └── dist/
-      ├── toolkit.css
-      ├── toolkit.css.map
-      ├── toolkit.min.css
-      ├── toolkit.min.css.map
-      ├── toolkit.js
-      └── toolkit.min.js</code></pre></figure>
+<h2 id="structure-mismatch">Customer Data Example</h2>
 
-<h2 id="getting-started">Getting started</h2>
+We will start with a simple structure. First, we have a parent <code class="arn">customers</code> directory. Within <code class="arn">customers</code>, there are four subdirectories for <code class="arn">address</code>, <code class="arn">offers</code>, <code class="arn">rewards</code> and <code class="arn">transactions</code>. The parent and subdirectoriesreflect a strucutre that aligns with how data is needs to be delivered by external systems.
 
-<p>To view your Bootstrap Theme documentation, simply find the docs directory and open index.html in your favorite browser.</p>
+<figure class="da"><pre><code class="arm" data-lang="bash">customers/
+  ├── address/
+  ├── offers/
+  ├── rewards/
+  └── transactions/
+</code></pre></figure>
 
-<figure class="da"><pre><code class="arm" data-lang="bash"><span class="bf">$ </span>open docs/index.html</code></pre></figure>
+<p> With the structure in place, data can be delivered. However, it is important to understand that there needs to be some organizing principles on what data is delivered and to where it is delivered. For Openbridge to properly process and route your data, each pipeline needs to have a definition that maps to the object and/or files being delivered.
 
-<h2 id="gulpfilejs">Gulpfile.js</h2>
+<p> For example, based on the <code class="arn">customers</code> direcotry structure we defined previouslly, a collection of <code class="arn">csv</code> and <code class="arn">zip</code> files have been delivered into that location.
 
-<p>If you’re after more customization we’ve also included a custom <a href="http://gulpjs.com/">Gulp</a> file, which can be used to quickly re-compile a theme’s CSS and JS. You’ll need to install both <a href="https://nodejs.org/en/download/">Node</a> and Gulp before using our included <code class="arn">gulpfile.js</code>.</p>
+<figure class="da"><pre><code class="arm" data-lang="bash">customers/
+  ├── 2016-01-01_customers.csv
+  ├── 2016-01-02_customers.csv
+  ├── 2016-01-03_customers.csv
+  ├── address/
+  │   ├── address_dma_lookup/
+  │   ├── address_weather_lookup/
+  │   ├── 2016-01-01_address.csv
+  │   └── 2016-01-02_address.csv
+  ├── offers/
+  │   ├── offers_open/
+  │   └── offers_targeted/
+  │       ├── 2016-01-01_offers.zip
+  │       ├── 2016-01-02_offers.zip
+  ├── rewards/
+  │   ├── 2016-01-01_rewards.zip
+  │   ├── 2016-01-02_rewards.zip
+  │   ├── 2016-01-03_rewards.zip
+  │   ├── 2016-01-04_rewards.zip
+  │   └── 2016-01-05_rewards.zip
+  └── transactions/
+      ├── 2016-01-01_transactions.csv
+      ├── 2016-01-02_transactions.csv
+      ├── 2016-01-03_transactions.csv
+      ├── 2016-01-04_transactions.csv
+      ├── 2016-01-05_transactions.csv
+      └── 2016-01-06_transactions.csv</code></pre></figure>
 
-<p>Once node is installed, run the following npm command to install Gulp.</p>
+<p> The simplest use case is that a table is generated according to the location a file is delivered. In the above example you will have a <code class="arn">customers</code>, <code class="arn">address</code> and <code class="arn">transactions</code> tables. The content of each table will be based on the corresponding <code class="arn">.csv</code> files placed in each directory. Each <code class="arn">.csv</code> must within each directory share the same structure/layout.
 
-<figure class="da"><pre><code class="arm" data-lang="bash"><span class="bf">$ </span>npm install gulp -g</code></pre></figure>
+<p>For exmaple, all the <code class="arn">"*_transactions.csv"</code> files located in the <code class="arn">customers/transactions/</code> directory share the following structure:
+<figure class="da"><pre><code class="aro" data-lang="html">"ID","DATE","CUSTOMERID","PURCHASE","STOREID"
+"0122","December 10, 2015","123432100A","8.43","4985"
+"0123","December 10, 2015","543421111A","2.61","3212"</code></pre></figure>
 
-<p>When you’re done, make sure you’ve installed the rest of the theme’s dependencies:</p>
+<p>As additional <code class="arn">"*_transactions.csv"</code> files are delivered to <code class="arn">customers/transactions/</code> they will all be loaded to the <code class="arn">transactions</code> table.
 
-<figure class="da"><pre><code class="arm" data-lang="bash"><span class="bf">$ </span>npm install</code></pre></figure>
+<h2 id="structure-mismatch">File To Table Structure Mismatch</h2>
+Succesful loading is dependent on each subsequent file delivery the following the established layout.
 
-<p>Now, modify your source files and run <code class="arn">gulp</code> to generate new local <code class="arn">dist/</code> files automatically. <strong>Be aware that this replaces existing <code class="arn">dist/</code> files</strong>, so proceed with caution.</p>
+<p>For example, <code class="arn">"*_transactions.csv"</code> data was following the followign layout for most of the year:
 
-<h2 id="theme-source-code">Theme source code</h2>
+<figure class="da"><pre><code class="aro" data-lang="html">"ID","DATE","CUSTOMERID","PURCHASE","STOREID"
+    "0122","December 10, 2015","123432100A","8.43","4985"
+    "0123","December 10, 2015","543421111A","2.61","3212"</code></pre></figure>
 
-<p>The <code class="arn">less/</code>, <code class="arn">js/</code>, and <code class="arn">fonts/</code> directories contain the source code for our CSS, JS, and icon fonts (respectively). Within the <code class="arn">less/</code> and <code class="arn">js/</code> directories you’ll find two subdirectories:</p>
+<p>However, in November a change was made upstream which changes the layout. The <code class="arn">2016-11-15_transactions.csv</code> was delivered to <code class="arn">customers/transactions/</code> and the contents of the file contained a new entity called <code class="arn">LOYALTYID</code>:
+
+<figure class="da"><pre><code class="aro" data-lang="html">"ID","DATE","CUSTOMERID","PURCHASE","LOYALTYID","STOREID"
+"0122","December 10, 2015","123432100A","8.43","A102B","4985"
+"0123","December 10, 2015","543421111A","2.61","A904F","3212"</code></pre></figure>
+
+Due to the addition of <code class="arn">LOYALTYID</code> this creates a mismatch between the data. This different layout would lead <code class="arn">2016-11-15_transactions.csv</code>, or any other file like it, to fail in loading to the <code class="arn">transactions</code> table.
+
+<p> If this situation arise, please contact Openbridge support.
+
+<h2 id="custom-builds">Compressed Files</h2>
+
+<p>Openbridge supports the delivery and processing of compressed files in <code class="arn">zip</code>, <code class="arn">gzip</code> or <code class="arn">tar.gz</code> formats. However, since we do not know what is contained in the archive prior to arriving and unpackaing it, custom processing is needed to ensure we are handling the contents in the manner you want us to. This is especially important when the archive contains a number of distinct files.
+
+<h3 id="custom-builds">Simple Use Case: One Archive, One File</h3>
+
+<p> In this example we have a <code class="arn">*_rewards.zip</code> archives that are delivered to <code class="arn">customers/rewards/</code>.
+
+<p> The <code class="arn">2016-01-01_rewards.zip</code> archive contains three files; <code class="arn">2016-01-01a_rewards.csv</code>, <code class="arn">2016-01-01b_rewards.csv</code> and <code class="arn">2016-01-01c_rewards.csv</code>.
+
+The archive structure:
+<figure class="da"><pre><code class="arm" data-lang="bash">customers/
+  ├── rewards/
+      ├── 2016-01-01_rewards.zip
+          ├── 2016-01-01a_rewards.csv
+          ├── 2016-01-01b_rewards.csv
+          ├── 2016-01-01c_rewards.csv
+</code></pre></figure>
+
+The system will unpack <code class="arn">2016-01-01_rewards.zip</code> according to the contents of the archive. This would result in three directories, one for each file.
+
+<figure class="da"><pre><code class="arm" data-lang="bash">customers/
+  ├── rewards/
+      ├── 2016-01-01_rewards.zip
+      ├── 2016-01-01a_rewards/
+          ├── 2016-01-01a_rewards.csv
+      ├── 2016-01-01b_rewards/
+          ├── 2016-01-01b_rewards.csv
+      ├── 2016-01-01c_rewards/
+          ├── 2016-01-01c_rewards.csv
+</code></pre></figure>
+
+<p>The unpacked directory is based on the name of the filename. A file name of <code class="arn">2016-01-01a_rewards.csv</code> results in a directory named <code class="arn">2016-01-01a_rewards/</code>
+
+ <p>All <code class="arn">*_rewards.zip</code> archives share a common schema. In this case, all <code class="arn">2016-01-01a_rewards.csv</code>, <code class="arn">2016-01-01b_rewards.csv</code> and <code class="arn">2016-01-01c_rewards.csv</code> share the same exact structure:
+
+  <figure class="da"><pre><code class="aro" data-lang="html">"ID","DATE","CUSTOMERID","PURCHASE","LOYALTYID","STOREID"
+  "0122","December 10, 2015","123432100A","8.43","A102B","4985"
+  "0123","December 10, 2015","543421111A","2.61","A904F","3212"</code></pre></figure>
+
+<p> So regardless of the unpacking directory hierarchy, everything in <code class="arn">rewards/</code> share a schema and will route all data to a common <code class="arn">rewards</code> table.
+
+<h3 id="custom-builds">Complex Use Case: One Archive, Many Files</h3>
+
+<p>In this example we have <code class="arn">*_offers.zip</code> archives that are delivered to <code class="arn">customers/offers/ofers_targeted</code>.
+
+<p>The <code class="arn">2016-01-01_offers.zip</code> archive contains three <strong>different</strong> files; <code class="arn">2016-01-01_source.csv</code>, <code class="arn">2016-01-01_campaigns.csv</code> and <code class="arn">2016-01-01_costs.csv</code>.
+
+<p>The unpacked archive structure would follow the same pattern as the simple file example. Each file would be unpacked into its own directory with the name of the directory use the name of the file.
+
+<figure class="da"><pre><code class="arm" data-lang="bash">customers/
+  ├── offers/
+      ├── offers_open/
+      └── offers_targeted/
+          ├── 2016-01-01_offers.zip
+              ├── 2016-01-01_source/
+                  ├── 2016-01-01_source.csv
+              ├── 2016-01-01_campaigns/
+                  ├── 2016-01-01_campaigns.csv
+              ├── 2016-01-01_costs/
+                  ├── 2016-01-01_costs.csv
+</code></pre></figure>
+
+<p> The files <code class="arn">2016-01-01_source.csv</code>, <code class="arn">2016-01-01_campaigns.csv</code> and <code class="arn">2016-01-01_costs.csv</code> have the following structure.
+
+<p>Source
+<figure class="da"><pre><code class="aro" data-lang="html">"ID","DATE","CHANNELID", "CAMPAIGNID","PARTNERID"
+"0122","December 10, 2015","123432100A","8.43","A102B","4985"
+"0123","December 10, 2015","543421111A","2.61","A904F","3212"</code></pre></figure>
+
+<p>Campaigns
+<figure class="da"><pre><code class="aro" data-lang="html">"ID","DATE","CAMPAIGNID","RESPONSE","ROI","OFFERID"
+"0122","December 10, 2015","123432100A","8.43","A102B","4985"
+"0123","December 10, 2015","543421111A","2.61","A904F","3212"</code></pre></figure>
+
+<p>Costs
+<figure class="da"><pre><code class="aro" data-lang="html">"ID","DATE","SPEND","BUDGET","ADID","CAMPAIGNID"
+"0122","December 10, 2015","123432100A","8.43","A102B","4985"
+"0123","December 10, 2015","543421111A","2.61","A904F","3212"</code></pre></figure>
+
+<p>Unlike the earlier <code class="arn">rewards</code> example, these files represent three related, but different classes of data. This means they are not stored into a single offers table like <code class="arn">rewards</code> was given those differences.
+
+<p> The table names are user defined. This allows flexibility in how you want to handle this situation.  For example, you may want <code class="arn">2016-01-01_source.csv</code>, <code class="arn">2016-01-01_campaigns.csv</code> and <code class="arn">2016-01-01_costs.csv</code> routed to <code class="arn">offers_source</code>, <code class="arn">offers_campaigns</code> and <code class="arn">offers_costs</code> tables.
+
+<p>To properly support delivery of compressed files, please contact Openbridge support so the proper handling and routing of compressed data can occur.
+
+<h2 id="getting-started">Transfer Protocols</h2>
+
+<h3 id="ftpes">FTP Explicit Mode (TLS)/(SSL)</h3>
+
+<p>Openbridge supports FTP explicit mode (also known as FTPES). Your FTPS client must be configured  "explicitly request" FPTES security. The system includes support for most TLS and SSL cryptographic protocols. The system uses OpenSSL cryptographic "engine", a module within the OpenSSL library. OpenSSL will find from the supported engines the first one usable for the connection. If no usable engines are found, OpenSSL will default to its normal software implementation.
+
+<p> SSL/TLS protocol versions used when establishing SSL/TLS sessions is <strong>TLSv1, TLSv1.1 and TLSv1.2</strong>. Please note SSLv3 and SSv2 are not permitted due to security gaps. You can read more about this <a href="https://blog.mozilla.org/security/2014/10/14/the-poodle-attack-and-the-end-of-ssl-3-0/">here</a> and <a href="http://googleonlinesecurity.blogspot.co.uk/2014/10/this-poodle-bites-exploiting-ssl-30.html">here</a>
+
+<p>If your client connects to the FTPS server with an unknown security mechanism, the server will respond to the AUTH command with error code 504 (not supported).</p>
+
+
+<h3 id="sftp">Secure File Transfer Protocol (SFTP)</h3>
+<p>SFTP is based on the SSH2 protocol, which encodes activity over a secure channel. Unlike FTP, SSH2 only uses a single TCP connection and sends multiple transfers, or "channels", over that single connection.
+
+<p>Openbridge currently supports public key and password authentication for both SFTP and SCP file transfer protocols. If you need to use publick key authentication plese submit a support ticket and we can set that up for you. We do NOT support any shell access. Also, not all SFTP commands are accepted.
+
+<h3 id="sftp">File Transfer Protocol (FTP)</h3>
+<p>Openbridge does support the use of FTP. We recognize that there are some systems that can only deliver data via FTP. For example, many of the Adobe export processes occur via FTP. However, it should be noted that the use of FTP offers <strong>no encryption</strong> for connection and data transport. We <strong>strongly</strong> recommend the use of SFTP or FTPES whenever possible.
+
+
+<h2 id="encoding">Encoding</h2>
+<p>Openbridge supports UTF-8 filename character sets. It also supports ASCII. The system will perform any character set decoding checks as the file is being delivered and will automatically discover the encoding used.
+
+<p>While our system tries to do encoding/decoding for UTF-8, if the encoding operation fails the system continues using the bytes sent by the client. While the process fails gracefully and allows the delivery of the file, there is no guarantee that downstream data processing pipelines will work properly when sending data that is not UTF-8 encoded. While most systems generate UTF-8 encoded data, please verify prior to delivery of data that it is properly encoded to UTF-8 standards.
+
+<h3 id="check-encoding">Check Encoding</h3>
+
+<p>To check the encoding of a file called <code class="arn">foo.csv</code>, in your terminal you can type the following;
+
+<p>For Linux you would type:
+<figure class="da"><pre><code class="arm" data-lang="bash"><span class="bf">$ </span>file -i foo.csv</code></pre></figure>
+
+<p>For OS X it is almost the same command:
+<figure class="da"><pre><code class="arm" data-lang="bash"><span class="bf">$ </span>file -I foo.csv</code></pre></figure>
+
+The output should look contain a <code class="arn">charset=</code> which indicates the character encoding for the file. In the case of our <code class="arn">foo.csv</code> the results are as follows:
+
+<figure class="da"><pre><code class="arm" data-lang="bash"><span class="bf">$ </span>text/plain; charset=us-ascii</code></pre></figure>
+
+<p> Notice the <code class="arn">charset=us-ascii</code> says the file is ASCII. Perfect! The file is ready to be transfered.
+
+<h3 id="hidden-files">Blocked Files</h3>
+
+<p>To help protect the integrity of the data sent to Openbridge, we do not allow delivery of certain files. For example, you are now allowed to sedn a file called <code class="arn">app.exe</code> or <code class="arn">my.sql</code>. This reduces the potential for introducing a unwanted or malicious software threats. The following is a sample of the blocked files:
+
+<figure class="da"><pre><code class="arm" data-lang="bash">ade|adp|app|ai|asa|ashx|asmx|asp|bas|bat|cdx|cer|cgi|chm|class|cmd|com|config|cpl|crt|csh|dmg|doc|docx|dll|eps|exe|fxp|ftaccess|hlp|hta|htr|htaccess|htw|html|htm|ida|idc|idq|ins|isp|its|jse|ksh|lnk|mad|maf|mag|mam|maq|mar|mas|mat|mau|mav|maw|mda|mdb|mde|mdt|mdw|mdz|msc|msh|msh1|msh1xml|msh2|msh2xml|mshxml|msi|msp|mst|ops|pdf|php|php3|php4|php5|pcd|pif|prf|prg|printer|pst|psd|rar|reg|rem|scf|scr|sct|shb|shs|shtm|shtml|soap|stm|tgz|taz|url|vb|vbe|vbs|ws|wsc|wsf|wsh|xls|xlsx|xvd</code></pre></figure>
+
+<p>If you attempt to send a file that matches a blocked file then the transfer will not be allowed.
+
+<h3 id="hidden-files">Hidden Files</h3>
+<p>Hidden files are not allowed. These files have a dot prefix of <code class="arn">.</code> in the file name. For example, <code class="arn">.file.txt</code> or <code class="arn">.foo</code> would be considered hidden files and be blocked.
+
+<p>The following are examples of names using a dot prefix:
+<figure class="da"><pre><code class="arm" data-lang="bash">.file.txt
+.file.csv
+.file
+..file</code></pre></figure>
+
+<p>If you attempt to send a file that contains a <code class="arn">.</code> prefix the transfer will not be allowed.
+
+
+
+<h1 id="naming-conventions">Naming & File Conventions</h1>
+
+<h2 id="naming-conventions-dir">Directories</h2>
+ <p>Log into your pipeline location and create a folder for each unique set of data you will be loading. The name of the folder is very important as it will be the name of the table in the Redshift database (or other database) where you will access the data. It should therefore be a name that is descriptive enough for the end user to understand its contents. The folder name must also meet certain syntax requirements. These requirements are outlined below…
+
+    <ul>
+    <li>Must start with a letter</li>
+    <li>Must contain only lowercase letters</li>
+    <li>Can contain numbers and underscores <code class="arn">(‘_’)</code> but no spaces or special characters (e.g. <code class="arn">‘@’</code>, <code class="arn">‘#’</code>, <code class="arn">‘%’</code>)</li>
+    </ul>
+
+<p>Valid folder name:
+    <figure class="da"><pre><code class="arm" data-lang="bash">"customer_inquiries_jan_2014"</code></pre></figure>
+
+<p>Invalid folder name:<figure class="da"><pre><code class="arm" data-lang="bash"> "Customer inquiries 1/14"</code></pre></figure>
+
+<h2 id="naming-conventions-files">File Naming</h2>
+
+<p>The platform accepts any UTF-8 encoded delimited text format (e.g. comma, tab, pipe, etc.) with column headers (header row) and a valid file type extension (<code class="arn">.csv</code> or <code class="arn">.txt</code>).
+
+<p>File names should meet the 3 criteria outlined below.
+
+    <ul>
+<li><strong>Descriptive</strong>: The file name should include the data source, data description and date/date range associated with the data in each file (e.g. <code class="arn">socialcom_paidsocial_20140801.txt</code> or <code class="arn">socialcom_paidsocial_20140701_20140801.txt</code>)
+<li><strong>Unique</strong>: Unique files will be stored and accessible for auditing purposes.  Files posted with the same name will be overwritten, making auditing impossible (e.g. <code class="arn">socialcom_paidsocial_20140801.txt</code>,  <code class="arn">socialcom_paidsocial_20140901.txt</code>, <code class="arn">socialcom_paidsocial_20141001.txt</code>
+<li><strong>Consistent</strong>: File naming patterns should be kept consistent over time to enable automated auditing (e.g. <code class="arn">socialcom_paidsocial_20140801.txt</code>, <code class="arn">socialcom_paidsocial_20140901.txt</code>, <code class="arn">socialcom_paidsocial_20141001.txt</code>
+</ul>
+
+<p>This will facilitate any required auditing/QC of data received.  It is highly likely that use of non-standard file naming conventions will cause your import pipeline to fail.
+
+<h2 id="naming-conventions-files">File Structure</h2>
+The file column headers are important as they will also be the field names used in the corresponding table. As with the folder name, the column headers should be descriptive enough for the end user to understand its contents. The column headers must meet the same syntax requirements. These requirements are outlined below…
+<ul>
+    <li>Must start with a letter</li>
+    <li>Must contain only lowercase letters</li>
+    <li>Can contain numbers and underscores <code class="arn">(‘_’)</code> but no spaces or special characters (e.g. <code class="arn">‘@’</code>, <code class="arn">‘#’</code>, <code class="arn">‘%’</code>)</li>
+</ul>
+
+<p>Valid column header:
+<figure class="da"><pre><code class="arm" data-lang="bash">"inquiries_to_purchase_pct"</code></pre></figure>
+<p>Invalid column header:
+<figure class="da"><pre><code class="arm" data-lang="bash">"Inquiries to Purchase %"</code></pre></figure>
+
+<p>If the field names in the batch file do not meet these requirements, the system will automatically perform the following transformations…
 
 <ul>
-  <li><code class="arn">bootstrap/</code>, which contains the most recently released version of Bootstrap (v3.3.5).</li>
-  <li><code class="arn">custom/</code>, which contains all of the custom components and overrides authored specifically for this theme.</li>
+<li>Uppercase letters will be converted to lowercase</li>
+<li>Spaces will be converted to underscores <code class="arn">(‘_’)</code></li>
+<li>Special characters will be dropped</li>
 </ul>
 
-<p>The <code class="arn">dist/</code> folder includes everything above, built into single CSS and JS files that can easily be integrated into your project.</p>
 
-<p>The <code class="arn">docs/</code> folder includes the source code for our documentation, as well as a handful of live examples.</p>
-
-<p>The remaining files not specifically mentioned above provide support for packages, license information, and development.</p>
-
-<h1 id="custom-builds">Custom builds</h1>
-
-<p>Leverage the included source files and <code class="arn">gulpfile.js</code> to customize your Bootstrap Theme for your exact needs. Change variables, exclude components, and more.</p>
-
-<ul>
-  <li><code class="arn">toolkit.less</code> is the entry point for Less files - to build your own custom build, simply modify your local custom files or edit the includes listed here. Note: some themes also rely on a shared <code class="arn">components.less</code> file, which you can find imported in your <code class="arn">toolkit.less</code>.</li>
-  <li><code class="arn">variables.less</code> is home to your theme’s variables. Note that your theme’s <code class="arn">variables</code> file depends on and overrides an existing Bootstrap variable file (found in /less/bootstrap/variables.less).</li>
-</ul>
-
-<h1 id="basic-template">Basic template</h1>
-
-<p>The basic template is a guideline for how to structure your pages when building with a Bootstrap Theme. Included below are all the necessary bits for using the theme’s CSS and JS, as well as some friendly reminders.</p>
-
-<p>Copy the example below into a new HTML file to get started with it.</p>
-
-<figure class="da"><pre><code class="aro" data-lang="html"><span class="aw">&lt;!DOCTYPE html&gt;</span>
-<span class="ca">&lt;html</span> <span class="bq">lang=</span><span class="bp">"en"</span><span class="ca">&gt;</span>
-  <span class="ca">&lt;head&gt;</span>
-    <span class="ar">&lt;!-- These meta tags come first. --&gt;</span>
-    <span class="ca">&lt;meta</span> <span class="bq">charset=</span><span class="bp">"utf-8"</span><span class="ca">&gt;</span>
-    <span class="ca">&lt;meta</span> <span class="bq">http-equiv=</span><span class="bp">"X-UA-Compatible"</span> <span class="bq">content=</span><span class="bp">"IE=edge"</span><span class="ca">&gt;</span>
-    <span class="ca">&lt;meta</span> <span class="bq">name=</span><span class="bp">"viewport"</span> <span class="bq">content=</span><span class="bp">"width=device-width, initial-scale=1"</span><span class="ca">&gt;</span>
-
-    <span class="ca">&lt;title&gt;</span>Bootstrap Theme Example<span class="ca">&lt;/title&gt;</span>
-
-    <span class="ar">&lt;!-- Include the CSS --&gt;</span>
-    <span class="ca">&lt;link</span> <span class="bq">href=</span><span class="bp">"dist/toolkit.min.css"</span> <span class="bq">rel=</span><span class="bp">"stylesheet"</span><span class="ca">&gt;</span>
-
-  <span class="ca">&lt;/head&gt;</span>
-  <span class="ca">&lt;body&gt;</span>
-    <span class="ca">&lt;h1&gt;</span>Hello, world!<span class="ca">&lt;/h1&gt;</span>
-
-    <span class="ar">&lt;!-- Include jQuery (required) and the JS --&gt;</span>
-    <span class="ca">&lt;script </span><span class="bq">src=</span><span class="bp">"https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"</span><span class="ca">&gt;&lt;/script&gt;</span>
-    <span class="ca">&lt;script </span><span class="bq">src=</span><span class="bp">"dist/toolkit.min.js"</span><span class="ca">&gt;&lt;/script&gt;</span>
-  <span class="ca">&lt;/body&gt;</span>
-<span class="ca">&lt;/html&gt;</span></code></pre></figure>
-
-<h1 id="utilities">Utilities</h1>
-
-<p>Utilities, or utility classes, are a series of single-purpose, immutable classes designed to reduce duplication in your compiled CSS. Each utility takes a common CSS property-value pair and turns it into a reusable class.</p>
-
-<p>These utilities are in addition to those <a href="http://getbootstrap.com/css/">provided in Bootstrap</a>.</p>
-
-<h2 id="positioning">Positioning</h2>
-
-<figure class="da"><pre><code class="arp" data-lang="scss"><span class="bs">.pos-r</span> <span class="arq">{</span> <span class="by">position</span><span class="arq">:</span> <span class="br">relative</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="arq">}</span>
-<span class="bs">.pos-a</span> <span class="arq">{</span> <span class="by">position</span><span class="arq">:</span> <span class="br">absolute</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="arq">}</span>
-<span class="bs">.pos-f</span> <span class="arq">{</span> <span class="by">position</span><span class="arq">:</span> <span class="br">fixed</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="arq">}</span></code></pre></figure>
-
-<h2 id="width">Width</h2>
-
-<figure class="da"><pre><code class="arp" data-lang="scss"><span class="bs">.w-sm</span>   <span class="arq">{</span> <span class="by">width</span><span class="arq">:</span> <span class="bo">25%</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="arq">}</span>
-<span class="bs">.w-md</span>   <span class="arq">{</span> <span class="by">width</span><span class="arq">:</span> <span class="bo">50%</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="arq">}</span>
-<span class="bs">.w-lg</span>   <span class="arq">{</span> <span class="by">width</span><span class="arq">:</span> <span class="bo">75%</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="arq">}</span>
-<span class="bs">.w-full</span> <span class="arq">{</span> <span class="by">width</span><span class="arq">:</span> <span class="bo">100%</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="arq">}</span></code></pre></figure>
-
-<h2 id="margin-and-padding">Margin and padding</h2>
-
-<p>Assign <code class="arn">margin</code> or <code class="arn">padding</code> to an element or a subset of it’s sides with shorthand classes. Includes support for individual properties, all properties, and vertical and horizontal properties. All classes are multiples on the global default value, <code class="arn">20px</code>.</p>
-
-<figure class="da"><pre><code class="arp" data-lang="scss"><span class="bs">.m-a-0</span> <span class="arq">{</span> <span class="by">margin</span><span class="arq">:</span>        <span class="bo">0</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="arq">}</span>
-<span class="bs">.m-t-0</span> <span class="arq">{</span> <span class="by">margin-top</span><span class="arq">:</span>    <span class="bo">0</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="arq">}</span>
-<span class="bs">.m-r-0</span> <span class="arq">{</span> <span class="by">margin-right</span><span class="arq">:</span>  <span class="bo">0</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="arq">}</span>
-<span class="bs">.m-b-0</span> <span class="arq">{</span> <span class="by">margin-bottom</span><span class="arq">:</span> <span class="bo">0</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="arq">}</span>
-<span class="bs">.m-l-0</span> <span class="arq">{</span> <span class="by">margin-left</span><span class="arq">:</span>   <span class="bo">0</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="arq">}</span>
-
-<span class="bs">.m-a</span> <span class="arq">{</span> <span class="by">margin</span><span class="arq">:</span>        <span class="au">@</span><span class="arr">spacer</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="arq">}</span>
-<span class="bs">.m-t</span> <span class="arq">{</span> <span class="by">margin-top</span><span class="arq">:</span>    <span class="au">@</span><span class="arr">spacer-y</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="arq">}</span>
-<span class="bs">.m-r</span> <span class="arq">{</span> <span class="by">margin-right</span><span class="arq">:</span>  <span class="au">@</span><span class="arr">spacer-x</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="arq">}</span>
-<span class="bs">.m-b</span> <span class="arq">{</span> <span class="by">margin-bottom</span><span class="arq">:</span> <span class="au">@</span><span class="arr">spacer-y</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="arq">}</span>
-<span class="bs">.m-l</span> <span class="arq">{</span> <span class="by">margin-left</span><span class="arq">:</span>   <span class="au">@</span><span class="arr">spacer-x</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="arq">}</span>
-<span class="bs">.m-x</span> <span class="arq">{</span> <span class="by">margin-right</span><span class="arq">:</span>  <span class="au">@</span><span class="arr">spacer-x</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="by">margin-left</span><span class="arq">:</span> <span class="au">@</span><span class="arr">spacer-x</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="arq">}</span>
-<span class="bs">.m-y</span> <span class="arq">{</span> <span class="by">margin-top</span><span class="arq">:</span>    <span class="au">@</span><span class="arr">spacer-y</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="by">margin-bottom</span><span class="arq">:</span> <span class="au">@</span><span class="arr">spacer-y</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="arq">}</span>
-<span class="bs">.m-x-auto</span> <span class="arq">{</span> <span class="by">margin-right</span><span class="arq">:</span> <span class="br">auto</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="by">margin-left</span><span class="arq">:</span> <span class="br">auto</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="arq">}</span>
-
-<span class="bs">.m-a-md</span> <span class="arq">{</span> <span class="by">margin</span><span class="arq">:</span>        <span class="arq">(</span><span class="au">@</span><span class="arr">spacer-y</span> <span class="au">*</span> <span class="bo">1</span><span class="cg">.5</span><span class="arq">)</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="arq">}</span>
-<span class="bs">.m-t-md</span> <span class="arq">{</span> <span class="by">margin-top</span><span class="arq">:</span>    <span class="arq">(</span><span class="au">@</span><span class="arr">spacer-y</span> <span class="au">*</span> <span class="bo">1</span><span class="cg">.5</span><span class="arq">)</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="arq">}</span>
-<span class="bs">.m-r-md</span> <span class="arq">{</span> <span class="by">margin-right</span><span class="arq">:</span>  <span class="arq">(</span><span class="au">@</span><span class="arr">spacer-y</span> <span class="au">*</span> <span class="bo">1</span><span class="cg">.5</span><span class="arq">)</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="arq">}</span>
-<span class="bs">.m-b-md</span> <span class="arq">{</span> <span class="by">margin-bottom</span><span class="arq">:</span> <span class="arq">(</span><span class="au">@</span><span class="arr">spacer-y</span> <span class="au">*</span> <span class="bo">1</span><span class="cg">.5</span><span class="arq">)</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="arq">}</span>
-<span class="bs">.m-l-md</span> <span class="arq">{</span> <span class="by">margin-left</span><span class="arq">:</span>   <span class="arq">(</span><span class="au">@</span><span class="arr">spacer-y</span> <span class="au">*</span> <span class="bo">1</span><span class="cg">.5</span><span class="arq">)</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="arq">}</span>
-<span class="bs">.m-x-md</span> <span class="arq">{</span> <span class="by">margin-right</span><span class="arq">:</span>  <span class="arq">(</span><span class="au">@</span><span class="arr">spacer-x</span> <span class="au">*</span> <span class="bo">1</span><span class="cg">.5</span><span class="arq">)</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="by">margin-left</span><span class="arq">:</span>   <span class="arq">(</span><span class="au">@</span><span class="arr">spacer-x</span> <span class="au">*</span> <span class="bo">1</span><span class="cg">.5</span><span class="arq">)</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="arq">}</span>
-<span class="bs">.m-y-md</span> <span class="arq">{</span> <span class="by">margin-top</span><span class="arq">:</span>    <span class="arq">(</span><span class="au">@</span><span class="arr">spacer-y</span> <span class="au">*</span> <span class="bo">1</span><span class="cg">.5</span><span class="arq">)</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="by">margin-bottom</span><span class="arq">:</span> <span class="arq">(</span><span class="au">@</span><span class="arr">spacer-y</span> <span class="au">*</span> <span class="bo">1</span><span class="cg">.5</span><span class="arq">)</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="arq">}</span>
-
-<span class="bs">.m-a-lg</span> <span class="arq">{</span> <span class="by">margin</span><span class="arq">:</span>        <span class="arq">(</span><span class="au">@</span><span class="arr">spacer-y</span> <span class="au">*</span> <span class="bo">3</span><span class="arq">)</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="arq">}</span>
-<span class="bs">.m-t-lg</span> <span class="arq">{</span> <span class="by">margin-top</span><span class="arq">:</span>    <span class="arq">(</span><span class="au">@</span><span class="arr">spacer-y</span> <span class="au">*</span> <span class="bo">3</span><span class="arq">)</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="arq">}</span>
-<span class="bs">.m-r-lg</span> <span class="arq">{</span> <span class="by">margin-right</span><span class="arq">:</span>  <span class="arq">(</span><span class="au">@</span><span class="arr">spacer-y</span> <span class="au">*</span> <span class="bo">3</span><span class="arq">)</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="arq">}</span>
-<span class="bs">.m-b-lg</span> <span class="arq">{</span> <span class="by">margin-bottom</span><span class="arq">:</span> <span class="arq">(</span><span class="au">@</span><span class="arr">spacer-y</span> <span class="au">*</span> <span class="bo">3</span><span class="arq">)</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="arq">}</span>
-<span class="bs">.m-l-lg</span> <span class="arq">{</span> <span class="by">margin-left</span><span class="arq">:</span>   <span class="arq">(</span><span class="au">@</span><span class="arr">spacer-y</span> <span class="au">*</span> <span class="bo">3</span><span class="arq">)</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="arq">}</span>
-<span class="bs">.m-x-lg</span> <span class="arq">{</span> <span class="by">margin-right</span><span class="arq">:</span>  <span class="arq">(</span><span class="au">@</span><span class="arr">spacer-x</span> <span class="au">*</span> <span class="bo">3</span><span class="arq">)</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="by">margin-left</span><span class="arq">:</span>   <span class="arq">(</span><span class="au">@</span><span class="arr">spacer-x</span> <span class="au">*</span> <span class="bo">3</span><span class="arq">)</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="arq">}</span>
-<span class="bs">.m-y-lg</span> <span class="arq">{</span> <span class="by">margin-top</span><span class="arq">:</span>    <span class="arq">(</span><span class="au">@</span><span class="arr">spacer-y</span> <span class="au">*</span> <span class="bo">3</span><span class="arq">)</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="by">margin-bottom</span><span class="arq">:</span> <span class="arq">(</span><span class="au">@</span><span class="arr">spacer-y</span> <span class="au">*</span> <span class="bo">3</span><span class="arq">)</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="arq">}</span></code></pre></figure>
-
-<figure class="da"><pre><code class="arp" data-lang="scss"><span class="bs">.p-a-0</span> <span class="arq">{</span> <span class="by">padding</span><span class="arq">:</span>        <span class="bo">0</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="arq">}</span>
-<span class="bs">.p-t-0</span> <span class="arq">{</span> <span class="by">padding-top</span><span class="arq">:</span>    <span class="bo">0</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="arq">}</span>
-<span class="bs">.p-r-0</span> <span class="arq">{</span> <span class="by">padding-right</span><span class="arq">:</span>  <span class="bo">0</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="arq">}</span>
-<span class="bs">.p-b-0</span> <span class="arq">{</span> <span class="by">padding-bottom</span><span class="arq">:</span> <span class="bo">0</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="arq">}</span>
-<span class="bs">.p-l-0</span> <span class="arq">{</span> <span class="by">padding-left</span><span class="arq">:</span>   <span class="bo">0</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="arq">}</span>
-
-<span class="bs">.p-a</span> <span class="arq">{</span> <span class="by">padding</span><span class="arq">:</span>        <span class="au">@</span><span class="arr">spacer</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="arq">}</span>
-<span class="bs">.p-t</span> <span class="arq">{</span> <span class="by">padding-top</span><span class="arq">:</span>    <span class="au">@</span><span class="arr">spacer-y</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="arq">}</span>
-<span class="bs">.p-r</span> <span class="arq">{</span> <span class="by">padding-right</span><span class="arq">:</span>  <span class="au">@</span><span class="arr">spacer-x</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="arq">}</span>
-<span class="bs">.p-b</span> <span class="arq">{</span> <span class="by">padding-bottom</span><span class="arq">:</span> <span class="au">@</span><span class="arr">spacer-y</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="arq">}</span>
-<span class="bs">.p-l</span> <span class="arq">{</span> <span class="by">padding-left</span><span class="arq">:</span>   <span class="au">@</span><span class="arr">spacer-x</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="arq">}</span>
-<span class="bs">.p-x</span> <span class="arq">{</span> <span class="by">padding-right</span><span class="arq">:</span>  <span class="au">@</span><span class="arr">spacer-x</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="by">padding-left</span><span class="arq">:</span>   <span class="au">@</span><span class="arr">spacer-x</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="arq">}</span>
-<span class="bs">.p-y</span> <span class="arq">{</span> <span class="by">padding-top</span><span class="arq">:</span>    <span class="au">@</span><span class="arr">spacer-y</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="by">padding-bottom</span><span class="arq">:</span> <span class="au">@</span><span class="arr">spacer-y</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="arq">}</span>
-
-<span class="bs">.p-a-md</span> <span class="arq">{</span> <span class="by">padding</span><span class="arq">:</span>        <span class="arq">(</span><span class="au">@</span><span class="arr">spacer-y</span> <span class="au">*</span> <span class="bo">1</span><span class="cg">.5</span><span class="arq">)</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="arq">}</span>
-<span class="bs">.p-t-md</span> <span class="arq">{</span> <span class="by">padding-top</span><span class="arq">:</span>    <span class="arq">(</span><span class="au">@</span><span class="arr">spacer-y</span> <span class="au">*</span> <span class="bo">1</span><span class="cg">.5</span><span class="arq">)</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="arq">}</span>
-<span class="bs">.p-r-md</span> <span class="arq">{</span> <span class="by">padding-right</span><span class="arq">:</span>  <span class="arq">(</span><span class="au">@</span><span class="arr">spacer-y</span> <span class="au">*</span> <span class="bo">1</span><span class="cg">.5</span><span class="arq">)</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="arq">}</span>
-<span class="bs">.p-b-md</span> <span class="arq">{</span> <span class="by">padding-bottom</span><span class="arq">:</span> <span class="arq">(</span><span class="au">@</span><span class="arr">spacer-y</span> <span class="au">*</span> <span class="bo">1</span><span class="cg">.5</span><span class="arq">)</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="arq">}</span>
-<span class="bs">.p-l-md</span> <span class="arq">{</span> <span class="by">padding-left</span><span class="arq">:</span>   <span class="arq">(</span><span class="au">@</span><span class="arr">spacer-y</span> <span class="au">*</span> <span class="bo">1</span><span class="cg">.5</span><span class="arq">)</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="arq">}</span>
-<span class="bs">.p-x-md</span> <span class="arq">{</span> <span class="by">padding-right</span><span class="arq">:</span>  <span class="arq">(</span><span class="au">@</span><span class="arr">spacer-x</span> <span class="au">*</span> <span class="bo">1</span><span class="cg">.5</span><span class="arq">)</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="by">padding-left</span><span class="arq">:</span>   <span class="arq">(</span><span class="au">@</span><span class="arr">spacer-x</span> <span class="au">*</span> <span class="bo">1</span><span class="cg">.5</span><span class="arq">)</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="arq">}</span>
-<span class="bs">.p-y-md</span> <span class="arq">{</span> <span class="by">padding-top</span><span class="arq">:</span>    <span class="arq">(</span><span class="au">@</span><span class="arr">spacer-y</span> <span class="au">*</span> <span class="bo">1</span><span class="cg">.5</span><span class="arq">)</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="by">padding-bottom</span><span class="arq">:</span> <span class="arq">(</span><span class="au">@</span><span class="arr">spacer-y</span> <span class="au">*</span> <span class="bo">1</span><span class="cg">.5</span><span class="arq">)</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="arq">}</span>
-
-<span class="bs">.p-a-lg</span> <span class="arq">{</span> <span class="by">padding</span><span class="arq">:</span>        <span class="arq">(</span><span class="au">@</span><span class="arr">spacer-y</span> <span class="au">*</span> <span class="bo">3</span><span class="arq">)</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="arq">}</span>
-<span class="bs">.p-t-lg</span> <span class="arq">{</span> <span class="by">padding-top</span><span class="arq">:</span>    <span class="arq">(</span><span class="au">@</span><span class="arr">spacer-y</span> <span class="au">*</span> <span class="bo">3</span><span class="arq">)</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="arq">}</span>
-<span class="bs">.p-r-lg</span> <span class="arq">{</span> <span class="by">padding-right</span><span class="arq">:</span>  <span class="arq">(</span><span class="au">@</span><span class="arr">spacer-y</span> <span class="au">*</span> <span class="bo">3</span><span class="arq">)</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="arq">}</span>
-<span class="bs">.p-b-lg</span> <span class="arq">{</span> <span class="by">padding-bottom</span><span class="arq">:</span> <span class="arq">(</span><span class="au">@</span><span class="arr">spacer-y</span> <span class="au">*</span> <span class="bo">3</span><span class="arq">)</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="arq">}</span>
-<span class="bs">.p-l-lg</span> <span class="arq">{</span> <span class="by">padding-left</span><span class="arq">:</span>   <span class="arq">(</span><span class="au">@</span><span class="arr">spacer-y</span> <span class="au">*</span> <span class="bo">3</span><span class="arq">)</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="arq">}</span>
-<span class="bs">.p-x-lg</span> <span class="arq">{</span> <span class="by">padding-right</span><span class="arq">:</span>  <span class="arq">(</span><span class="au">@</span><span class="arr">spacer-x</span> <span class="au">*</span> <span class="bo">3</span><span class="arq">)</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="by">padding-left</span><span class="arq">:</span>   <span class="arq">(</span><span class="au">@</span><span class="arr">spacer-x</span> <span class="au">*</span> <span class="bo">3</span><span class="arq">)</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="arq">}</span>
-<span class="bs">.p-y-lg</span> <span class="arq">{</span> <span class="by">padding-top</span><span class="arq">:</span>    <span class="arq">(</span><span class="au">@</span><span class="arr">spacer-y</span> <span class="au">*</span> <span class="bo">3</span><span class="arq">)</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="by">padding-bottom</span><span class="arq">:</span> <span class="arq">(</span><span class="au">@</span><span class="arr">spacer-y</span> <span class="au">*</span> <span class="bo">3</span><span class="arq">)</span> <span class="au">!</span><span class="arr">important</span><span class="arq">;</span> <span class="arq">}</span></code></pre></figure>
-
-<h2 id="responsive-text-alignment">Responsive text alignment</h2>
-
-<p>Use these classes to easily switch <code class="arn">text-align</code> across viewports when designing responsive pages.</p>
-
-<figure class="da"><pre><code class="arp" data-lang="scss"><span class="bs">.text-xs-left</span>   <span class="arq">{</span> <span class="by">text-align</span><span class="arq">:</span> <span class="br">left</span><span class="arq">;</span> <span class="arq">}</span>
-<span class="bs">.text-xs-right</span>  <span class="arq">{</span> <span class="by">text-align</span><span class="arq">:</span> <span class="br">right</span><span class="arq">;</span> <span class="arq">}</span>
-<span class="bs">.text-xs-center</span> <span class="arq">{</span> <span class="by">text-align</span><span class="arq">:</span> <span class="br">center</span><span class="arq">;</span> <span class="arq">}</span>
-
-<span class="at">@media</span> <span class="arq">(</span><span class="arr">min-width</span><span class="au">:</span> <span class="au">@</span><span class="arr">screen-sm-min</span><span class="arq">)</span> <span class="arq">{</span>
-  <span class="bs">.text-sm-left</span>   <span class="arq">{</span> <span class="by">text-align</span><span class="arq">:</span> <span class="br">left</span><span class="arq">;</span> <span class="arq">}</span>
-  <span class="bs">.text-sm-right</span>  <span class="arq">{</span> <span class="by">text-align</span><span class="arq">:</span> <span class="br">right</span><span class="arq">;</span> <span class="arq">}</span>
-  <span class="bs">.text-sm-center</span> <span class="arq">{</span> <span class="by">text-align</span><span class="arq">:</span> <span class="br">center</span><span class="arq">;</span> <span class="arq">}</span>
-<span class="arq">}</span>
-
-<span class="at">@media</span> <span class="arq">(</span><span class="arr">min-width</span><span class="au">:</span> <span class="au">@</span><span class="arr">screen-md-min</span><span class="arq">)</span> <span class="arq">{</span>
-  <span class="bs">.text-md-left</span>   <span class="arq">{</span> <span class="by">text-align</span><span class="arq">:</span> <span class="br">left</span><span class="arq">;</span> <span class="arq">}</span>
-  <span class="bs">.text-md-right</span>  <span class="arq">{</span> <span class="by">text-align</span><span class="arq">:</span> <span class="br">right</span><span class="arq">;</span> <span class="arq">}</span>
-  <span class="bs">.text-md-center</span> <span class="arq">{</span> <span class="by">text-align</span><span class="arq">:</span> <span class="br">center</span><span class="arq">;</span> <span class="arq">}</span>
-<span class="arq">}</span>
-
-<span class="at">@media</span> <span class="arq">(</span><span class="arr">min-width</span><span class="au">:</span> <span class="au">@</span><span class="arr">screen-lg-min</span><span class="arq">)</span> <span class="arq">{</span>
-  <span class="bs">.text-lg-left</span>   <span class="arq">{</span> <span class="by">text-align</span><span class="arq">:</span> <span class="br">left</span><span class="arq">;</span> <span class="arq">}</span>
-  <span class="bs">.text-lg-right</span>  <span class="arq">{</span> <span class="by">text-align</span><span class="arq">:</span> <span class="br">right</span><span class="arq">;</span> <span class="arq">}</span>
-  <span class="bs">.text-lg-center</span> <span class="arq">{</span> <span class="by">text-align</span><span class="arq">:</span> <span class="br">center</span><span class="arq">;</span> <span class="arq">}</span>
-<span class="arq">}</span></code></pre></figure>
-
-<h1 id="new-components">New components</h1>
-
-<h2 id="entypo">Entypo</h2>
-
-<p><a href="http://entypo.com/">Entypo</a> is an awesome, high quality set of icon glyphs made by <a href="http://www.danielbruce.se/">Daniel Bruce</a>. We’ve replaced Bootstrap’s default icon font, <a href="http://glyphicons.com/">Glyhpicons</a>, with the complete Entypo set and Entypo social extension.</p>
-
-<p>Simply use the new <code class="arn">icon</code> class and an <code class="arn">icon-{modifier}</code> on an inline element. See the examples below for more details.</p>
-
-<h3 id="available-icons">Available icons</h3>
-
-<p>Below are all the original and social icons from Entypo that you can choose from:</p>
-
-<div class="dd">
-  <span class="a vo"></span>
-  <span class="a vp"></span>
-  <span class="a vq"></span>
-  <span class="a vr"></span>
-  <span class="a vs"></span>
-  <span class="a vv"></span>
-  <span class="a vt"></span>
-  <span class="a vu"></span>
-  <span class="a vw"></span>
-  <span class="a vx"></span>
-  <span class="a vy"></span>
-  <span class="a vz"></span>
-  <span class="a wa"></span>
-  <span class="a wb"></span>
-  <span class="a wd"></span>
-  <span class="a we"></span>
-  <span class="a wf"></span>
-  <span class="a wg"></span>
-  <span class="a wh"></span>
-  <span class="a wi"></span>
-  <span class="a wj"></span>
-  <span class="a wk"></span>
-  <span class="a wp"></span>
-  <span class="a wq"></span>
-  <span class="a wl"></span>
-  <span class="a wm"></span>
-  <span class="a wn"></span>
-  <span class="a wo"></span>
-  <span class="a wr"></span>
-  <span class="a ws"></span>
-  <span class="a wt"></span>
-  <span class="a wu"></span>
-  <span class="a wv"></span>
-  <span class="a ww"></span>
-  <span class="a wx"></span>
-  <span class="a wy"></span>
-  <span class="a xa"></span>
-  <span class="a xc"></span>
-  <span class="a xd"></span>
-  <span class="a xf"></span>
-  <span class="a xg"></span>
-  <span class="a xh"></span>
-  <span class="a xi"></span>
-  <span class="a xj"></span>
-  <span class="a xk"></span>
-  <span class="a xl"></span>
-  <span class="a xm"></span>
-  <span class="a xn"></span>
-  <span class="a xo"></span>
-  <span class="a xp"></span>
-  <span class="a xq"></span>
-  <span class="a xr"></span>
-  <span class="a xs"></span>
-  <span class="a xt"></span>
-  <span class="a xu"></span>
-  <span class="a xv"></span>
-  <span class="a xw"></span>
-  <span class="a aaa"></span>
-  <span class="a xx"></span>
-  <span class="a xy"></span>
-  <span class="a xz"></span>
-  <span class="a ya"></span>
-  <span class="a yb"></span>
-  <span class="a yi"></span>
-  <span class="a yc"></span>
-  <span class="a yd"></span>
-  <span class="a ye"></span>
-  <span class="a yf"></span>
-  <span class="a yg"></span>
-  <span class="a vk"></span>
-  <span class="a vl"></span>
-  <span class="a yh"></span>
-  <span class="a yj"></span>
-  <span class="a yk"></span>
-  <span class="a yl"></span>
-  <span class="a ym"></span>
-  <span class="a yn"></span>
-  <span class="a yo"></span>
-  <span class="a yp"></span>
-  <span class="a yq"></span>
-  <span class="a yr"></span>
-  <span class="a ys"></span>
-  <span class="a yt"></span>
-  <span class="a yu"></span>
-  <span class="a yv"></span>
-  <span class="a yw"></span>
-  <span class="a yx"></span>
-  <span class="a yy"></span>
-  <span class="a yz"></span>
-  <span class="a za"></span>
-  <span class="a zb"></span>
-  <span class="a zc"></span>
-  <span class="a zd"></span>
-  <span class="a ze"></span>
-  <span class="a zf"></span>
-  <span class="a zg"></span>
-  <span class="a zh"></span>
-  <span class="a zi"></span>
-  <span class="a zj"></span>
-  <span class="a zk"></span>
-  <span class="a zu"></span>
-  <span class="a zm"></span>
-  <span class="a zn"></span>
-  <span class="a zo"></span>
-  <span class="a zp"></span>
-  <span class="a zq"></span>
-  <span class="a zr"></span>
-  <span class="a zs"></span>
-  <span class="a zt"></span>
-  <span class="a zv"></span>
-  <span class="a zw"></span>
-  <span class="a zx"></span>
-  <span class="a zy"></span>
-  <span class="a zz"></span>
-  <span class="a aab"></span>
-  <span class="a aac"></span>
-  <span class="a aad"></span>
-  <span class="a aae"></span>
-  <span class="a aag"></span>
-  <span class="a aaf"></span>
-  <span class="a aah"></span>
-  <span class="a aai"></span>
-  <span class="a aal"></span>
-  <span class="a aaj"></span>
-  <span class="a aam"></span>
-  <span class="a aak"></span>
-  <span class="a aan"></span>
-  <span class="a aaq"></span>
-  <span class="a aar"></span>
-  <span class="a aas"></span>
-  <span class="a aau"></span>
-  <span class="a aav"></span>
-  <span class="a aaw"></span>
-  <span class="a aax"></span>
-  <span class="a aay"></span>
-  <span class="a aaz"></span>
-  <span class="a aba"></span>
-  <span class="a abb"></span>
-  <span class="a abd"></span>
-  <span class="a abf"></span>
-  <span class="a abe"></span>
-  <span class="a abi"></span>
-  <span class="a abj"></span>
-  <span class="a abk"></span>
-  <span class="a abl"></span>
-  <span class="a abm"></span>
-  <span class="a abn"></span>
-  <span class="a abr"></span>
-  <span class="a abs"></span>
-  <span class="a abt"></span>
-  <span class="a abu"></span>
-  <span class="a abv"></span>
-  <span class="a abw"></span>
-  <span class="a aca"></span>
-  <span class="a abx"></span>
-  <span class="a aby"></span>
-  <span class="a abz"></span>
-  <span class="a acb"></span>
-  <span class="a acd"></span>
-  <span class="a ace"></span>
-  <span class="a acf"></span>
-  <span class="a aci"></span>
-  <span class="a aco"></span>
-  <span class="a acp"></span>
-  <span class="a acr"></span>
-  <span class="a acs"></span>
-  <span class="a acu"></span>
-  <span class="a act"></span>
-  <span class="a acw"></span>
-  <span class="a acv"></span>
-  <span class="a acx"></span>
-  <span class="a acy"></span>
-  <span class="a adc"></span>
-  <span class="a adb"></span>
-  <span class="a add"></span>
-  <span class="a ade"></span>
-  <span class="a adf"></span>
-  <span class="a adh"></span>
-  <span class="a adg"></span>
-  <span class="a adk"></span>
-  <span class="a adl"></span>
-  <span class="a adm"></span>
-  <span class="a adn"></span>
-  <span class="a ado"></span>
-  <span class="a adp"></span>
-  <span class="a adq"></span>
-  <span class="a adt"></span>
-  <span class="a adu"></span>
-  <span class="a adv"></span>
-  <span class="a adw"></span>
-  <span class="a adx"></span>
-  <span class="a ady"></span>
-  <span class="a adz"></span>
-  <span class="a aea"></span>
-  <span class="a aeb"></span>
-  <span class="a aec"></span>
-  <span class="a aef"></span>
-  <span class="a aeg"></span>
-  <span class="a aeh"></span>
-  <span class="a aej"></span>
-  <span class="a aei"></span>
-  <span class="a ael"></span>
-  <span class="a aek"></span>
-  <span class="a aem"></span>
-  <span class="a aen"></span>
-  <span class="a aeo"></span>
-  <span class="a aeq"></span>
-  <span class="a aer"></span>
-  <span class="a aes"></span>
-  <span class="a aet"></span>
-  <span class="a aeu"></span>
-  <span class="a aex"></span>
-  <span class="a aez"></span>
-  <span class="a afa"></span>
-  <span class="a afb"></span>
-  <span class="a afc"></span>
-  <span class="a afd"></span>
-  <span class="a aff"></span>
-  <span class="a afg"></span>
-  <span class="a afh"></span>
-  <span class="a afi"></span>
-  <span class="a afj"></span>
-  <span class="a afk"></span>
-  <span class="a afl"></span>
-  <span class="a afm"></span>
-  <span class="a afn"></span>
-  <span class="a afo"></span>
-  <span class="a afp"></span>
-  <span class="a afq"></span>
-  <span class="a afr"></span>
-  <span class="a afs"></span>
-  <span class="a aft"></span>
-  <span class="a afu"></span>
-  <span class="a afw"></span>
-  <span class="a afx"></span>
-  <span class="a afy"></span>
-  <span class="a aga"></span>
-  <span class="a agb"></span>
-  <span class="a agd"></span>
-  <span class="a age"></span>
-  <span class="a agh"></span>
-  <span class="a agi"></span>
-  <span class="a agj"></span>
-  <span class="a agk"></span>
-  <span class="a agl"></span>
-  <span class="a agm"></span>
-  <span class="a agn"></span>
-  <span class="a agp"></span>
-  <span class="a agq"></span>
-  <span class="a ago"></span>
-  <span class="a agr"></span>
-  <span class="a agu"></span>
-  <span class="a agv"></span>
-  <span class="a agy"></span>
-  <span class="a ahb"></span>
-  <span class="a ahd"></span>
-  <span class="a ahe"></span>
-  <span class="a ahf"></span>
-  <span class="a ahg"></span>
-  <span class="a ahh"></span>
-  <span class="a ahi"></span>
-  <span class="a ahj"></span>
-  <span class="a ahk"></span>
-  <span class="a ahl"></span>
-  <span class="a ahm"></span>
-  <span class="a ahn"></span>
-  <span class="a ahp"></span>
-  <span class="a ahq"></span>
-  <span class="a ahs"></span>
-  <span class="a aht"></span>
-  <span class="a ahu"></span>
-  <span class="a ahv"></span>
-  <span class="a ahw"></span>
-  <span class="a ahx"></span>
-  <span class="a ahy"></span>
-  <span class="a ahz"></span>
-  <span class="a aia"></span>
-  <span class="a aig"></span>
-  <span class="a aii"></span>
-  <span class="a aih"></span>
-  <span class="a aik"></span>
-  <span class="a ain"></span>
-  <span class="a aio"></span>
-  <span class="a aip"></span>
-  <span class="a aiq"></span>
-  <span class="a ais"></span>
-  <span class="a air"></span>
-  <span class="a ait"></span>
-  <span class="a aiw"></span>
-  <span class="a aix"></span>
-  <span class="a aiz"></span>
-  <span class="a aja"></span>
-  <span class="a ajc"></span>
-  <span class="a ajb"></span>
-  <span class="a ajd"></span>
-  <span class="a akf"></span>
-  <span class="a ajf"></span>
-  <span class="a aje"></span>
-  <span class="a ajg"></span>
-  <span class="a ajh"></span>
-  <span class="a ajj"></span>
-  <span class="a aji"></span>
-  <span class="a ajk"></span>
-  <span class="a ajl"></span>
-  <span class="a ajm"></span>
-  <span class="a ajn"></span>
-  <span class="a ajo"></span>
-  <span class="a ajp"></span>
-  <span class="a ajq"></span>
-  <span class="a ajr"></span>
-  <span class="a ajs"></span>
-  <span class="a ajt"></span>
-  <span class="a aju"></span>
-  <span class="a ajw"></span>
-  <span class="a ajz"></span>
-  <span class="a akc"></span>
-  <span class="a akd"></span>
-  <span class="a ake"></span>
-  <span class="a akg"></span>
-  <span class="a akh"></span>
-  <span class="a aki"></span>
-  <span class="a akj"></span>
-  <span class="a akk"></span>
-  <span class="a akl"></span>
-  <span class="a akm"></span>
-  <span class="a akr"></span>
-  <span class="a akv"></span>
-  <span class="a akw"></span>
-  <span class="a akx"></span>
-  <span class="a aky"></span>
-</div>
-
-<div class="dd">
-  <span class="a vn"></span>
-  <span class="a vm"></span>
-  <span class="a wc"></span>
-  <span class="a wz"></span>
-  <span class="a xb"></span>
-  <span class="a xe"></span>
-  <span class="a zl"></span>
-  <span class="a aap"></span>
-  <span class="a aao"></span>
-  <span class="a aat"></span>
-  <span class="a abc"></span>
-  <span class="a abh"></span>
-  <span class="a abg"></span>
-  <span class="a abo"></span>
-  <span class="a abq"></span>
-  <span class="a abp"></span>
-  <span class="a acc"></span>
-  <span class="a ach"></span>
-  <span class="a acg"></span>
-  <span class="a acl"></span>
-  <span class="a acm"></span>
-  <span class="a acn"></span>
-  <span class="a ack"></span>
-  <span class="a acj"></span>
-  <span class="a acq"></span>
-  <span class="a acz"></span>
-  <span class="a ada"></span>
-  <span class="a adj"></span>
-  <span class="a adi"></span>
-  <span class="a ads"></span>
-  <span class="a adr"></span>
-  <span class="a aee"></span>
-  <span class="a aed"></span>
-  <span class="a aep"></span>
-  <span class="a aew"></span>
-  <span class="a aev"></span>
-  <span class="a afe"></span>
-  <span class="a afv"></span>
-  <span class="a afz"></span>
-  <span class="a agc"></span>
-  <span class="a agg"></span>
-  <span class="a agf"></span>
-  <span class="a agt"></span>
-  <span class="a ags"></span>
-  <span class="a agx"></span>
-  <span class="a agw"></span>
-  <span class="a aha"></span>
-  <span class="a agz"></span>
-  <span class="a ahc"></span>
-  <span class="a aho"></span>
-  <span class="a aib"></span>
-  <span class="a aid"></span>
-  <span class="a aic"></span>
-  <span class="a aie"></span>
-  <span class="a aif"></span>
-  <span class="a aij"></span>
-  <span class="a aim"></span>
-  <span class="a ail"></span>
-  <span class="a aiv"></span>
-  <span class="a aiu"></span>
-  <span class="a aiy"></span>
-  <span class="a ajv"></span>
-  <span class="a ajy"></span>
-  <span class="a ajx"></span>
-  <span class="a akb"></span>
-  <span class="a aka"></span>
-  <span class="a ako"></span>
-  <span class="a akn"></span>
-  <span class="a akq"></span>
-  <span class="a akp"></span>
-  <span class="a aku"></span>
-  <span class="a akt"></span>
-  <span class="a aks"></span>
-  <span class="a akz"></span>
-  <span class="a alb"></span>
-  <span class="a ala"></span>
-  <span class="a alc"></span>
-  <span class="a ale"></span>
-  <span class="a ald"></span>
-  <span class="a alg"></span>
-  <span class="a alf"></span>
-</div>
-
-<h3 id="examples">Examples</h3>
-
-<p>Entypo icons can be placed in just about any other element, so long as they are a separate HTML element (e.g., a <code class="arn">&lt;span&gt;</code>). See the examples below for how to put them to use.</p>
-
-<div class="db" data-example-id="">
-<button class="dl ans" type="button">
-  <span class="a ajj"></span>
-  Like
-</button>
-<button class="dl ot" type="button">
-  <span class="a ajj"></span>
-  Liked!
-</button>
-</div>
-<div class="da"><pre><code class="aro" data-lang="html"><span class="ca">&lt;button</span> <span class="bq">class=</span><span class="bp">"btn btn-default-outline"</span> <span class="bq">type=</span><span class="bp">"button"</span><span class="ca">&gt;</span>
-  <span class="ca">&lt;span</span> <span class="bq">class=</span><span class="bp">"icon icon-thumbs-up"</span><span class="ca">&gt;&lt;/span&gt;</span>
-  Like
-<span class="ca">&lt;/button&gt;</span>
-<span class="ca">&lt;button</span> <span class="bq">class=</span><span class="bp">"btn btn-primary"</span> <span class="bq">type=</span><span class="bp">"button"</span><span class="ca">&gt;</span>
-  <span class="ca">&lt;span</span> <span class="bq">class=</span><span class="bp">"icon icon-thumbs-up"</span><span class="ca">&gt;&lt;/span&gt;</span>
-  Liked!
-<span class="ca">&lt;/button&gt;</span></code></pre></div>
-
-<div class="db" data-example-id="">
-<ul class="nav pr">
-  <li class="active">
-    <a href="http://bootstrap-themes.github.io/marketing/docs/index.html#">
-      <span class="a xx"></span>
-      Discussions
-    </a>
-  </li>
-  <li>
-    <a href="http://bootstrap-themes.github.io/marketing/docs/index.html#">
-      <span class="a xf"></span>
-      Notifications
-    </a>
-  </li>
-  <li>
-    <a href="http://bootstrap-themes.github.io/marketing/docs/index.html#">
-      <span class="a akj"></span>
-      Members
-    </a>
-  </li>
-</ul>
-</div>
-<div class="da"><pre><code class="aro" data-lang="html"><span class="ca">&lt;ul</span> <span class="bq">class=</span><span class="bp">"nav nav-pills"</span><span class="ca">&gt;</span>
-  <span class="ca">&lt;li</span> <span class="bq">class=</span><span class="bp">"active"</span><span class="ca">&gt;</span>
-    <span class="ca">&lt;a</span> <span class="bq">href=</span><span class="bp">"#"</span><span class="ca">&gt;</span>
-      <span class="ca">&lt;span</span> <span class="bq">class=</span><span class="bp">"icon icon-chat"</span><span class="ca">&gt;&lt;/span&gt;</span>
-      Discussions
-    <span class="ca">&lt;/a&gt;</span>
-  <span class="ca">&lt;/li&gt;</span>
-  <span class="ca">&lt;li&gt;</span>
-    <span class="ca">&lt;a</span> <span class="bq">href=</span><span class="bp">"#"</span><span class="ca">&gt;</span>
-      <span class="ca">&lt;span</span> <span class="bq">class=</span><span class="bp">"icon icon-bell"</span><span class="ca">&gt;&lt;/span&gt;</span>
-      Notifications
-    <span class="ca">&lt;/a&gt;</span>
-  <span class="ca">&lt;/li&gt;</span>
-  <span class="ca">&lt;li&gt;</span>
-    <span class="ca">&lt;a</span> <span class="bq">href=</span><span class="bp">"#"</span><span class="ca">&gt;</span>
-      <span class="ca">&lt;span</span> <span class="bq">class=</span><span class="bp">"icon icon-users"</span><span class="ca">&gt;&lt;/span&gt;</span>
-      Members
-    <span class="ca">&lt;/a&gt;</span>
-  <span class="ca">&lt;/li&gt;</span>
-<span class="ca">&lt;/ul&gt;</span></code></pre></div>
-
-<h2 id="outline-buttons">Outline buttons</h2>
-
-<p>Replace the provided button variant classes like <code class="arn">.btn-primary</code> with <code class="arn">.btn-primary-outline</code> to switch from the solid gradient backgrounds buttons to outline ones.</p>
-
-<div class="db" data-example-id="">
-<button type="button" class="dl ao ans">Default</button>
-<button type="button" class="dl ao ant">Primary</button>
-<button type="button" class="dl ao anu">Success</button>
-<button type="button" class="dl ao anv">Info</button>
-<button type="button" class="dl ao anw">Warning</button>
-<button type="button" class="dl ao anx">Danger</button>
-</div>
-<div class="da"><pre><code class="aro" data-lang="html"><span class="ca">&lt;button</span> <span class="bq">type=</span><span class="bp">"button"</span> <span class="bq">class=</span><span class="bp">"btn btn-lg btn-default-outline"</span><span class="ca">&gt;</span>Default<span class="ca">&lt;/button&gt;</span>
-<span class="ca">&lt;button</span> <span class="bq">type=</span><span class="bp">"button"</span> <span class="bq">class=</span><span class="bp">"btn btn-lg btn-primary-outline"</span><span class="ca">&gt;</span>Primary<span class="ca">&lt;/button&gt;</span>
-<span class="ca">&lt;button</span> <span class="bq">type=</span><span class="bp">"button"</span> <span class="bq">class=</span><span class="bp">"btn btn-lg btn-success-outline"</span><span class="ca">&gt;</span>Success<span class="ca">&lt;/button&gt;</span>
-<span class="ca">&lt;button</span> <span class="bq">type=</span><span class="bp">"button"</span> <span class="bq">class=</span><span class="bp">"btn btn-lg btn-info-outline"</span><span class="ca">&gt;</span>Info<span class="ca">&lt;/button&gt;</span>
-<span class="ca">&lt;button</span> <span class="bq">type=</span><span class="bp">"button"</span> <span class="bq">class=</span><span class="bp">"btn btn-lg btn-warning-outline"</span><span class="ca">&gt;</span>Warning<span class="ca">&lt;/button&gt;</span>
-<span class="ca">&lt;button</span> <span class="bq">type=</span><span class="bp">"button"</span> <span class="bq">class=</span><span class="bp">"btn btn-lg btn-danger-outline"</span><span class="ca">&gt;</span>Danger<span class="ca">&lt;/button&gt;</span></code></pre></div>
-
-<div class="db" data-example-id="">
-<button type="button" class="dl ans">Default</button>
-<button type="button" class="dl ant">Primary</button>
-<button type="button" class="dl anu">Success</button>
-<button type="button" class="dl anv">Info</button>
-<button type="button" class="dl anw">Warning</button>
-<button type="button" class="dl anx">Danger</button>
-</div>
-<div class="da"><pre><code class="aro" data-lang="html"><span class="ca">&lt;button</span> <span class="bq">type=</span><span class="bp">"button"</span> <span class="bq">class=</span><span class="bp">"btn btn-default-outline"</span><span class="ca">&gt;</span>Default<span class="ca">&lt;/button&gt;</span>
-<span class="ca">&lt;button</span> <span class="bq">type=</span><span class="bp">"button"</span> <span class="bq">class=</span><span class="bp">"btn btn-primary-outline"</span><span class="ca">&gt;</span>Primary<span class="ca">&lt;/button&gt;</span>
-<span class="ca">&lt;button</span> <span class="bq">type=</span><span class="bp">"button"</span> <span class="bq">class=</span><span class="bp">"btn btn-success-outline"</span><span class="ca">&gt;</span>Success<span class="ca">&lt;/button&gt;</span>
-<span class="ca">&lt;button</span> <span class="bq">type=</span><span class="bp">"button"</span> <span class="bq">class=</span><span class="bp">"btn btn-info-outline"</span><span class="ca">&gt;</span>Info<span class="ca">&lt;/button&gt;</span>
-<span class="ca">&lt;button</span> <span class="bq">type=</span><span class="bp">"button"</span> <span class="bq">class=</span><span class="bp">"btn btn-warning-outline"</span><span class="ca">&gt;</span>Warning<span class="ca">&lt;/button&gt;</span>
-<span class="ca">&lt;button</span> <span class="bq">type=</span><span class="bp">"button"</span> <span class="bq">class=</span><span class="bp">"btn btn-danger-outline"</span><span class="ca">&gt;</span>Danger<span class="ca">&lt;/button&gt;</span></code></pre></div>
-
-<div class="db" data-example-id="">
-<button type="button" class="dl pa ans">Default</button>
-<button type="button" class="dl pa ant">Primary</button>
-<button type="button" class="dl pa anu">Success</button>
-<button type="button" class="dl pa anv">Info</button>
-<button type="button" class="dl pa anw">Warning</button>
-<button type="button" class="dl pa anx">Danger</button>
-</div>
-<div class="da"><pre><code class="aro" data-lang="html"><span class="ca">&lt;button</span> <span class="bq">type=</span><span class="bp">"button"</span> <span class="bq">class=</span><span class="bp">"btn btn-sm btn-default-outline"</span><span class="ca">&gt;</span>Default<span class="ca">&lt;/button&gt;</span>
-<span class="ca">&lt;button</span> <span class="bq">type=</span><span class="bp">"button"</span> <span class="bq">class=</span><span class="bp">"btn btn-sm btn-primary-outline"</span><span class="ca">&gt;</span>Primary<span class="ca">&lt;/button&gt;</span>
-<span class="ca">&lt;button</span> <span class="bq">type=</span><span class="bp">"button"</span> <span class="bq">class=</span><span class="bp">"btn btn-sm btn-success-outline"</span><span class="ca">&gt;</span>Success<span class="ca">&lt;/button&gt;</span>
-<span class="ca">&lt;button</span> <span class="bq">type=</span><span class="bp">"button"</span> <span class="bq">class=</span><span class="bp">"btn btn-sm btn-info-outline"</span><span class="ca">&gt;</span>Info<span class="ca">&lt;/button&gt;</span>
-<span class="ca">&lt;button</span> <span class="bq">type=</span><span class="bp">"button"</span> <span class="bq">class=</span><span class="bp">"btn btn-sm btn-warning-outline"</span><span class="ca">&gt;</span>Warning<span class="ca">&lt;/button&gt;</span>
-<span class="ca">&lt;button</span> <span class="bq">type=</span><span class="bp">"button"</span> <span class="bq">class=</span><span class="bp">"btn btn-sm btn-danger-outline"</span><span class="ca">&gt;</span>Danger<span class="ca">&lt;/button&gt;</span></code></pre></div>
-
-<div class="db" data-example-id="">
-<button type="button" class="dl pc ans">Default</button>
-<button type="button" class="dl pc ant">Primary</button>
-<button type="button" class="dl pc anu">Success</button>
-<button type="button" class="dl pc anv">Info</button>
-<button type="button" class="dl pc anw">Warning</button>
-<button type="button" class="dl pc anx">Danger</button>
-</div>
-<div class="da"><pre><code class="aro" data-lang="html"><span class="ca">&lt;button</span> <span class="bq">type=</span><span class="bp">"button"</span> <span class="bq">class=</span><span class="bp">"btn btn-xs btn-default-outline"</span><span class="ca">&gt;</span>Default<span class="ca">&lt;/button&gt;</span>
-<span class="ca">&lt;button</span> <span class="bq">type=</span><span class="bp">"button"</span> <span class="bq">class=</span><span class="bp">"btn btn-xs btn-primary-outline"</span><span class="ca">&gt;</span>Primary<span class="ca">&lt;/button&gt;</span>
-<span class="ca">&lt;button</span> <span class="bq">type=</span><span class="bp">"button"</span> <span class="bq">class=</span><span class="bp">"btn btn-xs btn-success-outline"</span><span class="ca">&gt;</span>Success<span class="ca">&lt;/button&gt;</span>
-<span class="ca">&lt;button</span> <span class="bq">type=</span><span class="bp">"button"</span> <span class="bq">class=</span><span class="bp">"btn btn-xs btn-info-outline"</span><span class="ca">&gt;</span>Info<span class="ca">&lt;/button&gt;</span>
-<span class="ca">&lt;button</span> <span class="bq">type=</span><span class="bp">"button"</span> <span class="bq">class=</span><span class="bp">"btn btn-xs btn-warning-outline"</span><span class="ca">&gt;</span>Warning<span class="ca">&lt;/button&gt;</span>
-<span class="ca">&lt;button</span> <span class="bq">type=</span><span class="bp">"button"</span> <span class="bq">class=</span><span class="bp">"btn btn-xs btn-danger-outline"</span><span class="ca">&gt;</span>Danger<span class="ca">&lt;/button&gt;</span></code></pre></div>
-
-<h2 id="pill-buttons">Pill buttons</h2>
-
-<p>Add <code class="arn">.btn-pill</code> to any button to make them more rounded.</p>
-
-<div class="db" data-example-id="">
-<button type="button" class="dl ao any oq">Default</button>
-<button type="button" class="dl ao any ot">Primary</button>
-<button type="button" class="dl ao any ou">Success</button>
-<button type="button" class="dl ao any ov">Info</button>
-<button type="button" class="dl ao any ow">Warning</button>
-<button type="button" class="dl ao any ox">Danger</button>
-<button type="button" class="dl ao any oy">Link</button>
-</div>
-<div class="da"><pre><code class="aro" data-lang="html"><span class="ca">&lt;button</span> <span class="bq">type=</span><span class="bp">"button"</span> <span class="bq">class=</span><span class="bp">"btn btn-lg btn-pill btn-default"</span><span class="ca">&gt;</span>Default<span class="ca">&lt;/button&gt;</span>
-<span class="ca">&lt;button</span> <span class="bq">type=</span><span class="bp">"button"</span> <span class="bq">class=</span><span class="bp">"btn btn-lg btn-pill btn-primary"</span><span class="ca">&gt;</span>Primary<span class="ca">&lt;/button&gt;</span>
-<span class="ca">&lt;button</span> <span class="bq">type=</span><span class="bp">"button"</span> <span class="bq">class=</span><span class="bp">"btn btn-lg btn-pill btn-success"</span><span class="ca">&gt;</span>Success<span class="ca">&lt;/button&gt;</span>
-<span class="ca">&lt;button</span> <span class="bq">type=</span><span class="bp">"button"</span> <span class="bq">class=</span><span class="bp">"btn btn-lg btn-pill btn-info"</span><span class="ca">&gt;</span>Info<span class="ca">&lt;/button&gt;</span>
-<span class="ca">&lt;button</span> <span class="bq">type=</span><span class="bp">"button"</span> <span class="bq">class=</span><span class="bp">"btn btn-lg btn-pill btn-warning"</span><span class="ca">&gt;</span>Warning<span class="ca">&lt;/button&gt;</span>
-<span class="ca">&lt;button</span> <span class="bq">type=</span><span class="bp">"button"</span> <span class="bq">class=</span><span class="bp">"btn btn-lg btn-pill btn-danger"</span><span class="ca">&gt;</span>Danger<span class="ca">&lt;/button&gt;</span>
-<span class="ca">&lt;button</span> <span class="bq">type=</span><span class="bp">"button"</span> <span class="bq">class=</span><span class="bp">"btn btn-lg btn-pill btn-link"</span><span class="ca">&gt;</span>Link<span class="ca">&lt;/button&gt;</span></code></pre></div>
-
-<div class="db" data-example-id="">
-<button type="button" class="dl any oq">Default</button>
-<button type="button" class="dl any ot">Primary</button>
-<button type="button" class="dl any ou">Success</button>
-<button type="button" class="dl any ov">Info</button>
-<button type="button" class="dl any ow">Warning</button>
-<button type="button" class="dl any ox">Danger</button>
-<button type="button" class="dl any oy">Link</button>
-</div>
-<div class="da"><pre><code class="aro" data-lang="html"><span class="ca">&lt;button</span> <span class="bq">type=</span><span class="bp">"button"</span> <span class="bq">class=</span><span class="bp">"btn btn-pill btn-default"</span><span class="ca">&gt;</span>Default<span class="ca">&lt;/button&gt;</span>
-<span class="ca">&lt;button</span> <span class="bq">type=</span><span class="bp">"button"</span> <span class="bq">class=</span><span class="bp">"btn btn-pill btn-primary"</span><span class="ca">&gt;</span>Primary<span class="ca">&lt;/button&gt;</span>
-<span class="ca">&lt;button</span> <span class="bq">type=</span><span class="bp">"button"</span> <span class="bq">class=</span><span class="bp">"btn btn-pill btn-success"</span><span class="ca">&gt;</span>Success<span class="ca">&lt;/button&gt;</span>
-<span class="ca">&lt;button</span> <span class="bq">type=</span><span class="bp">"button"</span> <span class="bq">class=</span><span class="bp">"btn btn-pill btn-info"</span><span class="ca">&gt;</span>Info<span class="ca">&lt;/button&gt;</span>
-<span class="ca">&lt;button</span> <span class="bq">type=</span><span class="bp">"button"</span> <span class="bq">class=</span><span class="bp">"btn btn-pill btn-warning"</span><span class="ca">&gt;</span>Warning<span class="ca">&lt;/button&gt;</span>
-<span class="ca">&lt;button</span> <span class="bq">type=</span><span class="bp">"button"</span> <span class="bq">class=</span><span class="bp">"btn btn-pill btn-danger"</span><span class="ca">&gt;</span>Danger<span class="ca">&lt;/button&gt;</span>
-<span class="ca">&lt;button</span> <span class="bq">type=</span><span class="bp">"button"</span> <span class="bq">class=</span><span class="bp">"btn btn-pill btn-link"</span><span class="ca">&gt;</span>Link<span class="ca">&lt;/button&gt;</span></code></pre></div>
-
-<div class="db" data-example-id="">
-<button type="button" class="dl pa any oq">Default</button>
-<button type="button" class="dl pa any ot">Primary</button>
-<button type="button" class="dl pa any ou">Success</button>
-<button type="button" class="dl pa any ov">Info</button>
-<button type="button" class="dl pa any ow">Warning</button>
-<button type="button" class="dl pa any ox">Danger</button>
-<button type="button" class="dl pa any oy">Link</button>
-</div>
-<div class="da"><pre><code class="aro" data-lang="html"><span class="ca">&lt;button</span> <span class="bq">type=</span><span class="bp">"button"</span> <span class="bq">class=</span><span class="bp">"btn btn-sm btn-pill btn-default"</span><span class="ca">&gt;</span>Default<span class="ca">&lt;/button&gt;</span>
-<span class="ca">&lt;button</span> <span class="bq">type=</span><span class="bp">"button"</span> <span class="bq">class=</span><span class="bp">"btn btn-sm btn-pill btn-primary"</span><span class="ca">&gt;</span>Primary<span class="ca">&lt;/button&gt;</span>
-<span class="ca">&lt;button</span> <span class="bq">type=</span><span class="bp">"button"</span> <span class="bq">class=</span><span class="bp">"btn btn-sm btn-pill btn-success"</span><span class="ca">&gt;</span>Success<span class="ca">&lt;/button&gt;</span>
-<span class="ca">&lt;button</span> <span class="bq">type=</span><span class="bp">"button"</span> <span class="bq">class=</span><span class="bp">"btn btn-sm btn-pill btn-info"</span><span class="ca">&gt;</span>Info<span class="ca">&lt;/button&gt;</span>
-<span class="ca">&lt;button</span> <span class="bq">type=</span><span class="bp">"button"</span> <span class="bq">class=</span><span class="bp">"btn btn-sm btn-pill btn-warning"</span><span class="ca">&gt;</span>Warning<span class="ca">&lt;/button&gt;</span>
-<span class="ca">&lt;button</span> <span class="bq">type=</span><span class="bp">"button"</span> <span class="bq">class=</span><span class="bp">"btn btn-sm btn-pill btn-danger"</span><span class="ca">&gt;</span>Danger<span class="ca">&lt;/button&gt;</span>
-<span class="ca">&lt;button</span> <span class="bq">type=</span><span class="bp">"button"</span> <span class="bq">class=</span><span class="bp">"btn btn-sm btn-pill btn-link"</span><span class="ca">&gt;</span>Link<span class="ca">&lt;/button&gt;</span></code></pre></div>
-
-<div class="db" data-example-id="">
-<button type="button" class="dl pc any oq">Default</button>
-<button type="button" class="dl pc any ot">Primary</button>
-<button type="button" class="dl pc any ou">Success</button>
-<button type="button" class="dl pc any ov">Info</button>
-<button type="button" class="dl pc any ow">Warning</button>
-<button type="button" class="dl pc any ox">Danger</button>
-<button type="button" class="dl pc any oy">Link</button>
-</div>
-<div class="da"><pre><code class="aro" data-lang="html"><span class="ca">&lt;button</span> <span class="bq">type=</span><span class="bp">"button"</span> <span class="bq">class=</span><span class="bp">"btn btn-xs btn-pill btn-default"</span><span class="ca">&gt;</span>Default<span class="ca">&lt;/button&gt;</span>
-<span class="ca">&lt;button</span> <span class="bq">type=</span><span class="bp">"button"</span> <span class="bq">class=</span><span class="bp">"btn btn-xs btn-pill btn-primary"</span><span class="ca">&gt;</span>Primary<span class="ca">&lt;/button&gt;</span>
-<span class="ca">&lt;button</span> <span class="bq">type=</span><span class="bp">"button"</span> <span class="bq">class=</span><span class="bp">"btn btn-xs btn-pill btn-success"</span><span class="ca">&gt;</span>Success<span class="ca">&lt;/button&gt;</span>
-<span class="ca">&lt;button</span> <span class="bq">type=</span><span class="bp">"button"</span> <span class="bq">class=</span><span class="bp">"btn btn-xs btn-pill btn-info"</span><span class="ca">&gt;</span>Info<span class="ca">&lt;/button&gt;</span>
-<span class="ca">&lt;button</span> <span class="bq">type=</span><span class="bp">"button"</span> <span class="bq">class=</span><span class="bp">"btn btn-xs btn-pill btn-warning"</span><span class="ca">&gt;</span>Warning<span class="ca">&lt;/button&gt;</span>
-<span class="ca">&lt;button</span> <span class="bq">type=</span><span class="bp">"button"</span> <span class="bq">class=</span><span class="bp">"btn btn-xs btn-pill btn-danger"</span><span class="ca">&gt;</span>Danger<span class="ca">&lt;/button&gt;</span>
-<span class="ca">&lt;button</span> <span class="bq">type=</span><span class="bp">"button"</span> <span class="bq">class=</span><span class="bp">"btn btn-xs btn-pill btn-link"</span><span class="ca">&gt;</span>Link<span class="ca">&lt;/button&gt;</span></code></pre></div>
-
-<h2 id="blocks">Blocks</h2>
-
-<p>Blocks are a brand new composing metaphor exclusively for use with our Marketing toolkit. Build your site up by stacking several blocks on top of each other to provide focused, attention grabbing units of content.</p>
-
-<div class="db" data-example-id="">
-<div class="k eq">
-  <h1 class="apd">A basic block</h1>
-  <h4 class="am">Use these to package stackable, image driven content.</h4>
-  <button class="dl ot alw">With a simple button</button>
-</div>
-</div>
-<div class="da"><pre><code class="aro" data-lang="html"><span class="ca">&lt;div</span> <span class="bq">class=</span><span class="bp">"block text-center"</span><span class="ca">&gt;</span>
-  <span class="ca">&lt;h1</span> <span class="bq">class=</span><span class="bp">"block-title"</span><span class="ca">&gt;</span>A basic block<span class="ca">&lt;/h1&gt;</span>
-  <span class="ca">&lt;h4</span> <span class="bq">class=</span><span class="bp">"text-muted"</span><span class="ca">&gt;</span>Use these to package stackable, image driven content.<span class="ca">&lt;/h4&gt;</span>
-  <span class="ca">&lt;button</span> <span class="bq">class=</span><span class="bp">"btn btn-primary m-t"</span><span class="ca">&gt;</span>With a simple button<span class="ca">&lt;/button&gt;</span>
-<span class="ca">&lt;/div&gt;</span></code></pre></div>
-
-<p>We have several basic block types, including an inverse block.</p>
-
-<div class="db" data-example-id="">
-<div class="k al eq">
-  <h1 class="apd">An inverse block</h1>
-  <h4 class="am">Use the inverse modifier for working over dark images.</h4>
-  <button class="dl ot alw">With a simple button</button>
-</div>
-</div>
-<div class="da"><pre><code class="aro" data-lang="html"><span class="ca">&lt;div</span> <span class="bq">class=</span><span class="bp">"block block-inverse text-center"</span><span class="ca">&gt;</span>
-  <span class="ca">&lt;h1</span> <span class="bq">class=</span><span class="bp">"block-title"</span><span class="ca">&gt;</span>An inverse block<span class="ca">&lt;/h1&gt;</span>
-  <span class="ca">&lt;h4</span> <span class="bq">class=</span><span class="bp">"text-muted"</span><span class="ca">&gt;</span>Use the inverse modifier for working over dark images.<span class="ca">&lt;/h4&gt;</span>
-  <span class="ca">&lt;button</span> <span class="bq">class=</span><span class="bp">"btn btn-primary m-t"</span><span class="ca">&gt;</span>With a simple button<span class="ca">&lt;/button&gt;</span>
-<span class="ca">&lt;/div&gt;</span></code></pre></div>
-
-<p>We’ve also made it easy to integrate embeded content for more interactive block backgrounds.</p>
-
-<div class="db" data-example-id="">
-<div class="k al eq">
-  <div class="apa">
-    <h1 class="apd">An embed block</h1>
-    <h4 class="am">Use block-background to integrate interactive backgrounds.</h4>
-    <button class="dl oq aox alw">With a simple button</button>
-  </div>
-  <div class="aoz">
-    <iframe frameborder="0" src="./images/attribution.html"></iframe>
-  </div>
-</div>
-</div>
-<div class="da"><pre><code class="aro" data-lang="html"><span class="ca">&lt;div</span> <span class="bq">class=</span><span class="bp">"block block-inverse text-center"</span><span class="ca">&gt;</span>
-  <span class="ca">&lt;div</span> <span class="bq">class=</span><span class="bp">"block-foreground"</span><span class="ca">&gt;</span>
-    <span class="ca">&lt;h1</span> <span class="bq">class=</span><span class="bp">"block-title"</span><span class="ca">&gt;</span>An embed block<span class="ca">&lt;/h1&gt;</span>
-    <span class="ca">&lt;h4</span> <span class="bq">class=</span><span class="bp">"text-muted"</span><span class="ca">&gt;</span>Use block-background to integrate interactive backgrounds.<span class="ca">&lt;/h4&gt;</span>
-    <span class="ca">&lt;button</span> <span class="bq">class=</span><span class="bp">"btn btn-default btn-outline m-t"</span><span class="ca">&gt;</span>With a simple button<span class="ca">&lt;/button&gt;</span>
-  <span class="ca">&lt;/div&gt;</span>
-  <span class="ca">&lt;div</span> <span class="bq">class=</span><span class="bp">"block-background"</span><span class="ca">&gt;</span>
-    <span class="ca">&lt;iframe</span> <span class="bq">frameBorder=</span><span class="bp">"0"</span> <span class="bq">src=</span><span class="bp">"https://a.tiles.mapbox.com/v4/jacobthornton.6681fb42/attribution.html?access_token=pk.eyJ1IjoiamFjb2J0aG9ybnRvbiIsImEiOiJlMGRmZmJlNDZkNDhlN2EzMTQ0YWFiNjhlN2RiZWY1ZCJ9.hO-UNIIplnebJYkya-8TEQ"</span><span class="ca">&gt;&lt;/iframe&gt;</span>
-  <span class="ca">&lt;/div&gt;</span>
-<span class="ca">&lt;/div&gt;</span></code></pre></div>
-
-<p>Use different modifiers like <code class="arn">block-bordered</code> and <code class="arn">block-angle</code> to experiment with different visual treatments and flows between your blocks.</p>
-
-<div class="db" data-example-id="">
-<div class="k eq">
-  <div class="fo">
-    <h4 class="amf">
-      Join over 900,000 designers already using Bootstrap. Get Bootstrap <strong>free</strong> forever!
-    </h4>
-    <form class="om">
-      <input class="form-control ag" placeholder="email address">
-      <input class="form-control ag" type="password" placeholder="Create a Password">
-      <button class="dl ot ag">Get started - free forever</button>
-    </form>
-    <small class="am">
-      By clicking "get started – free Forever!" I agree to Bootstraps
-      <a href="http://bootstrap-themes.github.io/marketing/docs/index.html#">Terms of service</a>
-    </small>
-  </div>
-</div>
-<div class="k aov eq">
-  <div class="fo">
-   <blockquote class="aqr">
-      <p>
-        “Notice that simple inset border above. Isn't it lovely.”
-      </p>
-      <cite>Mark Otto, Huge Nerd</cite>
-    </blockquote>
-  </div>
-</div>
-</div>
-<div class="da"><pre><code class="aro" data-lang="html"><span class="ca">&lt;div</span> <span class="bq">class=</span><span class="bp">"block text-center"</span><span class="ca">&gt;</span>
-  <span class="ca">&lt;div</span> <span class="bq">class=</span><span class="bp">"container-fluid"</span><span class="ca">&gt;</span>
-    <span class="ca">&lt;h4</span> <span class="bq">class=</span><span class="bp">"m-b-md"</span><span class="ca">&gt;</span>
-      Join over 900,000 designers already using Bootstrap. Get Bootstrap <span class="ca">&lt;strong&gt;</span>free<span class="ca">&lt;/strong&gt;</span> forever!
-    <span class="ca">&lt;/h4&gt;</span>
-    <span class="ca">&lt;form</span> <span class="bq">class=</span><span class="bp">"form-inline"</span><span class="ca">&gt;</span>
-      <span class="ca">&lt;input</span> <span class="bq">class=</span><span class="bp">"form-control m-b"</span> <span class="bq">placeholder=</span><span class="bp">"email address"</span><span class="ca">&gt;</span>
-      <span class="ca">&lt;input</span> <span class="bq">class=</span><span class="bp">"form-control m-b"</span> <span class="bq">type=</span><span class="bp">"password"</span> <span class="bq">placeholder=</span><span class="bp">"Create a Password"</span><span class="ca">&gt;</span>
-      <span class="ca">&lt;button</span> <span class="bq">class=</span><span class="bp">"btn btn-primary m-b"</span><span class="ca">&gt;</span>Get started - free forever<span class="ca">&lt;/button&gt;</span>
-    <span class="ca">&lt;/form&gt;</span>
-    <span class="ca">&lt;small</span> <span class="bq">class=</span><span class="bp">"text-muted"</span><span class="ca">&gt;</span>
-      By clicking "get started – free Forever!" I agree to Bootstraps
-      <span class="ca">&lt;a</span> <span class="bq">href=</span><span class="bp">"#"</span><span class="ca">&gt;</span>Terms of service<span class="ca">&lt;/a&gt;</span>
-    <span class="ca">&lt;/small&gt;</span>
-  <span class="ca">&lt;/div&gt;</span>
-<span class="ca">&lt;/div&gt;</span>
-<span class="ca">&lt;div</span> <span class="bq">class=</span><span class="bp">"block block-bordered text-center"</span><span class="ca">&gt;</span>
-  <span class="ca">&lt;div</span> <span class="bq">class=</span><span class="bp">"container-fluid"</span><span class="ca">&gt;</span>
-   <span class="ca">&lt;blockquote</span> <span class="bq">class=</span><span class="bp">"pull-quote"</span><span class="ca">&gt;</span>
-      <span class="ca">&lt;p&gt;</span>
-        “Notice that simple inset border above. Isn't it lovely.”
-      <span class="ca">&lt;/p&gt;</span>
-      <span class="ca">&lt;cite&gt;</span>Mark Otto, Huge Nerd<span class="ca">&lt;/cite&gt;</span>
-    <span class="ca">&lt;/blockquote&gt;</span>
-  <span class="ca">&lt;/div&gt;</span>
-<span class="ca">&lt;/div&gt;</span></code></pre></div>
-
-<p>Use the <code class="arn">block-fill-height</code> modifier to make your block fill a user’s screen, and then use the responsive alignment classes like <code class="arn">block-xs-middle</code> or <code class="arn">block-md-bottom</code> to align your content within the block.</p>
-
-<div class="db" data-example-id="">
-<div class="k apb eq">
-  <div class="apg">
-    <div class="fo">
-     <blockquote class="aqr">
-        <p>
-          “Started at the bottom… etc”
-        </p>
-        <cite>Drake, OVO</cite>
-      </blockquote>
-    </div>
-  </div>
-</div>
-</div>
-<div class="da"><pre><code class="aro" data-lang="html"><span class="ca">&lt;div</span> <span class="bq">class=</span><span class="bp">"block block-fill-height text-center"</span><span class="ca">&gt;</span>
-  <span class="ca">&lt;div</span> <span class="bq">class=</span><span class="bp">"block-xs-bottom"</span><span class="ca">&gt;</span>
-    <span class="ca">&lt;div</span> <span class="bq">class=</span><span class="bp">"container-fluid"</span><span class="ca">&gt;</span>
-     <span class="ca">&lt;blockquote</span> <span class="bq">class=</span><span class="bp">"pull-quote"</span><span class="ca">&gt;</span>
-        <span class="ca">&lt;p&gt;</span>
-          “Started at the bottom… etc”
-        <span class="ca">&lt;/p&gt;</span>
-        <span class="ca">&lt;cite&gt;</span>Drake, OVO<span class="ca">&lt;/cite&gt;</span>
-      <span class="ca">&lt;/blockquote&gt;</span>
-    <span class="ca">&lt;/div&gt;</span>
-  <span class="ca">&lt;/div&gt;</span>
-<span class="ca">&lt;/div&gt;</span></code></pre></div>
-
-<h2 id="text-ribbons">Text ribbons</h2>
-
-<p>Create culti-line, inline ribbons on your text. Useful for breaking up content and adding strong visual flourishes.</p>
-
-<div class="db" data-example-id="">
-<h2 class="alp">
-  <strong class="dp aqa">
-    <span>Gucci Flip flops</span>
-  </strong>
-</h2>
-<p class="amd">
-  <span class="dp aqa">
-    <span>Aenean lacinia bibendum nulla sed consectetur. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Curabitur blandit tempus porttitor.</span>
-  </span>
-</p>
-
-<h2 class="amk">
-  <strong class="dp aqb">
-    <span>Gucci Flip flops</span>
-  </strong>
-</h2>
-<p class="amd">
-  <span class="dp aqb">
-    <span>Aenean lacinia bibendum nulla sed consectetur. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Curabitur blandit tempus porttitor.</span>
-  </span>
-</p>
-
-<h2 class="amk">
-  <strong class="dp aqe">
-    <span>Gucci Flip flops</span>
-  </strong>
-</h2>
-<p class="amd">
-  <span class="dp aqe">
-    <span>Aenean lacinia bibendum nulla sed consectetur. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Curabitur blandit tempus porttitor.</span>
-  </span>
-</p>
-
-<h2 class="amk">
-  <strong class="dp aqc">
-    <span>Gucci Flip flops</span>
-  </strong>
-</h2>
-<p class="amd">
-  <span class="dp aqc">
-    <span>Aenean lacinia bibendum nulla sed consectetur. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Curabitur blandit tempus porttitor.</span>
-  </span>
-</p>
-
-<h2 class="amk">
-  <strong class="dp aqd">
-    <span>Gucci Flip flops</span>
-  </strong>
-</h2>
-<p class="amd">
-  <span class="dp aqd">
-    <span>Aenean lacinia bibendum nulla sed consectetur. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Curabitur blandit tempus porttitor.</span>
-  </span>
-</p>
-</div>
-<div class="da"><pre><code class="aro" data-lang="html"><span class="ca">&lt;h2</span> <span class="bq">class=</span><span class="bp">"m-t-0"</span><span class="ca">&gt;</span>
-  <span class="ca">&lt;strong</span> <span class="bq">class=</span><span class="bp">"text-ribbon text-ribbon-primary"</span><span class="ca">&gt;</span>
-    <span class="ca">&lt;span&gt;</span>Gucci Flip flops<span class="ca">&lt;/span&gt;</span>
-  <span class="ca">&lt;/strong&gt;</span>
-<span class="ca">&lt;/h2&gt;</span>
-<span class="ca">&lt;p</span> <span class="bq">class=</span><span class="bp">"m-t-md"</span><span class="ca">&gt;</span>
-  <span class="ca">&lt;span</span> <span class="bq">class=</span><span class="bp">"text-ribbon text-ribbon-primary"</span><span class="ca">&gt;</span>
-    <span class="ca">&lt;span&gt;</span>Aenean lacinia bibendum nulla sed consectetur. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Curabitur blandit tempus porttitor.<span class="ca">&lt;/span&gt;</span>
-  <span class="ca">&lt;/span&gt;</span>
-<span class="ca">&lt;/p&gt;</span>
-
-<span class="ca">&lt;h2</span> <span class="bq">class=</span><span class="bp">"m-t-lg"</span><span class="ca">&gt;</span>
-  <span class="ca">&lt;strong</span> <span class="bq">class=</span><span class="bp">"text-ribbon text-ribbon-success"</span><span class="ca">&gt;</span>
-    <span class="ca">&lt;span&gt;</span>Gucci Flip flops<span class="ca">&lt;/span&gt;</span>
-  <span class="ca">&lt;/strong&gt;</span>
-<span class="ca">&lt;/h2&gt;</span>
-<span class="ca">&lt;p</span> <span class="bq">class=</span><span class="bp">"m-t-md"</span><span class="ca">&gt;</span>
-  <span class="ca">&lt;span</span> <span class="bq">class=</span><span class="bp">"text-ribbon text-ribbon-success"</span><span class="ca">&gt;</span>
-    <span class="ca">&lt;span&gt;</span>Aenean lacinia bibendum nulla sed consectetur. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Curabitur blandit tempus porttitor.<span class="ca">&lt;/span&gt;</span>
-  <span class="ca">&lt;/span&gt;</span>
-<span class="ca">&lt;/p&gt;</span>
-
-<span class="ca">&lt;h2</span> <span class="bq">class=</span><span class="bp">"m-t-lg"</span><span class="ca">&gt;</span>
-  <span class="ca">&lt;strong</span> <span class="bq">class=</span><span class="bp">"text-ribbon text-ribbon-info"</span><span class="ca">&gt;</span>
-    <span class="ca">&lt;span&gt;</span>Gucci Flip flops<span class="ca">&lt;/span&gt;</span>
-  <span class="ca">&lt;/strong&gt;</span>
-<span class="ca">&lt;/h2&gt;</span>
-<span class="ca">&lt;p</span> <span class="bq">class=</span><span class="bp">"m-t-md"</span><span class="ca">&gt;</span>
-  <span class="ca">&lt;span</span> <span class="bq">class=</span><span class="bp">"text-ribbon text-ribbon-info"</span><span class="ca">&gt;</span>
-    <span class="ca">&lt;span&gt;</span>Aenean lacinia bibendum nulla sed consectetur. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Curabitur blandit tempus porttitor.<span class="ca">&lt;/span&gt;</span>
-  <span class="ca">&lt;/span&gt;</span>
-<span class="ca">&lt;/p&gt;</span>
-
-<span class="ca">&lt;h2</span> <span class="bq">class=</span><span class="bp">"m-t-lg"</span><span class="ca">&gt;</span>
-  <span class="ca">&lt;strong</span> <span class="bq">class=</span><span class="bp">"text-ribbon text-ribbon-warning"</span><span class="ca">&gt;</span>
-    <span class="ca">&lt;span&gt;</span>Gucci Flip flops<span class="ca">&lt;/span&gt;</span>
-  <span class="ca">&lt;/strong&gt;</span>
-<span class="ca">&lt;/h2&gt;</span>
-<span class="ca">&lt;p</span> <span class="bq">class=</span><span class="bp">"m-t-md"</span><span class="ca">&gt;</span>
-  <span class="ca">&lt;span</span> <span class="bq">class=</span><span class="bp">"text-ribbon text-ribbon-warning"</span><span class="ca">&gt;</span>
-    <span class="ca">&lt;span&gt;</span>Aenean lacinia bibendum nulla sed consectetur. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Curabitur blandit tempus porttitor.<span class="ca">&lt;/span&gt;</span>
-  <span class="ca">&lt;/span&gt;</span>
-<span class="ca">&lt;/p&gt;</span>
-
-<span class="ca">&lt;h2</span> <span class="bq">class=</span><span class="bp">"m-t-lg"</span><span class="ca">&gt;</span>
-  <span class="ca">&lt;strong</span> <span class="bq">class=</span><span class="bp">"text-ribbon text-ribbon-danger"</span><span class="ca">&gt;</span>
-    <span class="ca">&lt;span&gt;</span>Gucci Flip flops<span class="ca">&lt;/span&gt;</span>
-  <span class="ca">&lt;/strong&gt;</span>
-<span class="ca">&lt;/h2&gt;</span>
-<span class="ca">&lt;p</span> <span class="bq">class=</span><span class="bp">"m-t-md"</span><span class="ca">&gt;</span>
-  <span class="ca">&lt;span</span> <span class="bq">class=</span><span class="bp">"text-ribbon text-ribbon-danger"</span><span class="ca">&gt;</span>
-    <span class="ca">&lt;span&gt;</span>Aenean lacinia bibendum nulla sed consectetur. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Curabitur blandit tempus porttitor.<span class="ca">&lt;/span&gt;</span>
-  <span class="ca">&lt;/span&gt;</span>
-<span class="ca">&lt;/p&gt;</span></code></pre></div>
-
-<h2 id="transparent-navbar">Transparent navbar</h2>
-
-<p>Use the new <code class="arn">.navbar-transparent</code> variation for placing navbars over backgrounds and interactive content.</p>
-
-<div class="db" data-example-id="">
-<div class="anp ana" style="background: url(../assets/img/kanye.jpg) top center; background-size: cover">
-  <nav class="dt apr alr">
-    <div class="fo">
-      <div class="pv">
-        <button type="button" class="pz collapsed" data-toggle="collapse" data-target="#navbar-collapse-com">
-          <span class="ee">Toggle navigation</span>
-          <span class="qa"></span>
-          <span class="qa"></span>
-          <span class="qa"></span>
-        </button>
-        <a class="l" href="http://bootstrap-themes.github.io/marketing/docs/index.html#">
-          <h4 class="eu alu">Project Name</h4>
-        </a>
-      </div>
-      <div class="pw collapse" id="navbar-collapse-com">
-        <ul class="nav navbar-nav pk">
-          <li class="active"><a href="http://bootstrap-themes.github.io/marketing/docs/index.html#">Home</a></li>
-          <li><a href="http://bootstrap-themes.github.io/marketing/docs/index.html#about">About</a></li>
-          <li><a href="http://bootstrap-themes.github.io/marketing/docs/index.html#contact">Contact</a></li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-</div>
-</div>
-<div class="da"><pre><code class="aro" data-lang="html"><span class="ca">&lt;div</span> <span class="bq">class=</span><span class="bp">"p-y-lg p-x"</span> <span class="bq">style=</span><span class="bp">"background: url(../assets/img/kanye.jpg) top center; background-size: cover"</span><span class="ca">&gt;</span>
-  <span class="ca">&lt;nav</span> <span class="bq">class=</span><span class="bp">"navbar navbar-transparent m-b-0"</span><span class="ca">&gt;</span>
-    <span class="ca">&lt;div</span> <span class="bq">class=</span><span class="bp">"container-fluid"</span><span class="ca">&gt;</span>
-      <span class="ca">&lt;div</span> <span class="bq">class=</span><span class="bp">"navbar-header"</span><span class="ca">&gt;</span>
-        <span class="ca">&lt;button</span> <span class="bq">type=</span><span class="bp">"button"</span> <span class="bq">class=</span><span class="bp">"navbar-toggle collapsed"</span> <span class="bq">data-toggle=</span><span class="bp">"collapse"</span> <span class="bq">data-target=</span><span class="bp">"#navbar-collapse-com"</span><span class="ca">&gt;</span>
-          <span class="ca">&lt;span</span> <span class="bq">class=</span><span class="bp">"sr-only"</span><span class="ca">&gt;</span>Toggle navigation<span class="ca">&lt;/span&gt;</span>
-          <span class="ca">&lt;span</span> <span class="bq">class=</span><span class="bp">"icon-bar"</span><span class="ca">&gt;&lt;/span&gt;</span>
-          <span class="ca">&lt;span</span> <span class="bq">class=</span><span class="bp">"icon-bar"</span><span class="ca">&gt;&lt;/span&gt;</span>
-          <span class="ca">&lt;span</span> <span class="bq">class=</span><span class="bp">"icon-bar"</span><span class="ca">&gt;&lt;/span&gt;</span>
-        <span class="ca">&lt;/button&gt;</span>
-        <span class="ca">&lt;a</span> <span class="bq">class=</span><span class="bp">"navbar-brand"</span> <span class="bq">href=</span><span class="bp">"#"</span><span class="ca">&gt;</span>
-          <span class="ca">&lt;h4</span> <span class="bq">class=</span><span class="bp">"text-uppercase m-y-0"</span><span class="ca">&gt;</span>Project Name<span class="ca">&lt;/h4&gt;</span>
-        <span class="ca">&lt;/a&gt;</span>
-      <span class="ca">&lt;/div&gt;</span>
-      <span class="ca">&lt;div</span> <span class="bq">class=</span><span class="bp">"navbar-collapse collapse"</span> <span class="bq">id=</span><span class="bp">"navbar-collapse-com"</span><span class="ca">&gt;</span>
-        <span class="ca">&lt;ul</span> <span class="bq">class=</span><span class="bp">"nav navbar-nav navbar-right"</span><span class="ca">&gt;</span>
-          <span class="ca">&lt;li</span> <span class="bq">class=</span><span class="bp">"active"</span><span class="ca">&gt;&lt;a</span> <span class="bq">href=</span><span class="bp">"#"</span><span class="ca">&gt;</span>Home<span class="ca">&lt;/a&gt;&lt;/li&gt;</span>
-          <span class="ca">&lt;li&gt;&lt;a</span> <span class="bq">href=</span><span class="bp">"#about"</span><span class="ca">&gt;</span>About<span class="ca">&lt;/a&gt;&lt;/li&gt;</span>
-          <span class="ca">&lt;li&gt;&lt;a</span> <span class="bq">href=</span><span class="bp">"#contact"</span><span class="ca">&gt;</span>Contact<span class="ca">&lt;/a&gt;&lt;/li&gt;</span>
-        <span class="ca">&lt;/ul&gt;</span>
-      <span class="ca">&lt;/div&gt;</span>
-    <span class="ca">&lt;/div&gt;</span>
-  <span class="ca">&lt;/nav&gt;</span>
-<span class="ca">&lt;/div&gt;</span></code></pre></div>
-
-<h2 id="nav-bordered">Nav bordered</h2>
-
-<p>The bordered nav builds on Bootstrap’s <code class="arn">.nav</code> base styles with a new, bolder variation to nav links.</p>
-
-<div class="db" data-example-id="">
-<ul class="nav anr">
-  <li class="active">
-    <a href="http://bootstrap-themes.github.io/marketing/docs/index.html#">Bold</a>
-  </li>
-  <li>
-    <a href="http://bootstrap-themes.github.io/marketing/docs/index.html#">Minimal</a>
-  </li>
-  <li>
-    <a href="http://bootstrap-themes.github.io/marketing/docs/index.html#">Components</a>
-  </li>
-  <li>
-    <a href="http://bootstrap-themes.github.io/marketing/docs/index.html#">Docs</a>
-  </li>
-</ul>
-</div>
-<div class="da"><pre><code class="aro" data-lang="html"><span class="ca">&lt;ul</span> <span class="bq">class=</span><span class="bp">"nav nav-bordered"</span><span class="ca">&gt;</span>
-  <span class="ca">&lt;li</span> <span class="bq">class=</span><span class="bp">"active"</span><span class="ca">&gt;</span>
-    <span class="ca">&lt;a</span> <span class="bq">href=</span><span class="bp">"#"</span><span class="ca">&gt;</span>Bold<span class="ca">&lt;/a&gt;</span>
-  <span class="ca">&lt;/li&gt;</span>
-  <span class="ca">&lt;li&gt;</span>
-    <span class="ca">&lt;a</span> <span class="bq">href=</span><span class="bp">"#"</span><span class="ca">&gt;</span>Minimal<span class="ca">&lt;/a&gt;</span>
-  <span class="ca">&lt;/li&gt;</span>
-  <span class="ca">&lt;li&gt;</span>
-    <span class="ca">&lt;a</span> <span class="bq">href=</span><span class="bp">"#"</span><span class="ca">&gt;</span>Components<span class="ca">&lt;/a&gt;</span>
-  <span class="ca">&lt;/li&gt;</span>
-  <span class="ca">&lt;li&gt;</span>
-    <span class="ca">&lt;a</span> <span class="bq">href=</span><span class="bp">"#"</span><span class="ca">&gt;</span>Docs<span class="ca">&lt;/a&gt;</span>
-  <span class="ca">&lt;/li&gt;</span>
-<span class="ca">&lt;/ul&gt;</span></code></pre></div>
-
-<p>Bordered nav links can also be stacked:</p>
-
-<div class="db" data-example-id="">
-<ul class="nav anr nav-stacked">
-  <li class="tq">Examples</li>
-  <li class="active">
-    <a href="http://bootstrap-themes.github.io/marketing/docs/index.html#">Bold</a>
-  </li>
-  <li><a href="http://bootstrap-themes.github.io/marketing/docs/index.html#">Minimal</a></li>
-
-  <li class="nav-divider"></li>
-  <li class="tq">Sections</li>
-
-  <li><a href="http://bootstrap-themes.github.io/marketing/docs/index.html#">Grid</a></li>
-  <li><a href="http://bootstrap-themes.github.io/marketing/docs/index.html#">Pricing</a></li>
-  <li><a href="http://bootstrap-themes.github.io/marketing/docs/index.html#">About</a></li>
-</ul>
-</div>
-<div class="da"><pre><code class="aro" data-lang="html"><span class="ca">&lt;ul</span> <span class="bq">class=</span><span class="bp">"nav nav-bordered nav-stacked"</span><span class="ca">&gt;</span>
-  <span class="ca">&lt;li</span> <span class="bq">class=</span><span class="bp">"nav-header"</span><span class="ca">&gt;</span>Examples<span class="ca">&lt;/li&gt;</span>
-  <span class="ca">&lt;li</span> <span class="bq">class=</span><span class="bp">"active"</span><span class="ca">&gt;</span>
-    <span class="ca">&lt;a</span> <span class="bq">href=</span><span class="bp">"#"</span><span class="ca">&gt;</span>Bold<span class="ca">&lt;/a&gt;</span>
-  <span class="ca">&lt;/li&gt;</span>
-  <span class="ca">&lt;li&gt;&lt;a</span> <span class="bq">href=</span><span class="bp">"#"</span><span class="ca">&gt;</span>Minimal<span class="ca">&lt;/a&gt;&lt;/li&gt;</span>
-
-  <span class="ca">&lt;li</span> <span class="bq">class=</span><span class="bp">"nav-divider"</span><span class="ca">&gt;&lt;/li&gt;</span>
-  <span class="ca">&lt;li</span> <span class="bq">class=</span><span class="bp">"nav-header"</span><span class="ca">&gt;</span>Sections<span class="ca">&lt;/li&gt;</span>
-
-  <span class="ca">&lt;li&gt;&lt;a</span> <span class="bq">href=</span><span class="bp">"#"</span><span class="ca">&gt;</span>Grid<span class="ca">&lt;/a&gt;&lt;/li&gt;</span>
-  <span class="ca">&lt;li&gt;&lt;a</span> <span class="bq">href=</span><span class="bp">"#"</span><span class="ca">&gt;</span>Pricing<span class="ca">&lt;/a&gt;&lt;/li&gt;</span>
-  <span class="ca">&lt;li&gt;&lt;a</span> <span class="bq">href=</span><span class="bp">"#"</span><span class="ca">&gt;</span>About<span class="ca">&lt;/a&gt;&lt;/li&gt;</span>
-<span class="ca">&lt;/ul&gt;</span></code></pre></div>
-
-<h2 id="carousel-light">Carousel Light</h2>
-
-<p>The light carousel is a modified version of Bootstrap’s default carousel, using lighter styles on all carousel controls.</p>
-
-<div class="db" data-example-id="">
-<div id="carousel-example-generic-2" class="carousel dr slide" data-ride="carousel">
-  <ol class="carousel-indicators">
-    <li data-target="#carousel-example-generic-2" data-slide-to="0" class=""></li>
-    <li data-target="#carousel-example-generic-2" data-slide-to="1" class=""></li>
-    <li data-target="#carousel-example-generic-2" data-slide-to="2" class="active"></li>
-  </ol>
-  <div class="ea" role="listbox">
-    <div class="item">
-      <img src="./images/333" alt="First slide">
-    </div>
-    <div class="item">
-      <img src="./images/333" alt="Second slide">
-    </div>
-    <div class="item active">
-      <img src="./images/333" alt="Third slide">
-    </div>
-  </div>
-  <a class="left ua" href="http://bootstrap-themes.github.io/marketing/docs/index.html#carousel-example-generic-2" role="button" data-slide="prev">
-    <span class="a vk" aria-hidden="true"></span>
-    <span class="ee">Previous</span>
-  </a>
-  <a class="right ua" href="http://bootstrap-themes.github.io/marketing/docs/index.html#carousel-example-generic-2" role="button" data-slide="next">
-    <span class="a vl" aria-hidden="true"></span>
-    <span class="ee">Next</span>
-  </a>
-</div>
-</div>
-<div class="da"><pre><code class="aro" data-lang="html"><span class="ca">&lt;div</span> <span class="bq">id=</span><span class="bp">"carousel-example-generic-2"</span> <span class="bq">class=</span><span class="bp">"carousel carousel-light slide"</span> <span class="bq">data-ride=</span><span class="bp">"carousel"</span><span class="ca">&gt;</span>
-  <span class="ca">&lt;ol</span> <span class="bq">class=</span><span class="bp">"carousel-indicators"</span><span class="ca">&gt;</span>
-    <span class="ca">&lt;li</span> <span class="bq">data-target=</span><span class="bp">"#carousel-example-generic-2"</span> <span class="bq">data-slide-to=</span><span class="bp">"0"</span> <span class="bq">class=</span><span class="bp">"active"</span><span class="ca">&gt;&lt;/li&gt;</span>
-    <span class="ca">&lt;li</span> <span class="bq">data-target=</span><span class="bp">"#carousel-example-generic-2"</span> <span class="bq">data-slide-to=</span><span class="bp">"1"</span><span class="ca">&gt;&lt;/li&gt;</span>
-    <span class="ca">&lt;li</span> <span class="bq">data-target=</span><span class="bp">"#carousel-example-generic-2"</span> <span class="bq">data-slide-to=</span><span class="bp">"2"</span><span class="ca">&gt;&lt;/li&gt;</span>
-  <span class="ca">&lt;/ol&gt;</span>
-  <span class="ca">&lt;div</span> <span class="bq">class=</span><span class="bp">"carousel-inner"</span> <span class="bq">role=</span><span class="bp">"listbox"</span><span class="ca">&gt;</span>
-    <span class="ca">&lt;div</span> <span class="bq">class=</span><span class="bp">"item active"</span><span class="ca">&gt;</span>
-      <span class="ca">&lt;img</span> <span class="bq">src=</span><span class="bp">"http://placehold.it/1140x500/fff/333"</span> <span class="bq">alt=</span><span class="bp">"First slide"</span><span class="ca">&gt;</span>
-    <span class="ca">&lt;/div&gt;</span>
-    <span class="ca">&lt;div</span> <span class="bq">class=</span><span class="bp">"item"</span><span class="ca">&gt;</span>
-      <span class="ca">&lt;img</span> <span class="bq">src=</span><span class="bp">"http://placehold.it/1140x500/fff/333"</span> <span class="bq">alt=</span><span class="bp">"Second slide"</span><span class="ca">&gt;</span>
-    <span class="ca">&lt;/div&gt;</span>
-    <span class="ca">&lt;div</span> <span class="bq">class=</span><span class="bp">"item"</span><span class="ca">&gt;</span>
-      <span class="ca">&lt;img</span> <span class="bq">src=</span><span class="bp">"http://placehold.it/1140x500/fff/333"</span> <span class="bq">alt=</span><span class="bp">"Third slide"</span><span class="ca">&gt;</span>
-    <span class="ca">&lt;/div&gt;</span>
-  <span class="ca">&lt;/div&gt;</span>
-  <span class="ca">&lt;a</span> <span class="bq">class=</span><span class="bp">"left carousel-control"</span> <span class="bq">href=</span><span class="bp">"#carousel-example-generic-2"</span> <span class="bq">role=</span><span class="bp">"button"</span> <span class="bq">data-slide=</span><span class="bp">"prev"</span><span class="ca">&gt;</span>
-    <span class="ca">&lt;span</span> <span class="bq">class=</span><span class="bp">"icon icon-chevron-thin-left"</span> <span class="bq">aria-hidden=</span><span class="bp">"true"</span><span class="ca">&gt;&lt;/span&gt;</span>
-    <span class="ca">&lt;span</span> <span class="bq">class=</span><span class="bp">"sr-only"</span><span class="ca">&gt;</span>Previous<span class="ca">&lt;/span&gt;</span>
-  <span class="ca">&lt;/a&gt;</span>
-  <span class="ca">&lt;a</span> <span class="bq">class=</span><span class="bp">"right carousel-control"</span> <span class="bq">href=</span><span class="bp">"#carousel-example-generic-2"</span> <span class="bq">role=</span><span class="bp">"button"</span> <span class="bq">data-slide=</span><span class="bp">"next"</span><span class="ca">&gt;</span>
-    <span class="ca">&lt;span</span> <span class="bq">class=</span><span class="bp">"icon icon-chevron-thin-right"</span> <span class="bq">aria-hidden=</span><span class="bp">"true"</span><span class="ca">&gt;&lt;/span&gt;</span>
-    <span class="ca">&lt;span</span> <span class="bq">class=</span><span class="bp">"sr-only"</span><span class="ca">&gt;</span>Next<span class="ca">&lt;/span&gt;</span>
-  <span class="ca">&lt;/a&gt;</span>
-<span class="ca">&lt;/div&gt;</span></code></pre></div>
-
-<h2 id="callouts">Callouts</h2>
-
-<p>Use callouts to quickly draw attention to specific actions with an extended explanation.</p>
-
-<div class="db" data-example-id="">
-<div class="aps">
-  <div class="apt">
-    <strong>Explore this thing.</strong> Learn more about this thing.
-  </div>
-
-  <div class="apu">
-    <button class="dl pa ov">Get started</button>
-  </div>
-</div>
+<a class="docs-top" style="display: none" href="http://bootstrap-themes.github.io/marketing/docs/index.html#">Back to top</a>
 </div>
-<div class="da"><pre><code class="aro" data-lang="html"><span class="ca">&lt;div</span> <span class="bq">class=</span><span class="bp">"callout"</span><span class="ca">&gt;</span>
-  <span class="ca">&lt;div</span> <span class="bq">class=</span><span class="bp">"callout-content"</span><span class="ca">&gt;</span>
-    <span class="ca">&lt;strong&gt;</span>Explore this thing.<span class="ca">&lt;/strong&gt;</span> Learn more about this thing.
-  <span class="ca">&lt;/div&gt;</span>
-
-  <span class="ca">&lt;div</span> <span class="bq">class=</span><span class="bp">"callout-secondary"</span><span class="ca">&gt;</span>
-    <span class="ca">&lt;button</span> <span class="bq">class=</span><span class="bp">"btn btn-sm btn-info"</span><span class="ca">&gt;</span>Get started<span class="ca">&lt;/button&gt;</span>
-  <span class="ca">&lt;/div&gt;</span>
-<span class="ca">&lt;/div&gt;</span></code></pre></div>
-
-<h2 id="featured-lists">Featured lists</h2>
-
-<p>Featured lists are common marketing components used for associating visual icons with a list of topics.</p>
-
-<div class="db" data-example-id="">
-<div class="fo">
-  <div class="c">
-    <div class="gk">
-      <ul class="do apx">
-        <li class="amf">
-          <div class="apw">
-            <span class="a aat"></span>
-          </div>
-
-          <h3>Save things</h3>
-          <p>
-            Use dropbox to save things in the "cloud" because throwing things away is stressful and this way you don't have to.
-          </p>
-        </li>
-
-        <li>
-          <div class="apw">
-            <span class="a ach"></span>
-          </div>
-          <h3>Fork things</h3>
-          <p>
-            Use github to share things on the internet then change them. Make things better. Free software? But not as in beer.
-          </p>
-        </li>
-      </ul>
-    </div>
-    <div class="gk">
-      <ul class="do apx">
-        <li class="amf">
-          <div class="apw">
-            <span class="a aew"></span>
-          </div>
-
-          <h3>Write things</h3>
-          <p>
-            Use Medium to write things down and sound smart. Also when you write, your writings looks pretty and that is cool.
-          </p>
-        </li>
-
-        <li>
-          <div class="apw">
-            <span class="a akb"></span>
-          </div>
-          <h3>Tweet things</h3>
-          <p>
-            Use twitter to share 140 characters worth of anything you want. Pictures, videos, etc. It doesn't really matter.
-          </p>
-        </li>
-      </ul>
-    </div>
-  </div>
-</div>
-</div>
-<div class="da"><pre><code class="aro" data-lang="html"><span class="ca">&lt;div</span> <span class="bq">class=</span><span class="bp">"container-fluid"</span><span class="ca">&gt;</span>
-  <span class="ca">&lt;div</span> <span class="bq">class=</span><span class="bp">"row"</span><span class="ca">&gt;</span>
-    <span class="ca">&lt;div</span> <span class="bq">class=</span><span class="bp">"col-sm-6"</span><span class="ca">&gt;</span>
-      <span class="ca">&lt;ul</span> <span class="bq">class=</span><span class="bp">"featured-list featured-list-bordered"</span><span class="ca">&gt;</span>
-        <span class="ca">&lt;li</span> <span class="bq">class=</span><span class="bp">"m-b-md"</span><span class="ca">&gt;</span>
-          <span class="ca">&lt;div</span> <span class="bq">class=</span><span class="bp">"featured-list-icon"</span><span class="ca">&gt;</span>
-            <span class="ca">&lt;span</span> <span class="bq">class=</span><span class="bp">"icon icon-dropbox"</span><span class="ca">&gt;&lt;/span&gt;</span>
-          <span class="ca">&lt;/div&gt;</span>
-
-          <span class="ca">&lt;h3&gt;</span>Save things<span class="ca">&lt;/h3&gt;</span>
-          <span class="ca">&lt;p&gt;</span>
-            Use dropbox to save things in the "cloud" because throwing things away is stressful and this way you don't have to.
-          <span class="ca">&lt;/p&gt;</span>
-        <span class="ca">&lt;/li&gt;</span>
-
-        <span class="ca">&lt;li&gt;</span>
-          <span class="ca">&lt;div</span> <span class="bq">class=</span><span class="bp">"featured-list-icon"</span><span class="ca">&gt;</span>
-            <span class="ca">&lt;span</span> <span class="bq">class=</span><span class="bp">"icon icon-github"</span><span class="ca">&gt;&lt;/span&gt;</span>
-          <span class="ca">&lt;/div&gt;</span>
-          <span class="ca">&lt;h3&gt;</span>Fork things<span class="ca">&lt;/h3&gt;</span>
-          <span class="ca">&lt;p&gt;</span>
-            Use github to share things on the internet then change them. Make things better. Free software? But not as in beer.
-          <span class="ca">&lt;/p&gt;</span>
-        <span class="ca">&lt;/li&gt;</span>
-      <span class="ca">&lt;/ul&gt;</span>
-    <span class="ca">&lt;/div&gt;</span>
-    <span class="ca">&lt;div</span> <span class="bq">class=</span><span class="bp">"col-sm-6"</span><span class="ca">&gt;</span>
-      <span class="ca">&lt;ul</span> <span class="bq">class=</span><span class="bp">"featured-list featured-list-bordered"</span><span class="ca">&gt;</span>
-        <span class="ca">&lt;li</span> <span class="bq">class=</span><span class="bp">"m-b-md"</span><span class="ca">&gt;</span>
-          <span class="ca">&lt;div</span> <span class="bq">class=</span><span class="bp">"featured-list-icon"</span><span class="ca">&gt;</span>
-            <span class="ca">&lt;span</span> <span class="bq">class=</span><span class="bp">"icon icon-medium"</span><span class="ca">&gt;&lt;/span&gt;</span>
-          <span class="ca">&lt;/div&gt;</span>
-
-          <span class="ca">&lt;h3&gt;</span>Write things<span class="ca">&lt;/h3&gt;</span>
-          <span class="ca">&lt;p&gt;</span>
-            Use Medium to write things down and sound smart. Also when you write, your writings looks pretty and that is cool.
-          <span class="ca">&lt;/p&gt;</span>
-        <span class="ca">&lt;/li&gt;</span>
-
-        <span class="ca">&lt;li&gt;</span>
-          <span class="ca">&lt;div</span> <span class="bq">class=</span><span class="bp">"featured-list-icon"</span><span class="ca">&gt;</span>
-            <span class="ca">&lt;span</span> <span class="bq">class=</span><span class="bp">"icon icon-twitter"</span><span class="ca">&gt;&lt;/span&gt;</span>
-          <span class="ca">&lt;/div&gt;</span>
-          <span class="ca">&lt;h3&gt;</span>Tweet things<span class="ca">&lt;/h3&gt;</span>
-          <span class="ca">&lt;p&gt;</span>
-            Use twitter to share 140 characters worth of anything you want. Pictures, videos, etc. It doesn't really matter.
-          <span class="ca">&lt;/p&gt;</span>
-        <span class="ca">&lt;/li&gt;</span>
-      <span class="ca">&lt;/ul&gt;</span>
-    <span class="ca">&lt;/div&gt;</span>
-  <span class="ca">&lt;/div&gt;</span>
-<span class="ca">&lt;/div&gt;</span></code></pre></div>
-
-<h2 id="pull-quotes">Pull Quotes</h2>
-
-<p>Transform normal blockquotes into stylized pull quotes.</p>
-
-<div class="db" data-example-id="">
-<blockquote class="aqr">
-  <img class="ed" src="./images/avatar-mdo.png">
-  <p>
-    “They need to stop sleeping on me and get some understanding about this here game I spit!”
-  </p>
-  <cite>Mark Otto, Huge Nerd</cite>
-</blockquote>
-</div>
-<div class="da"><pre><code class="aro" data-lang="html"><span class="ca">&lt;blockquote</span> <span class="bq">class=</span><span class="bp">"pull-quote"</span><span class="ca">&gt;</span>
-  <span class="ca">&lt;img</span> <span class="bq">class=</span><span class="bp">"img-circle"</span> <span class="bq">src=</span><span class="bp">"../assets/img/avatar-mdo.png"</span><span class="ca">&gt;</span>
-  <span class="ca">&lt;p&gt;</span>
-    “They need to stop sleeping on me and get some understanding about this here game I spit!”
-  <span class="ca">&lt;/p&gt;</span>
-  <span class="ca">&lt;cite&gt;</span>Mark Otto, Huge Nerd<span class="ca">&lt;/cite&gt;</span>
-<span class="ca">&lt;/blockquote&gt;</span></code></pre></div>
-
-<h2 id="icon-list">Icon list</h2>
-
-<p>Use an icon list to place custom icons next to a list of items.</p>
-
-<div class="db" data-example-id="">
-<ul class="aqf">
-  <li>
-    <span class="a xy"></span>
-    Single
-  </li>
-  <li>
-    <span class="a xy"></span>
-    Taken
-  </li>
-  <li class="active">
-    <span class="a xy"></span>
-    Pokémon Master
-  </li>
-</ul>
-</div>
-<div class="da"><pre><code class="aro" data-lang="html"><span class="ca">&lt;ul</span> <span class="bq">class=</span><span class="bp">"iconlist"</span><span class="ca">&gt;</span>
-  <span class="ca">&lt;li&gt;</span>
-    <span class="ca">&lt;span</span> <span class="bq">class=</span><span class="bp">"icon icon-check"</span><span class="ca">&gt;&lt;/span&gt;</span>
-    Single
-  <span class="ca">&lt;/li&gt;</span>
-  <span class="ca">&lt;li&gt;</span>
-    <span class="ca">&lt;span</span> <span class="bq">class=</span><span class="bp">"icon icon-check"</span><span class="ca">&gt;&lt;/span&gt;</span>
-    Taken
-  <span class="ca">&lt;/li&gt;</span>
-  <span class="ca">&lt;li</span> <span class="bq">class=</span><span class="bp">"active"</span><span class="ca">&gt;</span>
-    <span class="ca">&lt;span</span> <span class="bq">class=</span><span class="bp">"icon icon-check"</span><span class="ca">&gt;&lt;/span&gt;</span>
-    Pokémon Master
-  <span class="ca">&lt;/li&gt;</span>
-<span class="ca">&lt;/ul&gt;</span></code></pre></div>
-
-<h2 id="panel-bold">Panel bold</h2>
-
-<p>Bold variants for Bootstrap’s panel component, featuring vibrant solid color blocks.</p>
-
-<div class="db" data-example-id="">
-<div class="c">
-  <div class="gl">
-    <div class="sb dq sn">
-      <div class="sc anm">
-        <h3 class="alu">Rhianna Loud</h3>
-        <p>Released on Dropp 6 weeks early</p>
-        <hr>
-        <p>Rihanna was the first artist to reach out to Dropp to coordinate her leak. We knew it was going to be the largest unofficial album drop in history. We doubled server capacity and made a shit ton of coffee.</p>
-      </div>
-    </div>
-  </div>
-  <div class="gl">
-    <div class="sb dq sl">
-      <div class="sc anm">
-        <h3 class="alu">Magna Carta</h3>
-        <p>Released on Dropp 8 weeks early</p>
-        <hr>
-        <p>It's the twelfth studio album by American rapper Jay Z. It was made available for free digital download for Samsung customers via the Jay Z Magna Carta app on July 4, 2013 and Dropp just 3 days later.</p>
-      </div>
-    </div>
-  </div>
-</div>
-</div>
-<div class="da"><pre><code class="aro" data-lang="html"><span class="ca">&lt;div</span> <span class="bq">class=</span><span class="bp">"row"</span><span class="ca">&gt;</span>
-  <span class="ca">&lt;div</span> <span class="bq">class=</span><span class="bp">"col-md-6"</span><span class="ca">&gt;</span>
-    <span class="ca">&lt;div</span> <span class="bq">class=</span><span class="bp">"panel panel-bold panel-danger"</span><span class="ca">&gt;</span>
-      <span class="ca">&lt;div</span> <span class="bq">class=</span><span class="bp">"panel-body p-b-lg"</span><span class="ca">&gt;</span>
-        <span class="ca">&lt;h3</span> <span class="bq">class=</span><span class="bp">"m-y-0"</span><span class="ca">&gt;</span>Rhianna Loud<span class="ca">&lt;/h3&gt;</span>
-        <span class="ca">&lt;p&gt;</span>Released on Dropp 6 weeks early<span class="ca">&lt;/p&gt;</span>
-        <span class="ca">&lt;hr&gt;</span>
-        <span class="ca">&lt;p&gt;</span>Rihanna was the first artist to reach out to Dropp to coordinate her leak. We knew it was going to be the largest unofficial album drop in history. We doubled server capacity and made a shit ton of coffee.<span class="ca">&lt;/p&gt;</span>
-      <span class="ca">&lt;/div&gt;</span>
-    <span class="ca">&lt;/div&gt;</span>
-  <span class="ca">&lt;/div&gt;</span>
-  <span class="ca">&lt;div</span> <span class="bq">class=</span><span class="bp">"col-md-6"</span><span class="ca">&gt;</span>
-    <span class="ca">&lt;div</span> <span class="bq">class=</span><span class="bp">"panel panel-bold panel-info"</span><span class="ca">&gt;</span>
-      <span class="ca">&lt;div</span> <span class="bq">class=</span><span class="bp">"panel-body p-b-lg"</span><span class="ca">&gt;</span>
-        <span class="ca">&lt;h3</span> <span class="bq">class=</span><span class="bp">"m-y-0"</span><span class="ca">&gt;</span>Magna Carta<span class="ca">&lt;/h3&gt;</span>
-        <span class="ca">&lt;p&gt;</span>Released on Dropp 8 weeks early<span class="ca">&lt;/p&gt;</span>
-        <span class="ca">&lt;hr&gt;</span>
-        <span class="ca">&lt;p&gt;</span>It's the twelfth studio album by American rapper Jay Z. It was made available for free digital download for Samsung customers via the Jay Z Magna Carta app on July 4, 2013 and Dropp just 3 days later.<span class="ca">&lt;/p&gt;</span>
-      <span class="ca">&lt;/div&gt;</span>
-    <span class="ca">&lt;/div&gt;</span>
-  <span class="ca">&lt;/div&gt;</span>
-<span class="ca">&lt;/div&gt;</span></code></pre></div>
-
-<h2 id="custom-form-controls">Custom form controls</h2>
-
-<p>Custom select menus can be easily created for browsers that support the styles.</p>
-
-<div class="db" data-example-id="">
-<select class="aoa">
-  <option>Default</option>
-  <option>First option</option>
-  <option>Another option</option>
-  <option>Alternative</option>
-  <option>Last one</option>
-</select>
-
-<select class="aoa aob">
-  <option>Default</option>
-  <option>First option</option>
-  <option>Another option</option>
-  <option>Alternative</option>
-  <option>Last one</option>
-</select>
-</div>
-<div class="da"><pre><code class="aro" data-lang="html"><span class="ca">&lt;select</span> <span class="bq">class=</span><span class="bp">"custom-select"</span><span class="ca">&gt;</span>
-  <span class="ca">&lt;option&gt;</span>Default<span class="ca">&lt;/option&gt;</span>
-  <span class="ca">&lt;option&gt;</span>First option<span class="ca">&lt;/option&gt;</span>
-  <span class="ca">&lt;option&gt;</span>Another option<span class="ca">&lt;/option&gt;</span>
-  <span class="ca">&lt;option&gt;</span>Alternative<span class="ca">&lt;/option&gt;</span>
-  <span class="ca">&lt;option&gt;</span>Last one<span class="ca">&lt;/option&gt;</span>
-<span class="ca">&lt;/select&gt;</span>
-
-<span class="ca">&lt;select</span> <span class="bq">class=</span><span class="bp">"custom-select custom-select-sm"</span><span class="ca">&gt;</span>
-  <span class="ca">&lt;option&gt;</span>Default<span class="ca">&lt;/option&gt;</span>
-  <span class="ca">&lt;option&gt;</span>First option<span class="ca">&lt;/option&gt;</span>
-  <span class="ca">&lt;option&gt;</span>Another option<span class="ca">&lt;/option&gt;</span>
-  <span class="ca">&lt;option&gt;</span>Alternative<span class="ca">&lt;/option&gt;</span>
-  <span class="ca">&lt;option&gt;</span>Last one<span class="ca">&lt;/option&gt;</span>
-<span class="ca">&lt;/select&gt;</span></code></pre></div>
-
-<p>Custom selects support the <code class="arn">disabled</code> attribute as well.</p>
-
-<div class="db" data-example-id="">
-<select class="aoa" disabled="">
-  <option>Default</option>
-  <option>First option</option>
-  <option>Another option</option>
-  <option>Alternative</option>
-  <option>Last one</option>
-</select>
-
-<select class="aoa aob" disabled="">
-  <option>Default</option>
-  <option>First option</option>
-  <option>Another option</option>
-  <option>Alternative</option>
-  <option>Last one</option>
-</select>
-</div>
-<div class="da"><pre><code class="aro" data-lang="html"><span class="ca">&lt;select</span> <span class="bq">class=</span><span class="bp">"custom-select"</span> <span class="bq">disabled</span><span class="ca">&gt;</span>
-  <span class="ca">&lt;option&gt;</span>Default<span class="ca">&lt;/option&gt;</span>
-  <span class="ca">&lt;option&gt;</span>First option<span class="ca">&lt;/option&gt;</span>
-  <span class="ca">&lt;option&gt;</span>Another option<span class="ca">&lt;/option&gt;</span>
-  <span class="ca">&lt;option&gt;</span>Alternative<span class="ca">&lt;/option&gt;</span>
-  <span class="ca">&lt;option&gt;</span>Last one<span class="ca">&lt;/option&gt;</span>
-<span class="ca">&lt;/select&gt;</span>
-
-<span class="ca">&lt;select</span> <span class="bq">class=</span><span class="bp">"custom-select custom-select-sm"</span> <span class="bq">disabled</span><span class="ca">&gt;</span>
-  <span class="ca">&lt;option&gt;</span>Default<span class="ca">&lt;/option&gt;</span>
-  <span class="ca">&lt;option&gt;</span>First option<span class="ca">&lt;/option&gt;</span>
-  <span class="ca">&lt;option&gt;</span>Another option<span class="ca">&lt;/option&gt;</span>
-  <span class="ca">&lt;option&gt;</span>Alternative<span class="ca">&lt;/option&gt;</span>
-  <span class="ca">&lt;option&gt;</span>Last one<span class="ca">&lt;/option&gt;</span>
-<span class="ca">&lt;/select&gt;</span></code></pre></div>
-
-<p>Custom checkboxes and radios are built on the default Bootstrap checkboxes and radios. Add a couple extra classes and the indicator and you should be all set.</p>
-
-<div class="db" data-example-id="">
-<div class="nz aoc aog">
-  <label>
-    <input type="checkbox">
-    <span class="aod"></span>
-    Check this custom checkbox
-  </label>
-</div>
-<div class="nz aoc aog">
-  <label>
-    <input type="checkbox" checked="">
-    <span class="aod"></span>
-    This custom checkbox is checked
-  </label>
-</div>
-<div class="nz aoc aog">
-  <label>
-    <input type="checkbox" disabled="">
-    <span class="aod"></span>
-    This custom checkbox is disabled
-  </label>
-</div>
-</div>
-<div class="da"><pre><code class="aro" data-lang="html"><span class="ca">&lt;div</span> <span class="bq">class=</span><span class="bp">"checkbox custom-control custom-checkbox"</span><span class="ca">&gt;</span>
-  <span class="ca">&lt;label&gt;</span>
-    <span class="ca">&lt;input</span> <span class="bq">type=</span><span class="bp">"checkbox"</span><span class="ca">&gt;</span>
-    <span class="ca">&lt;span</span> <span class="bq">class=</span><span class="bp">"custom-control-indicator"</span><span class="ca">&gt;&lt;/span&gt;</span>
-    Check this custom checkbox
-  <span class="ca">&lt;/label&gt;</span>
-<span class="ca">&lt;/div&gt;</span>
-<span class="ca">&lt;div</span> <span class="bq">class=</span><span class="bp">"checkbox custom-control custom-checkbox"</span><span class="ca">&gt;</span>
-  <span class="ca">&lt;label&gt;</span>
-    <span class="ca">&lt;input</span> <span class="bq">type=</span><span class="bp">"checkbox"</span> <span class="bq">checked</span><span class="ca">&gt;</span>
-    <span class="ca">&lt;span</span> <span class="bq">class=</span><span class="bp">"custom-control-indicator"</span><span class="ca">&gt;&lt;/span&gt;</span>
-    This custom checkbox is checked
-  <span class="ca">&lt;/label&gt;</span>
-<span class="ca">&lt;/div&gt;</span>
-<span class="ca">&lt;div</span> <span class="bq">class=</span><span class="bp">"checkbox custom-control custom-checkbox"</span><span class="ca">&gt;</span>
-  <span class="ca">&lt;label&gt;</span>
-    <span class="ca">&lt;input</span> <span class="bq">type=</span><span class="bp">"checkbox"</span> <span class="bq">disabled</span><span class="ca">&gt;</span>
-    <span class="ca">&lt;span</span> <span class="bq">class=</span><span class="bp">"custom-control-indicator"</span><span class="ca">&gt;&lt;/span&gt;</span>
-    This custom checkbox is disabled
-  <span class="ca">&lt;/label&gt;</span>
-<span class="ca">&lt;/div&gt;</span></code></pre></div>
-
-<p>They can be done inline, too.</p>
-
-<div class="db" data-example-id="">
-<div class="ob aoc aog">
-  <label>
-    <input type="checkbox">
-    <span class="aod"></span>
-    Check this custom checkbox
-  </label>
-</div>
-<div class="ob aoc aog">
-  <label>
-    <input type="checkbox" checked="">
-    <span class="aod"></span>
-    This custom checkbox is checked
-  </label>
-</div>
-</div>
-<div class="da"><pre><code class="aro" data-lang="html"><span class="ca">&lt;div</span> <span class="bq">class=</span><span class="bp">"checkbox-inline custom-control custom-checkbox"</span><span class="ca">&gt;</span>
-  <span class="ca">&lt;label&gt;</span>
-    <span class="ca">&lt;input</span> <span class="bq">type=</span><span class="bp">"checkbox"</span><span class="ca">&gt;</span>
-    <span class="ca">&lt;span</span> <span class="bq">class=</span><span class="bp">"custom-control-indicator"</span><span class="ca">&gt;&lt;/span&gt;</span>
-    Check this custom checkbox
-  <span class="ca">&lt;/label&gt;</span>
-<span class="ca">&lt;/div&gt;</span>
-<span class="ca">&lt;div</span> <span class="bq">class=</span><span class="bp">"checkbox-inline custom-control custom-checkbox"</span><span class="ca">&gt;</span>
-  <span class="ca">&lt;label&gt;</span>
-    <span class="ca">&lt;input</span> <span class="bq">type=</span><span class="bp">"checkbox"</span> <span class="bq">checked</span><span class="ca">&gt;</span>
-    <span class="ca">&lt;span</span> <span class="bq">class=</span><span class="bp">"custom-control-indicator"</span><span class="ca">&gt;&lt;/span&gt;</span>
-    This custom checkbox is checked
-  <span class="ca">&lt;/label&gt;</span>
-<span class="ca">&lt;/div&gt;</span></code></pre></div>
-
-<p>Same goes with radio inputs.</p>
-
-<div class="db" data-example-id="">
-<div class="ny aoc aoh">
-  <label>
-    <input type="radio" id="radio1" name="radio">
-    <span class="aod"></span>
-    Toggle this custom radio
-  </label>
-</div>
-<div class="ny aoc aoh">
-  <label>
-    <input type="radio" id="radio2" name="radio">
-    <span class="aod"></span>
-    Or toggle this other custom radio
-  </label>
-</div>
-</div>
-<div class="da"><pre><code class="aro" data-lang="html"><span class="ca">&lt;div</span> <span class="bq">class=</span><span class="bp">"radio custom-control custom-radio"</span><span class="ca">&gt;</span>
-  <span class="ca">&lt;label&gt;</span>
-    <span class="ca">&lt;input</span> <span class="bq">type=</span><span class="bp">"radio"</span> <span class="bq">id=</span><span class="bp">"radio1"</span> <span class="bq">name=</span><span class="bp">"radio"</span><span class="ca">&gt;</span>
-    <span class="ca">&lt;span</span> <span class="bq">class=</span><span class="bp">"custom-control-indicator"</span><span class="ca">&gt;&lt;/span&gt;</span>
-    Toggle this custom radio
-  <span class="ca">&lt;/label&gt;</span>
-<span class="ca">&lt;/div&gt;</span>
-<span class="ca">&lt;div</span> <span class="bq">class=</span><span class="bp">"radio custom-control custom-radio"</span><span class="ca">&gt;</span>
-  <span class="ca">&lt;label&gt;</span>
-    <span class="ca">&lt;input</span> <span class="bq">type=</span><span class="bp">"radio"</span> <span class="bq">id=</span><span class="bp">"radio2"</span> <span class="bq">name=</span><span class="bp">"radio"</span><span class="ca">&gt;</span>
-    <span class="ca">&lt;span</span> <span class="bq">class=</span><span class="bp">"custom-control-indicator"</span><span class="ca">&gt;&lt;/span&gt;</span>
-    Or toggle this other custom radio
-  <span class="ca">&lt;/label&gt;</span>
-<span class="ca">&lt;/div&gt;</span></code></pre></div>
-
-<p>And they can also be inline.</p>
-
-<div class="db" data-example-id="">
-<div class="oa aoc aoh">
-  <label>
-    <input type="radio" id="radio1" name="radio">
-    <span class="aod"></span>
-    Toggle this custom radio
-  </label>
-</div>
-<div class="oa aoc aoh">
-  <label>
-    <input type="radio" id="radio2" name="radio">
-    <span class="aod"></span>
-    Or toggle this other custom radio
-  </label>
-</div>
-</div>
-<div class="da"><pre><code class="aro" data-lang="html"><span class="ca">&lt;div</span> <span class="bq">class=</span><span class="bp">"radio-inline custom-control custom-radio"</span><span class="ca">&gt;</span>
-  <span class="ca">&lt;label&gt;</span>
-    <span class="ca">&lt;input</span> <span class="bq">type=</span><span class="bp">"radio"</span> <span class="bq">id=</span><span class="bp">"radio1"</span> <span class="bq">name=</span><span class="bp">"radio"</span><span class="ca">&gt;</span>
-    <span class="ca">&lt;span</span> <span class="bq">class=</span><span class="bp">"custom-control-indicator"</span><span class="ca">&gt;&lt;/span&gt;</span>
-    Toggle this custom radio
-  <span class="ca">&lt;/label&gt;</span>
-<span class="ca">&lt;/div&gt;</span>
-<span class="ca">&lt;div</span> <span class="bq">class=</span><span class="bp">"radio-inline custom-control custom-radio"</span><span class="ca">&gt;</span>
-  <span class="ca">&lt;label&gt;</span>
-    <span class="ca">&lt;input</span> <span class="bq">type=</span><span class="bp">"radio"</span> <span class="bq">id=</span><span class="bp">"radio2"</span> <span class="bq">name=</span><span class="bp">"radio"</span><span class="ca">&gt;</span>
-    <span class="ca">&lt;span</span> <span class="bq">class=</span><span class="bp">"custom-control-indicator"</span><span class="ca">&gt;&lt;/span&gt;</span>
-    Or toggle this other custom radio
-  <span class="ca">&lt;/label&gt;</span>
-<span class="ca">&lt;/div&gt;</span></code></pre></div>
-
-<h2 id="stat-cards">Stat cards</h2>
-
-<p>Use stat cards to easily display large numbers, great for any kind of simple metrics and dashboard content.</p>
-
-<div class="db" data-example-id="">
-<div class="ars anc">
-  <h3 class="aqg">12,938</h3>
-  <span class="aqh">Page views</span>
-</div>
-<div class="ars anc eq">
-  <h3 class="aqg">758</h3>
-  <span class="aqh">Downloads</span>
-</div>
-<div class="ars anc ep">
-  <h3 class="aqg">1,293</h3>
-  <span class="aqh">Sign-ups</span>
-</div>
-</div>
-<div class="da"><pre><code class="aro" data-lang="html"><span class="ca">&lt;div</span> <span class="bq">class=</span><span class="bp">"statcard p-a-md"</span><span class="ca">&gt;</span>
-  <span class="ca">&lt;h3</span> <span class="bq">class=</span><span class="bp">"statcard-number"</span><span class="ca">&gt;</span>12,938<span class="ca">&lt;/h3&gt;</span>
-  <span class="ca">&lt;span</span> <span class="bq">class=</span><span class="bp">"statcard-desc"</span><span class="ca">&gt;</span>Page views<span class="ca">&lt;/span&gt;</span>
-<span class="ca">&lt;/div&gt;</span>
-<span class="ca">&lt;div</span> <span class="bq">class=</span><span class="bp">"statcard p-a-md text-center"</span><span class="ca">&gt;</span>
-  <span class="ca">&lt;h3</span> <span class="bq">class=</span><span class="bp">"statcard-number"</span><span class="ca">&gt;</span>758<span class="ca">&lt;/h3&gt;</span>
-  <span class="ca">&lt;span</span> <span class="bq">class=</span><span class="bp">"statcard-desc"</span><span class="ca">&gt;</span>Downloads<span class="ca">&lt;/span&gt;</span>
-<span class="ca">&lt;/div&gt;</span>
-<span class="ca">&lt;div</span> <span class="bq">class=</span><span class="bp">"statcard p-a-md text-right"</span><span class="ca">&gt;</span>
-  <span class="ca">&lt;h3</span> <span class="bq">class=</span><span class="bp">"statcard-number"</span><span class="ca">&gt;</span>1,293<span class="ca">&lt;/h3&gt;</span>
-  <span class="ca">&lt;span</span> <span class="bq">class=</span><span class="bp">"statcard-desc"</span><span class="ca">&gt;</span>Sign-ups<span class="ca">&lt;/span&gt;</span>
-<span class="ca">&lt;/div&gt;</span></code></pre></div>
-
-<p>With optional carets:</p>
-
-<div class="db" data-example-id="">
-<div class="ars anc">
-  <h3 class="aqg">
-    12,938
-    <small class="aqi aqj">5%</small>
-  </h3>
-  <span class="aqh">Page views</span>
-</div>
-<div class="ars anc">
-  <h3 class="aqg">
-    758
-    <small class="aqi aqk">1.3%</small>
-  </h3>
-  <span class="aqh">Downloads</span>
-</div>
-</div>
-<div class="da"><pre><code class="aro" data-lang="html"><span class="ca">&lt;div</span> <span class="bq">class=</span><span class="bp">"statcard p-a-md"</span><span class="ca">&gt;</span>
-  <span class="ca">&lt;h3</span> <span class="bq">class=</span><span class="bp">"statcard-number"</span><span class="ca">&gt;</span>
-    12,938
-    <span class="ca">&lt;small</span> <span class="bq">class=</span><span class="bp">"delta-indicator delta-positive"</span><span class="ca">&gt;</span>5%<span class="ca">&lt;/small&gt;</span>
-  <span class="ca">&lt;/h3&gt;</span>
-  <span class="ca">&lt;span</span> <span class="bq">class=</span><span class="bp">"statcard-desc"</span><span class="ca">&gt;</span>Page views<span class="ca">&lt;/span&gt;</span>
-<span class="ca">&lt;/div&gt;</span>
-<span class="ca">&lt;div</span> <span class="bq">class=</span><span class="bp">"statcard p-a-md"</span><span class="ca">&gt;</span>
-  <span class="ca">&lt;h3</span> <span class="bq">class=</span><span class="bp">"statcard-number"</span><span class="ca">&gt;</span>
-    758
-    <span class="ca">&lt;small</span> <span class="bq">class=</span><span class="bp">"delta-indicator delta-negative"</span><span class="ca">&gt;</span>1.3%<span class="ca">&lt;/small&gt;</span>
-  <span class="ca">&lt;/h3&gt;</span>
-  <span class="ca">&lt;span</span> <span class="bq">class=</span><span class="bp">"statcard-desc"</span><span class="ca">&gt;</span>Downloads<span class="ca">&lt;/span&gt;</span>
-<span class="ca">&lt;/div&gt;</span></code></pre></div>
-
-<p>With background variations:</p>
-
-<div class="db" data-example-id="">
-<div class="ars aql anc ag">
-  <h3 class="aqg">
-    12,938
-    <small class="aqi aqj">5%</small>
-  </h3>
-  <span class="aqh">Page views</span>
-</div>
-<div class="ars aqm anc ag">
-  <h3 class="aqg">
-    758
-    <small class="aqi aqk">1.3%</small>
-  </h3>
-  <span class="aqh">Downloads</span>
-</div>
-<div class="ars aqn anc ag">
-  <h3 class="aqg">
-    758
-    <small class="aqi aqk">1.3%</small>
-  </h3>
-  <span class="aqh">Downloads</span>
-</div>
-<div class="ars aqp anc ag">
-  <h3 class="aqg">
-    1,293
-    <small class="aqi aqj">6.75%</small>
-  </h3>
-  <span class="aqh">Sign-ups</span>
-</div>
-<div class="ars aqo anc ag">
-  <h3 class="aqg">
-    1,293
-    <small class="aqi aqj">6.75%</small>
-  </h3>
-  <span class="aqh">Sign-ups</span>
-</div>
-</div>
-<div class="da"><pre><code class="aro" data-lang="html"><span class="ca">&lt;div</span> <span class="bq">class=</span><span class="bp">"statcard statcard-primary p-a-md m-b"</span><span class="ca">&gt;</span>
-  <span class="ca">&lt;h3</span> <span class="bq">class=</span><span class="bp">"statcard-number"</span><span class="ca">&gt;</span>
-    12,938
-    <span class="ca">&lt;small</span> <span class="bq">class=</span><span class="bp">"delta-indicator delta-positive"</span><span class="ca">&gt;</span>5%<span class="ca">&lt;/small&gt;</span>
-  <span class="ca">&lt;/h3&gt;</span>
-  <span class="ca">&lt;span</span> <span class="bq">class=</span><span class="bp">"statcard-desc"</span><span class="ca">&gt;</span>Page views<span class="ca">&lt;/span&gt;</span>
-<span class="ca">&lt;/div&gt;</span>
-<span class="ca">&lt;div</span> <span class="bq">class=</span><span class="bp">"statcard statcard-success p-a-md m-b"</span><span class="ca">&gt;</span>
-  <span class="ca">&lt;h3</span> <span class="bq">class=</span><span class="bp">"statcard-number"</span><span class="ca">&gt;</span>
-    758
-    <span class="ca">&lt;small</span> <span class="bq">class=</span><span class="bp">"delta-indicator delta-negative"</span><span class="ca">&gt;</span>1.3%<span class="ca">&lt;/small&gt;</span>
-  <span class="ca">&lt;/h3&gt;</span>
-  <span class="ca">&lt;span</span> <span class="bq">class=</span><span class="bp">"statcard-desc"</span><span class="ca">&gt;</span>Downloads<span class="ca">&lt;/span&gt;</span>
-<span class="ca">&lt;/div&gt;</span>
-<span class="ca">&lt;div</span> <span class="bq">class=</span><span class="bp">"statcard statcard-info p-a-md m-b"</span><span class="ca">&gt;</span>
-  <span class="ca">&lt;h3</span> <span class="bq">class=</span><span class="bp">"statcard-number"</span><span class="ca">&gt;</span>
-    758
-    <span class="ca">&lt;small</span> <span class="bq">class=</span><span class="bp">"delta-indicator delta-negative"</span><span class="ca">&gt;</span>1.3%<span class="ca">&lt;/small&gt;</span>
-  <span class="ca">&lt;/h3&gt;</span>
-  <span class="ca">&lt;span</span> <span class="bq">class=</span><span class="bp">"statcard-desc"</span><span class="ca">&gt;</span>Downloads<span class="ca">&lt;/span&gt;</span>
-<span class="ca">&lt;/div&gt;</span>
-<span class="ca">&lt;div</span> <span class="bq">class=</span><span class="bp">"statcard statcard-danger p-a-md m-b"</span><span class="ca">&gt;</span>
-  <span class="ca">&lt;h3</span> <span class="bq">class=</span><span class="bp">"statcard-number"</span><span class="ca">&gt;</span>
-    1,293
-    <span class="ca">&lt;small</span> <span class="bq">class=</span><span class="bp">"delta-indicator delta-positive"</span><span class="ca">&gt;</span>6.75%<span class="ca">&lt;/small&gt;</span>
-  <span class="ca">&lt;/h3&gt;</span>
-  <span class="ca">&lt;span</span> <span class="bq">class=</span><span class="bp">"statcard-desc"</span><span class="ca">&gt;</span>Sign-ups<span class="ca">&lt;/span&gt;</span>
-<span class="ca">&lt;/div&gt;</span>
-<span class="ca">&lt;div</span> <span class="bq">class=</span><span class="bp">"statcard statcard-warning p-a-md m-b"</span><span class="ca">&gt;</span>
-  <span class="ca">&lt;h3</span> <span class="bq">class=</span><span class="bp">"statcard-number"</span><span class="ca">&gt;</span>
-    1,293
-    <span class="ca">&lt;small</span> <span class="bq">class=</span><span class="bp">"delta-indicator delta-positive"</span><span class="ca">&gt;</span>6.75%<span class="ca">&lt;/small&gt;</span>
-  <span class="ca">&lt;/h3&gt;</span>
-  <span class="ca">&lt;span</span> <span class="bq">class=</span><span class="bp">"statcard-desc"</span><span class="ca">&gt;</span>Sign-ups<span class="ca">&lt;/span&gt;</span>
-<span class="ca">&lt;/div&gt;</span></code></pre></div>
-
-<p>And use the grid system to size and align them:</p>
-
-<div class="db" data-example-id="">
-<div class="c">
-  <div class="gk">
-    <div class="ars aql anc">
-      <h3 class="aqg">
-        12,938
-        <small class="aqi aqj">5%</small>
-      </h3>
-      <span class="aqh">Page views</span>
-    </div>
-  </div>
-  <div class="gk">
-    <div class="ars aqm anc">
-      <h3 class="aqg">
-        758
-        <small class="aqi aqk">1.3%</small>
-      </h3>
-      <span class="aqh">Downloads</span>
-    </div>
-  </div>
-</div>
-</div>
-<div class="da"><pre><code class="aro" data-lang="html"><span class="ca">&lt;div</span> <span class="bq">class=</span><span class="bp">"row"</span><span class="ca">&gt;</span>
-  <span class="ca">&lt;div</span> <span class="bq">class=</span><span class="bp">"col-sm-6"</span><span class="ca">&gt;</span>
-    <span class="ca">&lt;div</span> <span class="bq">class=</span><span class="bp">"statcard statcard-primary p-a-md"</span><span class="ca">&gt;</span>
-      <span class="ca">&lt;h3</span> <span class="bq">class=</span><span class="bp">"statcard-number"</span><span class="ca">&gt;</span>
-        12,938
-        <span class="ca">&lt;small</span> <span class="bq">class=</span><span class="bp">"delta-indicator delta-positive"</span><span class="ca">&gt;</span>5%<span class="ca">&lt;/small&gt;</span>
-      <span class="ca">&lt;/h3&gt;</span>
-      <span class="ca">&lt;span</span> <span class="bq">class=</span><span class="bp">"statcard-desc"</span><span class="ca">&gt;</span>Page views<span class="ca">&lt;/span&gt;</span>
-    <span class="ca">&lt;/div&gt;</span>
-  <span class="ca">&lt;/div&gt;</span>
-  <span class="ca">&lt;div</span> <span class="bq">class=</span><span class="bp">"col-sm-6"</span><span class="ca">&gt;</span>
-    <span class="ca">&lt;div</span> <span class="bq">class=</span><span class="bp">"statcard statcard-success p-a-md"</span><span class="ca">&gt;</span>
-      <span class="ca">&lt;h3</span> <span class="bq">class=</span><span class="bp">"statcard-number"</span><span class="ca">&gt;</span>
-        758
-        <span class="ca">&lt;small</span> <span class="bq">class=</span><span class="bp">"delta-indicator delta-negative"</span><span class="ca">&gt;</span>1.3%<span class="ca">&lt;/small&gt;</span>
-      <span class="ca">&lt;/h3&gt;</span>
-      <span class="ca">&lt;span</span> <span class="bq">class=</span><span class="bp">"statcard-desc"</span><span class="ca">&gt;</span>Downloads<span class="ca">&lt;/span&gt;</span>
-    <span class="ca">&lt;/div&gt;</span>
-  <span class="ca">&lt;/div&gt;</span>
-<span class="ca">&lt;/div&gt;</span></code></pre></div>
-
-<h1 id="plugins">Plugins</h1>
-
-<h2 id="zoom">Zoom</h2>
-
-<p>The zoom plugin provides simple image zoom functionality. Add a <code class="arn">data-action="zoom"</code> attribute to any image you want to make zoomable. Zoomed images can be closed by scroll, <code class="arn">esc</code>, or click. Use the meta key to open raw element in new tab.</p>
-
-<h3 id="data-api">Data API</h3>
-
-<div class="db" data-example-id="">
-<img data-action="zoom" style="width: 150px;" src="./images/avatar-mdo.png">
-</div>
-<div class="da"><pre><code class="aro" data-lang="html"><span class="ca">&lt;img</span> <span class="bq">data-action=</span><span class="bp">"zoom"</span> <span class="bq">style=</span><span class="bp">"width: 150px;"</span> <span class="bq">src=</span><span class="bp">"../assets/img/avatar-mdo.png"</span><span class="ca">&gt;</span></code></pre></div>
-
-<h2 id="enter">Enter</h2>
-
-<p>Enter is a brand new plugin built to transition elements into view on scroll and offer subtle visual flourishes. Simply add a <code class="arn">data-transition="entrance"</code> attribute and a <code class="arn">transform</code> style to any element that you’d like to <em>enter</em> in when a user scrolls the element into view.</p>
-
-<h3 id="options">Options</h3>
-
-<ul>
-  <li>easing: <code class="arn">cubic-bezier(.2,.7,.5,1)</code>,</li>
-  <li>duration: 1200,</li>
-  <li>delay: 0</li>
-</ul>
-
-<h3 id="javascript-api">JavaScript API</h3>
-
-<figure class="da"><pre><code class="art" data-lang="js"><span class="aru">$</span><span class="arq">(</span><span class="cr">'.js-enter'</span><span class="arq">).</span><span class="aru">enter</span><span class="arq">()</span></code></pre></figure>
-
-<h3 id="data-api-1">Data API</h3>
-
-<div class="db" data-example-id="">
-<div style="overflow: hidden">
-  <div data-transition="entrance" style="transform: translateY(50px)">
-    <p>
-      Etiam porta sem malesuada magna mollis euismod. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
-    </p>
-    <p>
-      Donec sed odio dui. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Curabitur blandit tempus porttitor. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.
-    </p>
-  </div>
-</div>
-</div>
-<div class="da"><pre><code class="aro" data-lang="html"><span class="ca">&lt;div</span> <span class="bq">style=</span><span class="bp">"overflow: hidden"</span><span class="ca">&gt;</span>
-  <span class="ca">&lt;div</span> <span class="bq">data-transition=</span><span class="bp">"entrance"</span> <span class="bq">style=</span><span class="bp">"transform: translateY(50px)"</span><span class="ca">&gt;</span>
-    <span class="ca">&lt;p&gt;</span>
-      Etiam porta sem malesuada magna mollis euismod. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
-    <span class="ca">&lt;/p&gt;</span>
-    <span class="ca">&lt;p&gt;</span>
-      Donec sed odio dui. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Curabitur blandit tempus porttitor. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.
-    <span class="ca">&lt;/p&gt;</span>
-  <span class="ca">&lt;/div&gt;</span>
-<span class="ca">&lt;/div&gt;</span></code></pre></div>
-
-<h2 id="image-grids">Image grids</h2>
-
-<p>Use the image grid plugin to quickly layout multi sized images in a grid. For the image grid to work properly, it needs to get the raw image sizes (either from a data attribute, like <code class="arn">data-width</code> and <code class="arn">data-height</code> or you need to wait for image load before calling <code class="arn">.imageGrid</code>).</p>
-
-<h3 id="options-1">Options</h3>
-
-<ul>
-  <li>padding: 10,</li>
-  <li>targetHeight: 300,</li>
-  <li>display: ‘inline-block’</li>
-</ul>
-
-<h3 id="javascript-api-1">JavaScript API</h3>
-
-<div class="db" data-example-id="">
-$('.myGrid').imageGrid()
-</div>
-<div class="da"><pre><code class="art" data-lang="js"><span class="aru">$</span><span class="arq">(</span><span class="cr">'.myGrid'</span><span class="arq">).</span><span class="aru">imageGrid</span><span class="arq">()</span></code></pre></div>
-
-<h3 id="data-api-2">Data Api</h3>
-
-<div class="db" data-example-id="">
-<div data-grid="images"><img data-width="350" data-height="300" src="./images/ffffff" style="width: 327px; height: 281px; margin-bottom: 10px; margin-right: 10px; display: inline-block; vertical-align: bottom;"><img data-width="420" data-height="320" src="./images/ffffff(1)" style="width: 369px; height: 281px; margin-bottom: 10px; margin-right: 0px; display: inline-block; vertical-align: bottom;"><img data-width="320" data-height="380" src="./images/ffffff(2)" style="width: 175px; height: 209px; margin-bottom: 10px; margin-right: 10px; display: inline-block; vertical-align: bottom;"><img data-width="472" data-height="500" src="./images/ffffff(3)" style="width: 196px; height: 209px; margin-bottom: 10px; margin-right: 10px; display: inline-block; vertical-align: bottom;"><img data-width="540" data-height="360" src="./images/ffffff(4)" style="width: 314px; height: 209px; margin-bottom: 10px; margin-right: 0px; display: inline-block; vertical-align: bottom;"></div>
-</div>
-<div class="da"><pre><code class="aro" data-lang="html"><span class="ca">&lt;div</span> <span class="bq">data-grid=</span><span class="bp">"images"</span><span class="ca">&gt;</span>
-  <span class="ca">&lt;img</span> <span class="bq">data-width=</span><span class="bp">"350"</span> <span class="bq">data-height=</span><span class="bp">"300"</span> <span class="bq">src=</span><span class="bp">"http://placehold.it/350x300/EEE04A/ffffff"</span><span class="ca">&gt;</span>
-  <span class="ca">&lt;img</span> <span class="bq">data-width=</span><span class="bp">"420"</span> <span class="bq">data-height=</span><span class="bp">"320"</span> <span class="bq">src=</span><span class="bp">"http://placehold.it/420x320/5cb85c/ffffff"</span><span class="ca">&gt;</span>
-  <span class="ca">&lt;img</span> <span class="bq">data-width=</span><span class="bp">"320"</span> <span class="bq">data-height=</span><span class="bp">"380"</span> <span class="bq">src=</span><span class="bp">"http://placehold.it/320x380/5bc0de/ffffff"</span><span class="ca">&gt;</span>
-  <span class="ca">&lt;img</span> <span class="bq">data-width=</span><span class="bp">"472"</span> <span class="bq">data-height=</span><span class="bp">"500"</span> <span class="bq">src=</span><span class="bp">"http://placehold.it/472x500/f0ad4e/ffffff"</span><span class="ca">&gt;</span>
-  <span class="ca">&lt;img</span> <span class="bq">data-width=</span><span class="bp">"540"</span> <span class="bq">data-height=</span><span class="bp">"360"</span> <span class="bq">src=</span><span class="bp">"http://placehold.it/540x360/FF3167/ffffff"</span><span class="ca">&gt;</span>
-<span class="ca">&lt;/div&gt;</span></code></pre></div>
-
-<h2 id="stage">Stage</h2>
-
-<p>Use the stage plugin to reveal a hidden “shelf” of content, like some common offscreen navigation. Stage will slide in your hidden content—from the left (default) or right—and shift your page contents.</p>
-
-<p>Add <code class="arn">data-toggle="stage"</code> and a <code class="arn">data-target</code> to any clickable element that you want to trigger a stage transition. When sliding in from the right, use a negative distance like <code class="arn">data-distance="-250"</code>.</p>
-
-<h3 id="options-2">Options</h3>
-
-<ul>
-  <li>easing: <code class="arn">cubic-bezier(.2,.7,.5,1)</code></li>
-  <li>duration: 300</li>
-  <li>delay: 0</li>
-  <li>distance: 250</li>
-  <li>hiddenElements: <code class="arn">#sidebar</code> - hidden elements visibility will be toggle’d on open/close of the stage. This is done for performance reasons in chrome.</li>
-</ul>
-
-<h3 id="customizing">Customizing</h3>
-
-<p>Stage shelves—the hidden content areas—can house just about any content, but you’ll likely have to tweak some styles depending on what you place within them.</p>
-
-<p>Be sure to match any <code class="arn">data-distance</code> values with the CSS-based <code class="arn">width</code> on the <code class="arn">.stage-shelf</code>.</p>
-
-<h3 id="example">Example</h3>
-
-<p>For an interactive demo, refer to the <code class="arn">Menu</code> button at the top of this page. <strong>The example below shows the minimal required markup.</strong></p>
-
-<figure class="da"><pre><code class="aro" data-lang="html"><span class="ca">&lt;div</span> <span class="bq">class=</span><span class="bp">"stage"</span><span class="ca">&gt;</span>
-  <span class="ca">&lt;button</span> <span class="bq">class=</span><span class="bp">"btn btn-link stage-toggle"</span> <span class="bq">data-target=</span><span class="bp">".stage"</span> <span class="bq">data-toggle=</span><span class="bp">"stage"</span><span class="ca">&gt;</span>
-    <span class="ca">&lt;span</span> <span class="bq">class=</span><span class="bp">"icon icon-menu"</span><span class="ca">&gt;&lt;/span&gt;</span>
-    Menu
-  <span class="ca">&lt;/button&gt;</span>
-
-  <span class="ca">&lt;div</span> <span class="bq">class=</span><span class="bp">"stage-shelf"</span><span class="ca">&gt;</span>
-    <span class="ar">&lt;!-- Hidden shelf content --&gt;</span>
-  <span class="ca">&lt;/div&gt;</span>
-
-  <span class="ar">&lt;!-- All other page content --&gt;</span>
-<span class="ca">&lt;/div&gt;</span></code></pre></figure>
-
-<p>For a right-aligned stage shelf and button, the <strong>minimal required markup looks like this:</strong></p>
-
-<figure class="da"><pre><code class="aro" data-lang="html"><span class="ca">&lt;div</span> <span class="bq">class=</span><span class="bp">"stage"</span><span class="ca">&gt;</span>
-  <span class="ca">&lt;button</span> <span class="bq">class=</span><span class="bp">"btn btn-link stage-toggle stage-toggle-right"</span> <span class="bq">data-target=</span><span class="bp">".stage"</span> <span class="bq">data-toggle=</span><span class="bp">"stage"</span> <span class="bq">data-distance=</span><span class="bp">"-250"</span><span class="ca">&gt;</span>
-    <span class="ca">&lt;span</span> <span class="bq">class=</span><span class="bp">"icon icon-menu"</span><span class="ca">&gt;&lt;/span&gt;</span>
-    Menu
-  <span class="ca">&lt;/button&gt;</span>
-
-  <span class="ca">&lt;div</span> <span class="bq">class=</span><span class="bp">"stage-shelf stage-shelf-right"</span><span class="ca">&gt;</span>
-    <span class="ar">&lt;!-- Hidden shelf content --&gt;</span>
-  <span class="ca">&lt;/div&gt;</span>
-
-  <span class="ar">&lt;!-- All other page content --&gt;</span>
-<span class="ca">&lt;/div&gt;</span></code></pre></figure>
-
-
-
-        <a class="docs-top" style="display: none" href="http://bootstrap-themes.github.io/marketing/docs/index.html#">Back to top</a>
-      </div>
-
-
-  </div>
+ </div>
 
     <script src="./js/jquery.min.js"></script>
     <script src="./js/toolkit.js"></script>
     <script src="./js/application.js"></script>
-
-
 
 </body></html>
