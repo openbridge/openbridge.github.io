@@ -89,7 +89,7 @@
       <div class="dc" id="content">
         <div class="e">
           <h1>Data Pipeline Documentation</h1>
-          <p>Find out what's how to use Pipeline to process and store data</p>
+          <p>Find out how to use Pipeline to process and store data</p>
         </div>
       </div>
       <div class="e docs-content">
@@ -171,11 +171,11 @@
 
 <h1 id="whats-included">Getting Started</h1>
 
-<p>An important concept for data pipelines is understanding how your data is delivered and organized. Typically you will want to make sure that the relationship between the file(s) being delivered align with how you want to have them stored in the database. Not only does this insure accuracy and consistency, it is a key element to the "hands-off" automation of your data pipeline workflows.</p>
+<p>An important concept for data pipelines is understanding how your data is delivered and organized. Typically, you will want to make sure that the relationship between the file(s) being delivered align with how you want to have them stored in the database. Not only does this insure accuracy and consistency, it is a key element to the "hands-off" automation of your data pipeline workflows.</p>
 
 <h2 id="structure-mismatch">Customer Data Example</h2>
 
-We will start with a simple structure. First, we have a parent <code class="arn">customers</code> directory. Within <code class="arn">customers</code>, there are four subdirectories for <code class="arn">address</code>, <code class="arn">offers</code>, <code class="arn">rewards</code> and <code class="arn">transactions</code>. The parent and subdirectoriesreflect a strucutre that aligns with how data is needs to be delivered by external systems.
+We will start with a simple structure that reflects different types of data. First, we have a parent <code class="arn">customers</code> directory. Within <code class="arn">customers</code>, there are four subdirectories for <code class="arn">address</code>, <code class="arn">offers</code>, <code class="arn">rewards</code> and <code class="arn">transactions</code>. The parent and subdirectories reflect a strucutre that aligns with how data needs to be delivered by external systems.
 
 <figure class="da"><pre><code class="arm" data-lang="bash">customers/
   ├── address/
@@ -186,7 +186,7 @@ We will start with a simple structure. First, we have a parent <code class="arn"
 
 <p> With the structure in place, data can be delivered. However, it is important to understand that there needs to be some organizing principles on what data is delivered and to where it is delivered. For Openbridge to properly process and route your data, each pipeline needs to have a definition that maps to the object and/or files being delivered.
 
-<p> For example, based on the <code class="arn">customers</code> direcotry structure we defined previouslly, a collection of <code class="arn">csv</code> and <code class="arn">zip</code> files have been delivered into that location.
+<p> For example, based on the <code class="arn">customers</code> directory structure we defined previouslly, a collection of <code class="arn">csv</code> and <code class="arn">zip</code> files have been delivered into these locations.
 
 <figure class="da"><pre><code class="arm" data-lang="bash">customers/
   ├── 2016-01-01_customers.csv
@@ -216,14 +216,14 @@ We will start with a simple structure. First, we have a parent <code class="arn"
       ├── 2016-01-05_transactions.csv
       └── 2016-01-06_transactions.csv</code></pre></figure>
 
-<p> The simplest use case is that a table is generated according to the location a file is delivered. In the above example you will have a <code class="arn">customers</code>, <code class="arn">address</code> and <code class="arn">transactions</code> tables. The content of each table will be based on the corresponding <code class="arn">.csv</code> files placed in each directory. Each <code class="arn">.csv</code> must within each directory share the same structure/layout.
+<p> The simplest use case is that a table is generated according to the location a file is delivered. In the above example you will have a <code class="arn">customers</code>, <code class="arn">address</code> and <code class="arn">transactions</code> tables. The content of each table will be based on the corresponding <code class="arn">.csv</code> files placed in each directory. Each <code class="arn">.csv</code> within each directory must share the same data structure/layout.
 
 <p>For exmaple, all the <code class="arn">"*_transactions.csv"</code> files located in the <code class="arn">customers/transactions/</code> directory share the following structure:
 <figure class="da"><pre><code class="aro" data-lang="html">"ID","DATE","CUSTOMERID","PURCHASE","STOREID"
 "0122","December 10, 2015","123432100A","8.43","4985"
 "0123","December 10, 2015","543421111A","2.61","3212"</code></pre></figure>
 
-<p>As additional <code class="arn">"*_transactions.csv"</code> files are delivered to <code class="arn">customers/transactions/</code> they will all be loaded to the <code class="arn">transactions</code> table.
+<p>When additional <code class="arn">"*_transactions.csv"</code> files are delivered to <code class="arn">customers/transactions/</code> they will be loaded to the <code class="arn">transactions</code> table.
 
 <h2 id="structure-mismatch">File To Table Structure Mismatch</h2>
 Succesful loading is dependent on each subsequent file delivery the following the established layout.
@@ -246,11 +246,11 @@ Due to the addition of <code class="arn">LOYALTYID</code> this creates a mismatc
 
 <h2 id="custom-builds">Compressed Files</h2>
 
-<p>Openbridge supports the delivery and processing of compressed files in <code class="arn">zip</code>, <code class="arn">gzip</code> or <code class="arn">tar.gz</code> formats. However, since we do not know what is contained in the archive prior to arriving and unpackaing it, custom processing is needed to ensure we are handling the contents in the manner you want us to. This is especially important when the archive contains a number of distinct files.
+<p>Openbridge supports the delivery and processing of compressed files in <code class="arn">zip</code>, <code class="arn">gzip</code> or <code class="arn">tar.gz</code> formats. However, since we do not know the contents of an archive prior to it arriving and us unpackaing it, custom processing is needed to ensure we are handling the contents in the manner you want us to. This is especially important when a single archive contains a number of distinct files that have different data types and structures.
 
 <h3 id="custom-builds">Simple Use Case: One Archive, One File</h3>
 
-<p> In this example we have a <code class="arn">*_rewards.zip</code> archives that are delivered to <code class="arn">customers/rewards/</code>.
+<p> In this example we have <code class="arn">*_rewards.zip</code> archives that are delivered to <code class="arn">customers/rewards/</code>.
 
 <p> The <code class="arn">2016-01-01_rewards.zip</code> archive contains three files; <code class="arn">2016-01-01a_rewards.csv</code>, <code class="arn">2016-01-01b_rewards.csv</code> and <code class="arn">2016-01-01c_rewards.csv</code>.
 
@@ -276,9 +276,9 @@ The system will unpack <code class="arn">2016-01-01_rewards.zip</code> according
           ├── 2016-01-01c_rewards.csv
 </code></pre></figure>
 
-<p>The unpacked directory is based on the name of the filename. A file name of <code class="arn">2016-01-01a_rewards.csv</code> results in a directory named <code class="arn">2016-01-01a_rewards/</code>
+<p>The unpacked directory is based on the name of the file. For example, a filename of <code class="arn">2016-01-01a_rewards.csv</code> results in a directory named <code class="arn">2016-01-01a_rewards/</code>
 
- <p>All <code class="arn">*_rewards.zip</code> archives share a common schema. In this case, all <code class="arn">2016-01-01a_rewards.csv</code>, <code class="arn">2016-01-01b_rewards.csv</code> and <code class="arn">2016-01-01c_rewards.csv</code> share the same exact structure:
+<p>In this example all <code class="arn">*_rewards.zip</code> archives share a common schema. This means <code class="arn">2016-01-01a_rewards.csv</code>, <code class="arn">2016-01-01b_rewards.csv</code> and <code class="arn">2016-01-01c_rewards.csv</code> share the same exact structure:
 
   <figure class="da"><pre><code class="aro" data-lang="html">"ID","DATE","CUSTOMERID","PURCHASE","LOYALTYID","STOREID"
   "0122","December 10, 2015","123432100A","8.43","A102B","4985"
@@ -288,7 +288,7 @@ The system will unpack <code class="arn">2016-01-01_rewards.zip</code> according
 
 <h3 id="custom-builds">Complex Use Case: One Archive, Many Files</h3>
 
-<p>In this example we have <code class="arn">*_offers.zip</code> archives that are delivered to <code class="arn">customers/offers/ofers_targeted</code>.
+<p>In this example we have more complex archives called <code class="arn">*_offers.zip</code>. These archives are delivered to <code class="arn">customers/offers/ofers_targeted</code>.
 
 <p>The <code class="arn">2016-01-01_offers.zip</code> archive contains three <strong>different</strong> files; <code class="arn">2016-01-01_source.csv</code>, <code class="arn">2016-01-01_campaigns.csv</code> and <code class="arn">2016-01-01_costs.csv</code>.
 
@@ -324,11 +324,11 @@ The system will unpack <code class="arn">2016-01-01_rewards.zip</code> according
 "0122","December 10, 2015","123432100A","8.43","A102B","4985"
 "0123","December 10, 2015","543421111A","2.61","A904F","3212"</code></pre></figure>
 
-<p>Unlike the earlier <code class="arn">rewards</code> example, these files represent three related, but different classes of data. This means they are not stored into a single offers table like <code class="arn">rewards</code> was given those differences.
+<p>Unlike the earlier <code class="arn">rewards</code> example, these files represent three related, but different classes of data. This means they are not stored into a single offers table like the <code class="arn">rewards</code> example due to these differences.
 
 <p> The table names are user defined. This allows flexibility in how you want to handle this situation.  For example, you may want <code class="arn">2016-01-01_source.csv</code>, <code class="arn">2016-01-01_campaigns.csv</code> and <code class="arn">2016-01-01_costs.csv</code> routed to <code class="arn">offers_source</code>, <code class="arn">offers_campaigns</code> and <code class="arn">offers_costs</code> tables.
 
-<p>To properly support delivery of compressed files, please contact Openbridge support so the proper handling and routing of compressed data can occur.
+<p>To properly support delivery of complex compressed files, please contact Openbridge support so the proper handling and routing of compressed data can occur.
 
 <h2 id="getting-started">Transfer Protocols</h2>
 
@@ -379,13 +379,13 @@ Password:         Provided separately</code></pre></figure>
 If you are having connection difficulties, please make sure you can make outbound network connections for <code class="arn">FTPES</code> and <code class="arn">FTP</code> via <code class="arn">port:21</code>. For those using <code class="arn">SFTP</code> make sure outbound <code class="arn">port:2222</code> is open.
 
 <h2 id="encoding">Encoding</h2>
-<p>Openbridge supports UTF-8 filename character sets. It also supports ASCII. The system will perform any character set decoding checks as the file is being delivered and will automatically discover the encoding used.
+<p>Openbridge supports UTF-8 filename character sets. It also supports ASCII, a subset of UTF-8. The system will perform any character set decoding checks as the file is being delivered and will automatically discover the encoding used.
 
-<p>While our system tries to do encoding/decoding for UTF-8, if the encoding operation fails the system continues using the bytes sent by the client. While the process fails gracefully and allows the delivery of the file, there is no guarantee that downstream data processing pipelines will work properly when sending data that is not UTF-8 encoded. While most systems generate UTF-8 encoded data, please verify prior to delivery of data that it is properly encoded to UTF-8 standards.
+<p>While we may accept the delivery of a file, there is no guarantee that downstream data processing pipelines will work properly when sending data that is not UTF-8 encoded. Data pipeline will automatically attempt to convert encoding to UTF-8. However, it might not work in all cases. We suggest, if feasible, to send data UTF-8 pre-encoded. Most systems generate UTF-8 encoded data.
 
 <h3 id="check-encoding">Check Encoding</h3>
 
-<p>To check the encoding of a file called <code class="arn">foo.csv</code>, in your terminal you can type the following;
+<p>Not sure how to check encoding? Here is an exaple using the command line. To check the encoding of a file called <code class="arn">foo.csv</code>, in your terminal you can type the following;
 
 <p>For Linux you would type:
 <figure class="da"><pre><code class="arm" data-lang="bash"><span class="bf">$ </span>file -i foo.csv</code></pre></figure>
@@ -423,7 +423,7 @@ The output should look contain a <code class="arn">charset=</code> which indicat
 <h1 id="naming-conventions">Naming & File Conventions</h1>
 
 <h2 id="naming-conventions-dir">Directories</h2>
- <p>Log into your pipeline location and create a folder for each unique set of data you will be loading. The name of the folder is very important as it will be the name of the table in the Redshift database (or other database) where you will access the data. It should therefore be a name that is descriptive enough for the end user to understand its contents. The folder name must also meet certain syntax requirements. These requirements are outlined below…
+ <p>Log into your pipeline location and create a folder for each unique set of data you will be loading. As detailed int he previous examples, the name of the folder is very important as it will be the name of the table in the Redshift database (or other database) where you will access the data. It should therefore be a name that is descriptive enough for the end user to understand its contents. The folder name must also meet certain requirements. These requirements are outlined below…
 
     <ul>
     <li>Must start with a letter</li>
@@ -438,7 +438,7 @@ The output should look contain a <code class="arn">charset=</code> which indicat
 
 <h2 id="naming-conventions-files">File Naming</h2>
 
-<p>The platform accepts any UTF-8 encoded delimited text format (e.g. comma, tab, pipe, etc.) with column headers (header row) and a valid file type extension (<code class="arn">.csv</code> or <code class="arn">.txt</code>).
+<p>As discussed previouslly the platform accepts any UTF-8 encoded delimited text format (e.g. comma, tab, pipe, etc.) with column headers (header row) and a valid file type extension (<code class="arn">.csv</code> or <code class="arn">.txt</code>).
 
 <p>File names should meet the 3 criteria outlined below.
 
@@ -448,7 +448,7 @@ The output should look contain a <code class="arn">charset=</code> which indicat
 <li><strong>Consistent</strong>: File naming patterns should be kept consistent over time to enable automated auditing (e.g. <code class="arn">socialcom_paidsocial_20140801.txt</code>, <code class="arn">socialcom_paidsocial_20140901.txt</code>, <code class="arn">socialcom_paidsocial_20141001.txt</code>
 </ul>
 
-<p>This will facilitate any required auditing/QC of data received.  It is highly likely that use of non-standard file naming conventions will cause your import pipeline to fail.
+<p>This will facilitate any required auditing/QC of data received. <strong> It is highly likely that use of non-standard file naming conventions will cause your import pipeline to fail or result in an outcome different than expected.</strong>
 
 <h2 id="naming-conventions-files">File Structure</h2>
 The file column headers are important as they will also be the field names used in the corresponding table. As with the folder name, the column headers should be descriptive enough for the end user to understand its contents. The column headers must meet the same syntax requirements. These requirements are outlined below…
@@ -471,6 +471,9 @@ The file column headers are important as they will also be the field names used 
 <li>Special characters will be dropped</li>
 </ul>
 
+<p>If the system can not automaticaly perform this transformation data will fail to load or load in a manner that is inconsistent with expectations.
+
+  <!--
 <h2 id="naming-conventions-files">FAQS</h2>
 
 <h3 id="naming-conventions-files">Do I need to convert my Excel (XLS, XLSX) to CSV beofre delivering to Openbridge?</h3>
@@ -493,7 +496,7 @@ The file column headers are important as they will also be the field names used 
 
 <h3 id="naming-conventions-files">How long dies it take ?</h3>
 <p>Yes...
-
+-->
 <a class="docs-top" style="display: none" href="##">Back to top</a>
 </div>
  </div>
