@@ -1,50 +1,46 @@
 # Documentation · Data Pipeline
 
-You're looking at the docs for the Openbridge Data Pipeline product! The Pipeline product allows non-technical users a simple and automated toolset to deliver, process and store data of all sizes to a private warehouse. Let's dive in. 
+You're looking at the docs for the Openbridge Data Pipeline product! The Pipeline product allows non-technical users a simple and automated toolset to deliver, process and store data of all sizes to a private warehouse. Let's dive in.
 
 <!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:1 -->
 
 1. [What Is A Data Pipeline?](#what-is-a-data-pipeline)
 2. [Files to Database](#files-to-database)
-	1. [Getting Organized](#getting-organized)
-		1. [Example: CRM Files](#example-crm-files)
-	2. [Understanding Your File Layouts](#understanding-your-file-layouts)
-	3. [File Naming](#file-naming)
-	4. [File Structure/Layout](#file-structurelayout)
-	5. [Dealing With File Layouts Changes](#dealing-with-file-layouts-changes)
-	6. [Directories](#directories)
+  1. [Getting Organized](#getting-organized)
+    1. [Example: CRM Files](#example-crm-files)
+  2. [Understanding Your File Layouts](#understanding-your-file-layouts)
+  3. [File Naming](#file-naming)
+  4. [File Structure/Layout](#file-structurelayout)
+  5. [Dealing With File Layouts Changes](#dealing-with-file-layouts-changes)
+  6. [Directories](#directories)
 3. [Sending Compressed Files](#sending-compressed-files)
-	1. [Simple Use Case: One Archive, One File](#simple-use-case-one-archive-one-file)
-	2. [Complex Use Case: One Archive, Many Files](#complex-use-case-one-archive-many-files)
+  1. [Simple Use Case: One Archive, One File](#simple-use-case-one-archive-one-file)
+  2. [Complex Use Case: One Archive, Many Files](#complex-use-case-one-archive-many-files)
 4. [Encoding Your Files](#encoding-your-files)
-	1. [Check Encoding](#check-encoding)
+  1. [Check Encoding](#check-encoding)
 5. [How To Deliver Data](#how-to-deliver-data)
-	1. [Transfer Protocols](#transfer-protocols)
-		1. [Secure File Transfer Protocol (SFTP)](#secure-file-transfer-protocol-sftp)
-		2. [FTP Explicit Mode (TLS)/(SSL)](#ftp-explicit-mode-tlsssl)
-		3. [File Transfer Protocol (FTP)](#file-transfer-protocol-ftp)
-		4. [Check Your Firewall](#check-your-firewall)
-	2. [Blocked Files](#blocked-files)
-	3. [Hidden Files](#hidden-files)
+  1. [Transfer Protocols](#transfer-protocols)
+    1. [Secure File Transfer Protocol (SFTP)](#secure-file-transfer-protocol-sftp)
+    2. [FTP Explicit Mode (TLS)/(SSL)](#ftp-explicit-mode-tlsssl)
+    3. [File Transfer Protocol (FTP)](#file-transfer-protocol-ftp)
+    4. [Check Your Firewall](#check-your-firewall)
+  2. [Blocked Files](#blocked-files)
+  3. [Hidden Files](#hidden-files)
 6. [Error Handling](#error-handling)
-	1. [Bulk Transfers](#bulk-transfers)
-		1. [Manifests](#manifests)
-	2. [Tranfer Status Codes](#tranfer-status-codes)
-	3. [File Integrity](#file-integrity)
+  1. [Bulk Transfers](#bulk-transfers)
+    1. [Manifests](#manifests)
+  2. [Tranfer Status Codes](#tranfer-status-codes)
+  3. [File Integrity](#file-integrity)
 7. [Reference](#reference)
-	1. [FTP Clients](#ftp-clients)
-	2. [GUI](#gui)
-		1. [Free](#free)
-		2. [Paid](#paid)
-	3. [CLI](#cli)
-	4. [Python](#python)
-	5. [Security](#security)
+  1. [FTP Clients](#ftp-clients)
+  2. [GUI](#gui)
+    1. [Free](#free)
+    2. [Paid](#paid)
+  3. [CLI](#cli)
+  4. [Python](#python)
+  5. [Security](#security)
 
 <!-- /TOC -->
-
- # Documentation · Data Pipeline
-
-You're looking at the docs for the Openbridge Data Pipeline product! The Pipeline product allows non-technical users a simple and automated toolset to deliver, process and store data of all sizes to a private warehouse. Let's dive in.
 
 ## What Is A Data Pipeline?
 
@@ -398,7 +394,7 @@ Connection Details:
     Password:         Provided separately
 ```
 
-### Check Your Firewall
+## Check Your Firewall
 
 If you are having connection difficulties, please make sure you can make outbound network connections for `FTPES` and `FTP` via `port:21`. For those using `SFTP` make sure outbound `port:2222` is open.
 
@@ -439,7 +435,7 @@ Openbridge does not have visibility into the what _should_ be sent from a source
 
 The source system should be tracking what was delivered and what was not delivered. We suggest that a manifest of files is maintained in the source system. This manifest would indeityf the files to be delivered and their state (success? failure? pending?). The manifest procedure allows the source system to recover from certain errors such as failure of network, source/host system or in the transfer process. In the event of an error, the source system would know to attempt a redeliver for any file that had not received a successful "226" code from Openbridge.
 
-## Tranfer Status Codes
+## Status Codes
 
 Your client will normally be sent a response code of "226" to indicate a successful file transfer. However, there are other status codes that may be present. See below:
 
@@ -460,12 +456,32 @@ Employing file integrity checks will help you cross check that the files deliver
 
 While the use of MD5 is the default, Openbridge can support other checksum commands when sending data to us:
 
-- XCRC (requests CRC32 digest/checksum)
-- XSHA/XSHA1 (requests SHA1 digest/checksum)
-- XSHA256 (requests SHA256 digest/checksum)
-- XSHA512 (requests SHA512 digest/checksum)
+* XCRC (requests CRC32 digest/checksum)
+* XSHA/XSHA1 (requests SHA1 digest/checksum)
+* XSHA256 (requests SHA256 digest/checksum)
+* XSHA512 (requests SHA512 digest/checksum)
 
 If you need support for any of these these, please contact support.
+
+## DNS-based Blackhole List (DNSBL) / Real-time Blackhole List (RBL)
+
+Openbridge employs a DNSBL (commonly known as a 'Blocklist"). This is a database that is queried in realtime for the purpose of obtaining an opinion on the origin of incoming hosts. The role of a DNSBL is to assess whether a particular IP Address meets acceptance policies of inbound connections. DNSBL is often used by email, web and other network services for determining and rejecting addresses known to be sources of spam, phishing and other unwanted behavior.
+
+More information on DNS blacklists can be found here:(<http://en.wikipedia.org/wiki/DNSBL>)
+
+## Anti-Virus, Malware and Trojans
+
+Openbridge employs an anti-virus toolkit to scan for viruses, trojans, and other questionable items to prevent them from being uploaded to our system. The process is designed to detect in real-time threats present in any incoming files. This means any file sent to Openbridge will be scanned as it is streamed to us prior to allowing the file upload to be fully written to the filesystem.
+
+Any files uploaded meeting the criteria as a threat will result the transfer being rejected.
+
+## Account Ban and Lockout
+
+Openbridge employs a dynamic "ban" lists that prevents the banned user or host from logging in to the server. This will occur if our system detects 4 incorrect login attempts. The ban will last for approximately 30 minutes at which time you can attempt to login again. If you continue to have difficulties please contact support.
+
+## Idle Connection Time Limits
+
+Openbridge sets the maximum number of seconds a connection between the our server and your client can exist after the client has successfully authenticated. This is typically 10 minutes or 600 seconds in length. If you are idle for longer than this time allotment the server will think you are finished and disconnect your client. If this occurs you will simply need to reconnect.
 
 # Reference
 
@@ -517,4 +533,3 @@ function sftp_send_file() {
 You can embed file transfers into your programs too. FOr example, Paramiko is a great choice for Python users. What is [Paramiko](http://www.paramiko.org/)? Paramiko is a Python (2.6+, 3.3+) implementation of the SSHv2 protocol, providing both client and server functionality. While it leverages a Python C extension for low level cryptography (Cryptography), Paramiko itself is a pure Python interface around SSH networking concepts.
 
 Here is a [demo](https://github.com/paramiko/paramiko/blob/master/demos/demo_sftp.py) of a SFTP client written with Paramiko.
-
