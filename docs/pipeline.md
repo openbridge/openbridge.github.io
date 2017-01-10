@@ -2,47 +2,50 @@
 
 You're looking at the docs for the Openbridge Data Pipeline product! The Pipeline product allows non-technical users a simple and automated toolset to deliver, process and store data of all sizes to a private warehouse. Let's dive in.
 
-<!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:1 -->
-
-1. [What Is A Data Pipeline?](#what-is-a-data-pipeline)
-2. [Files to Database](#files-to-database)
-  1. [Getting Organized](#getting-organized)
-    1. [Example: CRM Files](#example-crm-files)
-  2. [Understanding Your File Layouts](#understanding-your-file-layouts)
-  3. [File Naming](#file-naming)
-  4. [File Structure/Layout](#file-structurelayout)
-  5. [Dealing With File Layouts Changes](#dealing-with-file-layouts-changes)
-  6. [Directories](#directories)
-3. [Sending Compressed Files](#sending-compressed-files)
-  1. [Simple Use Case: One Archive, One File](#simple-use-case-one-archive-one-file)
-  2. [Complex Use Case: One Archive, Many Files](#complex-use-case-one-archive-many-files)
-4. [Encoding Your Files](#encoding-your-files)
-  1. [Check Encoding](#check-encoding)
-5. [How To Deliver Data](#how-to-deliver-data)
-  1. [Transfer Protocols](#transfer-protocols)
-    1. [Secure File Transfer Protocol (SFTP)](#secure-file-transfer-protocol-sftp)
-    2. [FTP Explicit Mode (TLS)/(SSL)](#ftp-explicit-mode-tlsssl)
-    3. [File Transfer Protocol (FTP)](#file-transfer-protocol-ftp)
-    4. [Check Your Firewall](#check-your-firewall)
-  2. [Blocked Files](#blocked-files)
-  3. [Hidden Files](#hidden-files)
-6. [Error Handling](#error-handling)
-  1. [Bulk Transfers](#bulk-transfers)
-    1. [Manifests](#manifests)
-  2. [Tranfer Status Codes](#tranfer-status-codes)
-  3. [File Integrity](#file-integrity)
-7. [Reference](#reference)
-  1. [FTP Clients](#ftp-clients)
-  2. [GUI](#gui)
-    1. [Free](#free)
-    2. [Paid](#paid)
-  3. [CLI](#cli)
-  4. [Python](#python)
-  5. [Security](#security)
+- [What Is A Data Pipeline?](#what-is-a-data-pipeline)
+- [Files to Database](#files-to-database)
+	- [Getting Organized](#getting-organized)
+		- [Example: CRM Files](#example-crm-files)
+	- [Understanding Your File Layouts](#understanding-your-file-layouts)
+	- [File Naming](#file-naming)
+	- [File Structure/Layout](#file-structurelayout)
+	- [Dealing With File Layouts Changes](#dealing-with-file-layouts-changes)
+	- [Directories](#directories)
+- [Sending Compressed Files](#sending-compressed-files)
+	- [Simple Use Case: One Archive, One File](#simple-use-case-one-archive-one-file)
+	- [Complex Use Case: One Archive, Many Files](#complex-use-case-one-archive-many-files)
+- [Encoding Your Files](#encoding-your-files)
+	- [Check Encoding](#check-encoding)
+- [How To Deliver Data](#how-to-deliver-data)
+	- [Transfer Protocols](#transfer-protocols)
+		- [Secure File Transfer Protocol (SFTP)](#secure-file-transfer-protocol-sftp)
+		- [FTP Explicit Mode (TLS)/(SSL)](#ftp-explicit-mode-tlsssl)
+		- [File Transfer Protocol (FTP)](#file-transfer-protocol-ftp)
+	- [Check Your Firewall](#check-your-firewall)
+	- [Blocked Files](#blocked-files)
+	- [Hidden Files](#hidden-files)
+- [Error Handling](#error-handling)
+	- [Bulk Transfers](#bulk-transfers)
+		- [Manifests](#manifests)
+	- [Status Codes](#status-codes)
+	- [File Integrity](#file-integrity)
+- [Connection Considerations](#connection-considerations)
+	- [DNS-based Blackhole List (DNSBL) / Real-time Blackhole List (RBL)](#dns-based-blackhole-list-dnsbl-real-time-blackhole-list-rbl)
+	- [Anti-Virus, Malware and Trojans](#anti-virus-malware-and-trojans)
+	- [Account Ban and Lockout](#account-ban-and-lockout)
+	- [Idle Connection Time Limits](#idle-connection-time-limits)
+- [Reference](#reference)
+	- [FTP Clients](#ftp-clients)
+	- [GUI](#gui)
+		- [Free](#free)
+		- [Paid](#paid)
+	- [CLI](#cli)
+	- [Python](#python)
 
 <!-- /TOC -->
 
-## What Is A Data Pipeline?
+
+# What Is A Data Pipeline?
 
 A data pipeline is a series of well designed, intuitive, and cohesive components--built on top of he Openbridge platform. If you've are familar with loading data to relational data stores you'll find this familiar, but simpler and more automated.
 
@@ -456,12 +459,14 @@ Employing file integrity checks will help you cross check that the files deliver
 
 While the use of MD5 is the default, Openbridge can support other checksum commands when sending data to us:
 
-* XCRC (requests CRC32 digest/checksum)
-* XSHA/XSHA1 (requests SHA1 digest/checksum)
-* XSHA256 (requests SHA256 digest/checksum)
-* XSHA512 (requests SHA512 digest/checksum)
+- XCRC (requests CRC32 digest/checksum)
+- XSHA/XSHA1 (requests SHA1 digest/checksum)
+- XSHA256 (requests SHA256 digest/checksum)
+- XSHA512 (requests SHA512 digest/checksum)
 
 If you need support for any of these these, please contact support.
+
+# Connection Considerations
 
 ## DNS-based Blackhole List (DNSBL) / Real-time Blackhole List (RBL)
 
