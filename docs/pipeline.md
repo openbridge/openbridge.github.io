@@ -47,7 +47,7 @@ You're looking at the docs for the Openbridge Data Pipeline product! The Pipelin
 
 # What Is A Data Pipeline?
 
-A data pipeline is a series of well designed, intuitive, and cohesive components--built on top of he Openbridge platform. If you've are familar with loading data to relational data stores you'll find this familiar, but simpler and more automated.
+A data pipeline is a series of well designed, intuitive, and cohesive components--built on top of he Openbridge platform. If you are familar with loading data to relational data stores you'll find this familiar, but simpler and more automated.
 
 An important concept for data pipelines is understanding how your data is delivered and organized. Typically, you will want to make sure that the relationship between the file(s) being delivered align with how you want to have them stored in the database. Not only does this insure accuracy and consistency, it is a key element to the "hands-off" automation of your data pipeline workflows.
 
@@ -69,7 +69,7 @@ With the structure in place, data can be delivered. However, it is important to 
 
 ### Example: CRM Files
 
-For example, based on the `customers` directory structure we defined previouslly, a collection of `csv` and `zip` files have been delivered into these locations.
+For example, based on the `customers` directory structure we defined previously, a collection of `csv` and `zip` files have been delivered into these locations.
 
 ```
     customers/
@@ -105,7 +105,7 @@ The simplest use case is that a table is generated according to the location a f
 
 ## Understanding Your File Layouts
 
-Please note, that Each `.csv` within each directory must share the same data structure/layout. For exmaple, all the `"*_transactions.csv"` files located in the `customers/transactions/` directory share the following structure:
+Please note, that each `.csv` within each directory must share the same data structure/layout. For example, all the `"*_transactions.csv"` files located in the `customers/transactions/` directory share the following structure:
 
 ```
     "ID","DATE","CUSTOMERID","PURCHASE","STOREID"
@@ -159,7 +159,7 @@ If the system can not automatically perform this transformation data will fail t
 
 Succesful loading is dependent on each subsequent file delivery the following the established layout.
 
-For example, `"*_transactions.csv"` data was following the followign layout for most of the year:
+For example, `"*_transactions.csv"` data was following the following layout for most of the year:
 
 ```
     "ID","DATE","CUSTOMERID","PURCHASE","STOREID"
@@ -177,7 +177,7 @@ However, let us say that in November a change was made upstream which changed th
 
 Due to the addition of `LOYALTYID` this creates a mismatch between the old structure and the new. This different layout would lead `2016-11-15_transactions.csv`, or any other file like it, to fail in loading to the `transactions` table because the underlying structure is different.
 
-If this situation arise, please contact Openbridge support.
+If this situation arises, please contact Openbridge support (support@openbridge.com).
 
 ## Directories
 
@@ -205,7 +205,7 @@ The Openbridge server will attempt to correct issues it detects with poor folder
      "Customer crm file"
 ```
 
-Would result in a foler called:
+Would result in a folder called:
 
 ```
      "customercrmfile"
@@ -213,7 +213,7 @@ Would result in a foler called:
 
 # Sending Compressed Files
 
-Openbridge supports the delivery and processing of compressed files in `zip`, `gzip` or `tar.gz` formats. However, since we do not know the contents of an archive prior to it arriving and us unpackaing it, custom processing is needed to ensure we are handling the contents in the manner you want us to. This is especially important when a single archive contains a number of distinct files that have different data types and structures. Here are a few different use cases that arise with compressed files.
+Openbridge supports the delivery and processing of compressed files in `zip`, `gzip` or `tar.gz` formats. However, since we do not know the contents of an archive prior to it arriving and us unpackaging it, custom processing is needed to ensure we are handling the contents in the manner you want us to. This is especially important when a single archive contains a number of distinct files that have different data types and structures. Here are a few different use cases that arise with compressed files.
 
 ## Simple Use Case: One Archive, One File
 
