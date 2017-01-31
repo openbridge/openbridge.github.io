@@ -114,7 +114,15 @@ Please note, that each `.csv` within each directory must share the same data str
     "0123","December 10, 2015","543421111A","2.61","3212"
 ```
 
-When additional `"*_transactions.csv"` files are delivered to `customers/transactions/` they will be loaded to the `transactions` table.
+When additional `"*_transactions.csv"` files are delivered to `customers/transactions/` they will be loaded to a table named `transactions` that looks like this...
+
+
+|**id**|**date**|**customerid**|**purchase**|**storeid**|
+|---|---|---|---|---|
+|0122|December 10, 2015|123432100A|8.43|4985|
+|0123|December 10, 2015|543421111A|2.61|3212|
+|...|...|...|...|...|
+
 
 ## File Naming
 
