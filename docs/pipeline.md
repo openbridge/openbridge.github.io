@@ -41,6 +41,7 @@ You're looking at the docs for the Openbridge Data Pipeline product! The Pipelin
 		- [Paid](#paid)
 	- [CLI](#cli)
 	- [Python](#python)
+- [FAQs](#faqs)
 
 <!-- /TOC -->
 
@@ -538,3 +539,30 @@ function sftp_send_file() {
 You can embed file transfers into your programs too. FOr example, Paramiko is a great choice for Python users. What is [Paramiko](http://www.paramiko.org/)? Paramiko is a Python (2.6+, 3.3+) implementation of the SSHv2 protocol, providing both client and server functionality. While it leverages a Python C extension for low level cryptography (Cryptography), Paramiko itself is a pure Python interface around SSH networking concepts.
 
 Here is a [demo](https://github.com/paramiko/paramiko/blob/master/demos/demo_sftp.py) of a SFTP client written with Paramiko.
+
+# FAQs
+
+## Why isn't the data I posted to the pipeline loaded to Redshift?
+
+If you don’t see data that you are expecting to see in one or more Redshift tables, there are a few steps you can take to diagnose the issue…
+
+1. Verify that the file(s) containing the data in question was successfully posted to the FTP location.  Most FTP software includes search functionality that allows  you to search the relevant folder for the filename or a portion of the filename  (e.g. filename contains ‘foo’)
+
+   **Resolution:** If the file was not posted to the FTP location, attempt to re-post (or re-request) the data and check the Redshift table to see if it has loaded.  Depending on the size of the file and other files in the processing queue, this could take anywhere from a few seconds to a several minutes.
+
+2. If the file was successfully posted to the FTP location, download a copy of the file to your desktop and open the file in a text editor (e.g. Notepad) or Excel to check the following issues that could result in a load failure:
+
+  1. Does the file contain data?
+  2. Is the file layout (i.e. columns and column order) the same as its corresponding Redshift table?
+  3. Is the file delimited properly (e.g. tab or comma-quote) and are the delimiters consistent with the initial load file for the table?
+  4. Are the values for each field formatted properly (e.g. text, number, date) and consistent with the initial load file for the table?
+
+   **Resolution:** Fix the error(s) in the file, re-post the file to the FTP location with a new name (e.g. if original file was named 'some_data_20150101.csv' rename new file to something like 'some_data_20150101_2.csv') and check the Redshift table to see if it has been successfully loaded.
+
+3. If the file passes the above checks, please submit a support ticket by emailing support@openbridge.com so that a support agent can assist with the diagnosis and resolution of the load error.  To facilitate the diagnostic efforts please be sure to include the following in the email:
+
+  1. Redshift table name with the missing data
+  2. Criteria that can be used to identify the missing row(s) in the table (e.g. table ‘foo’ is missing data for the date = xx/xx/xxxx)
+  3. Filename (and FTP path name if known) for the unloaded data
+
+The initial load file is the first file that is posted to a particular folder.  This file is what generates and defines the properties for the respective Redshift table (field names, order and formats).  Subsequent files posted to a folder need to have the same specifications as the initial load file to be loaded successfully. 
