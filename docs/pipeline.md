@@ -52,11 +52,42 @@ A data pipeline is a series of well designed, intuitive, and cohesive components
 
 An important concept for data pipelines is understanding how your data is delivered and organized. Typically, you will want to make sure that the relationship between the file(s) being delivered align with how you want to have them stored in the database. Not only does this insure accuracy and consistency, it is a key element to the "hands-off" automation of your data pipeline workflows.
 
-# Files to Database
+# Loading Files with the Data Pipeline
 
-## Getting Organized
+## Directories
 
-We will start with a simple structure that reflects different types of data. First, we have a parent `customers` directory. Within `customers`, there are four subdirectories for `address`, `offers`, `rewards` and `transactions`. The parent and subdirectories reflect a structure that aligns with how data needs to be organized for delivery by external systems.
+The first step is to log in to your Data Pipeline location using the credentials you were provided and create a directory for each unique set of data you will be loading. The name of each directory is very important as it will be the name of the table in the Redshift database (or other database) where you will access the data. It should therefore be a name that is descriptive enough for the end user to understand its contents. The folder name must also meet certain requirements. These requirements are outlined below...
+
+- Must start with a letter
+- Must contain only lowercase letters
+- Can contain numbers and underscores `('_')` but no spaces or special characters (e.g. `'@'`, `'#'`, `'%'`)
+
+Valid folder name:
+
+```
+    "customer_inquiries_jan_2014"
+```
+
+Invalid folder name:
+
+```
+     "Customer inquiries 1/14"
+```
+
+The Openbridge platform will attempt to correct issues it detects with invalid directory naming. For example, it will automatically remove spaces in names. A folder like this:
+
+```
+     "Customer crm file"
+```
+
+Would result in a folder called:
+
+```
+     "customercrmfile"
+```
+### Example: Directory Structure 
+
+Below is an example of a simple directory structure with unique directories for each type of data. First, we have a parent `customers` directory. Within `customers`, there are four subdirectories for `address`, `offers`, `rewards` and `transactions`. The parent and subdirectories reflect a structure that aligns with how data needs to be organized for delivery by external systems.
 
 ```
 customers/
@@ -68,9 +99,23 @@ customers/
 
 With the structure in place, data can be delivered. However, it is important to understand that there needs to be some organizing principles on what data is delivered and where it is delivered. For Openbridge to properly process and route your data, each pipeline needs to have a definition that maps to the object and/or files being delivered.
 
-### Example: CRM Files
+## File Naming
 
-For example, based on the `customers` directory structure we defined previously, a collection of `csv` and `zip` files have been delivered into these locations.
+The Openbridge Data Pipeline accepts any UTF-8 encoded delimited text format (e.g. comma, tab, pipe, etc.) with column headers (header row) and a valid file type extension (`.csv` or `.txt`).
+
+File names should meet the 3 criteria outlined below.
+
+- **Descriptive**: The file name should include the data source, data description and date/date range associated with the data in each file (e.g. `socialcom_paidsocial_20140801.txt` or `socialcom_paidsocial_20140701_20140801.txt`)
+
+- **Unique**: Unique files will be stored and accessible for auditing purposes. Files posted with the same name will be overwritten, making auditing impossible (e.g. `socialcom_paidsocial_20140801.txt`, `socialcom_paidsocial_20140901.txt`, `socialcom_paidsocial_20141001.txt`
+
+- **Consistent**: File naming patterns should be kept consistent over time to enable automated auditing (e.g. `socialcom_paidsocial_20140801.txt`, `socialcom_paidsocial_20140901.txt`, `socialcom_paidsocial_20141001.txt`
+
+This will facilitate any required auditing/QC of data received. **It is highly likely that use of non-standard file naming conventions will cause your import pipeline to fail or result in an outcome different than expected.**
+
+### Example: File Delivery
+
+Let's walk through an example, based on the `customers` directory structure we defined previously, when a collection of `csv` and `zip` files have been delivered to these directories.
 
 ```
     customers/
@@ -102,7 +147,7 @@ For example, based on the `customers` directory structure we defined previously,
           └── 2016-01-06_transactions.csv
 ```
 
-The simplest use case is that a table is generated according to the location a file is delivered. In the above example you will have a `customers`, `address`, `offers_targeted` and `transactions` tables. The content of each table will be based on the corresponding `.csv` or `zip` files placed in each directory.
+In this example, a collection of files has been delivered to the parent directory `customers` and the `address`, `offers`, `rewards` and `transactions` subsdirectories.  In this use case a table is generated for each directory for which a file is delivered. In the above example you will have a `customers`, `address`, `offers_targeted` and `transactions` tables. The content of each table will be based on the corresponding `.csv` or `zip` files placed in each directory.
 
 ## Understanding Your File Layouts
 
@@ -124,21 +169,10 @@ When additional `"*_transactions.csv"` files are delivered to `customers/transac
 |...|...|...|...|...|
 
 
-## File Naming
-
-The platform accepts any UTF-8 encoded delimited text format (e.g. comma, tab, pipe, etc.) with column headers (header row) and a valid file type extension (`.csv` or `.txt`).
-
-File names should meet the 3 criteria outlined below.
-
-- **Descriptive**: The file name should include the data source, data description and date/date range associated with the data in each file (e.g. `socialcom_paidsocial_20140801.txt` or `socialcom_paidsocial_20140701_20140801.txt`)
-- **Unique**: Unique files will be stored and accessible for auditing purposes. Files posted with the same name will be overwritten, making auditing impossible (e.g. `socialcom_paidsocial_20140801.txt`, `socialcom_paidsocial_20140901.txt`, `socialcom_paidsocial_20141001.txt`
-- **Consistent**: File naming patterns should be kept consistent over time to enable automated auditing (e.g. `socialcom_paidsocial_20140801.txt`, `socialcom_paidsocial_20140901.txt`, `socialcom_paidsocial_20141001.txt`
-
-This will facilitate any required auditing/QC of data received. **It is highly likely that use of non-standard file naming conventions will cause your import pipeline to fail or result in an outcome different than expected.**
 
 ## File Structure/Layout
 
-The file column headers are important as they will also be the field names used in the corresponding table. As with the folder name, the column headers should be descriptive enough for the end user to understand its contents. The column headers must meet the same syntax requirements. These requirements are outlined below...
+The file column headers are important as they will also be the field names used in the corresponding table. As with directory names, the column headers should be descriptive enough for the end user to understand its contents. The column headers must meet the same syntax requirements. These requirements are outlined below...
 
 - Must start with a letter
 - Must contain only lowercase letters
@@ -166,9 +200,9 @@ If the system can not automatically perform this transformation data will fail t
 
 ## Dealing With File Layouts Changes
 
-Succesful loading is dependent on each subsequent file delivery the following the established layout.
+The first file delivered to each directory acts as a 'blueprint' for the corresponding database table, defining the field layout (number and order of fields), field formats (text, integer, date, decimal) and expected field delimiter (tab, comma, pipe). The successful load of each subsequent file delivered to that directory is dependent on it following the layout established by the initial 'blueprint' file.  Let's walk through an example to illustrate...
 
-For example, `"*_transactions.csv"` data was following the following layout for most of the year:
+Let's assume that the initial file for the `tranactions` directory looked like the sample file below and `*_transactions.csv` files following this format were delivered to the `tranactions` directory on a daily basis for most of the year:
 
 ```
     "ID","DATE","CUSTOMERID","PURCHASE","STOREID"
@@ -176,7 +210,7 @@ For example, `"*_transactions.csv"` data was following the following layout for 
         "0123","December 10, 2015","543421111A","2.61","3212"
 ```
 
-However, let us say that in November a change was made upstream which changed the layout. The `2016-11-15_transactions.csv` was delivered to `customers/transactions/` and the contents of the file contained a new entity called `LOYALTYID`:
+However, let us say that in November a change was made upstream which changed the layout of the `*_transactions.csv` file being delivered . A file named `2016-11-15_transactions.csv` was delivered to `customers/transactions/` and the file contained an additional field called `LOYALTYID`:
 
 ```
     "ID","DATE","CUSTOMERID","PURCHASE","LOYALTYID","STOREID"
@@ -184,43 +218,12 @@ However, let us say that in November a change was made upstream which changed th
     "0123","December 10, 2015","543421111A","2.61","A904F","3212"
 ```
 
-Due to the addition of `LOYALTYID` this creates a mismatch between the old structure and the new. This different layout would lead `2016-11-15_transactions.csv`, or any other file like it, to fail in loading to the `transactions` table because the underlying structure is different.
+The addition of the`LOYALTYID` field creates a mismatch between the old structure and the new. The load process for`2016-11-15_transactions.csv` (or any other file like it) to the `transactions` table will fail because the underlying structure is different.
 
-If this situation arises, please contact Openbridge support (support@openbridge.com).
+If this situation arises, please contact Openbridge Support (support@openbridge.com).
 
-## Directories
 
-Log into your pipeline location and create a folder for each unique set of data you will be loading. As detailed in the previous examples, the name of the folder is very important as it will be the name of the table in the Redshift database (or other database) where you will access the data. It should therefore be a name that is descriptive enough for the end user to understand its contents. The folder name must also meet certain requirements. These requirements are outlined below...
-
-- Must start with a letter
-- Must contain only lowercase letters
-- Can contain numbers and underscores `('_')` but no spaces or special characters (e.g. `'@'`, `'#'`, `'%'`)
-
-Valid folder name:
-
-```
-    "customer_inquiries_jan_2014"
-```
-
-Invalid folder name:
-
-```
-     "Customer inquiries 1/14"
-```
-
-The Openbridge server will attempt to correct issues it detects with poor folder naming. For example, it will automatically remove spaces in names. A folder like this:
-
-```
-     "Customer crm file"
-```
-
-Would result in a folder called:
-
-```
-     "customercrmfile"
-```
-
-# Sending Compressed Files
+# Compressed Files
 
 Openbridge supports the delivery and processing of compressed files in `zip`, `gzip` or `tar.gz` formats. However, since we do not know the contents of an archive prior to it arriving and us unpackaging it, custom processing is needed to ensure we are handling the contents in the manner you want us to. This is especially important when a single archive contains a number of distinct files that have different data types and structures. Here are a few different use cases that arise with compressed files.
 
@@ -327,7 +330,7 @@ While we may accept the delivery of a file, there is no guarantee that downstrea
 
 ## Check Encoding
 
-Not sure how to check encoding? Here is an exaple using the command line. To check the encoding of a file called `foo.csv`, in your terminal you can type the following;
+Not sure how to check encoding? Here is an example using the command line. To check the encoding of a file called `foo.csv`, in your terminal you can type the following;
 
 For Linux you would type:
 
@@ -354,13 +357,13 @@ Notice the `charset=us-ascii` says the file is ASCII. Perfect! The file is ready
 
 ## Transfer Protocols
 
-Pipeline supports three transfer methods: `SFTP`, `FTPES` and `FTP`. These are simple methods for transferring files between systems. In almost all cases, `SFTP` (or `FTPES`) is preferable to `FTP` because of its underlying security features. `FTP` is an insecure protocol that should only be used in limited cases or on networks you trust. `SFTP` , `FTPES` and `FTP` is integrated into many graphical tools or can be done directly via the command line
+Pipeline supports three transfer methods: `SFTP`, `FTPES` and `FTP`. These are simple methods for transferring files between systems. In almost all cases, `SFTP` (or `FTPES`) is preferable to `FTP` because of its underlying security features. `FTP` is an insecure protocol that should only be used in limited cases or on networks you trust. `SFTP` , `FTPES` and `FTP` are integrated into many graphical tools or can be done directly via the command line
 
 ### Secure File Transfer Protocol (SFTP)
 
 `SFTP` is based on the SSH2 protocol, which encodes activity over a secure channel. Unlike FTP, SSH2 only uses a single TCP connection and sends multiple transfers, or "channels", over that single connection.
 
-Openbridge currently supports public key and password authentication for both `SFTP` and SCP file transfer protocols. If you need to use public key authentication plaese submit a support ticket and we can set that up for you. We do NOT support any shell access. Also, not all `SFTP` commands are accepted.
+Openbridge currently supports public key and password authentication for both `SFTP` and SCP file transfer protocols. If you need to use public key authentication, please submit a support ticket to support@openbridge.com and we can set that up for you. We do NOT support any shell access. Also, not all `SFTP` commands are accepted.
 
 Connection Details:
 
@@ -412,7 +415,7 @@ If you are having connection difficulties, please make sure you can make outboun
 
 ## Blocked Files
 
-To help protect the integrity of the data sent to Openbridge, we do not allow delivery of certain files. For example, you are now allowed to sedn a file called `app.exe` or `my.sql`. This reduces the potential for introducing a unwanted or malicious software threats. The following is a sample of the blocked files:
+To help protect the integrity of the data sent to Openbridge, we do not allow delivery of certain files. For example, you are now allowed to send a file called `app.exe` or `my.sql`. This reduces the potential for introducing unwanted or malicious software threats. The following is a sample of the blocked files:
 
 ```
     ade|adp|app|ai|asa|ashx|asmx|asp|bas|bat|cdx|cer|cgi|chm|class|cmd|com|config|cpl|crt|csh|dmg|doc|docx|dll|eps|exe|fxp|ftaccess|hlp|hta|htr|htaccess|htw|html|htm|ida|idc|idq|ins|isp|its|jse|ksh|lnk|mad|maf|mag|mam|maq|mar|mas|mat|mau|mav|maw|mda|mdb|mde|mdt|mdw|mdz|msc|msh|msh1|msh1xml|msh2|msh2xml|mshxml|msi|msp|mst|ops|pdf|php|php3|php4|php5|pcd|pif|prf|prg|printer|pst|psd|rar|reg|rem|scf|scr|sct|shb|shs|shtm|shtml|soap|stm|tgz|taz|url|vb|vbe|vbs|ws|wsc|wsf|wsh|xls|xlsx|xvd
@@ -437,7 +440,7 @@ If you attempt to send a file that contains a `.` prefix the transfer will not b
 
 # Error Handling
 
-In most cases, things work without incident. However, there are situations where an error may arise. Troubleshooting an error can be a difficult and time consuming endeavor, especially in cases where a system may be sending 1000s of files a day.
+In most cases, file transfers occur without incident. However, there are situations where an error may arise. Troubleshooting an error can be a difficult and time consuming endeavor, especially in cases where a system may be sending 1000s of files a day.
 
 ## Bulk Transfers
 
@@ -445,24 +448,24 @@ Openbridge does not have visibility into the what _should_ be sent from a source
 
 ### Manifests
 
-The source system should be tracking what was delivered and what was not delivered. We suggest that a manifest of files is maintained in the source system. This manifest would indeityf the files to be delivered and their state (success? failure? pending?). The manifest procedure allows the source system to recover from certain errors such as failure of network, source/host system or in the transfer process. In the event of an error, the source system would know to attempt a redeliver for any file that had not received a successful "226" code from Openbridge.
+The source system should be tracking what was delivered and what was not delivered. We suggest that a manifest of files is maintained in the source system. This manifest would identify the files to be delivered and their state (success, failure, pending). The manifest procedure allows the source system to recover from certain errors such as failure of network, source/host system or in the transfer process. In the event of an error, the source system would know to attempt a redeliver for any file that had not received a successful "226" code from Openbridge.
 
 ## Status Codes
 
 Your client will normally be sent a response code of "226" to indicate a successful file transfer. However, there are other status codes that may be present. See below:
 
 - A code 226 is sent if the entire file was successfully received and stored
-- A code 331 is sent due to a login error. The name okay, but you are missing a password.
-- A code 425 is sent if no TCP connection was established. This might mean the server is not available of some other network error. Change from PASV to PORT mode, check your firewall settings
+- A code 331 is sent due to a login error. The name is okay, but you are missing a password.
+- A code 425 is sent if no TCP connection was established. This might mean the server is not available or some other network error. Change from PASV to PORT mode, check your firewall settings
 - A code 426 is sent if the TCP connection was established but then broken by the client or by network failure. Retry later.
-- A request with code 451, 452, or 552 if the server had trouble saving the file to disk. Retry later
+- A request with code 451, 452, or 552 if the server had trouble saving the file to disk. Retry later.
 - A 553 code means the requested action not taken because the file name sent is not allowed. Change the file name or delete spaces/special characters in the file name.
 
-If you are stuck with an error condition, reach out to support for help.
+If you are stuck with an error condition, reach out to Openbridge Support (support@openbridge.com) for help.
 
 ## File Integrity
 
-Openbridge uses checksum (or hashes) validation to ensure the integrity of the file transfer. Openbridge a 128-bit MD5 checksum, which is represented by a 32-character hexadecimal number. This only applies to files once they are in our possession. We suggest that source systems also calculate MD5 checksum in advance of file delivery to increase the confidence that the integrity of the file to be delivered is met. Depending the tools employed by a source system, the checksum process might be built-in.
+Openbridge uses checksum (or hashes) validation to ensure the integrity of the file transfer. Openbridge uses a 128-bit MD5 checksum, which is represented by a 32-character hexadecimal number. This only applies to files once they are in our possession. We suggest that source systems also calculate MD5 checksum in advance of file delivery to increase the confidence that the integrity of the file to be delivered is met. Depending the tools employed by a source system, the checksum process might be built-in.
 
 Employing file integrity checks will help you cross check that the files delivered form the source system match what was delivered to Openbridge.
 
@@ -473,7 +476,7 @@ While the use of MD5 is the default, Openbridge can support other checksum comma
 - XSHA256 (requests SHA256 digest/checksum)
 - XSHA512 (requests SHA512 digest/checksum)
 
-If you need support for any of these these, please contact support.
+If you need assistance for any of these these, please contact Openbridge Support.
 
 # Connection Considerations
 
