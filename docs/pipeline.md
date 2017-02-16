@@ -206,8 +206,8 @@ Let's assume that the initial file for the `tranactions` directory looked like t
 
 ```
     "ID","DATE","CUSTOMERID","PURCHASE","STOREID"
-        "0122","December 10, 2015","123432100A","8.43","4985"
-        "0123","December 10, 2015","543421111A","2.61","3212"
+    "0122","December 10, 2015","123432100A","8.43","4985"
+    "0123","December 10, 2015","543421111A","2.61","3212"
 ```
 
 However, let us say that in November a change was made upstream which changed the layout of the `*_transactions.csv` file being delivered . A file named `2016-11-15_transactions.csv` was delivered to `customers/transactions/` and the file contained an additional field called `LOYALTYID`:
@@ -577,3 +577,43 @@ If you don’t see data that you are expecting to see in one or more Redshift ta
   3. Filename (and FTP path name if known) for the unloaded data
 
 The initial load file is the first file that is posted to a particular folder.  This file is what generates and defines the properties for the respective Redshift table (field names, order and formats).  Subsequent files posted to a folder need to have the same specifications as the initial load file to be loaded successfully. 
+
+## What happens if I post the same data more than once?
+
+The Openbridge platform creates a unique id (ob_transaction_id) based on the hash for each row of data processed.  If a row of data is subsequently processed with the same hash value, it will automatically be excluded from the load process for the table in question.  However, if any field values differ, the hash will also be different and the data will be loaded.  Let's look at an example...
+
+Let's say on 12/11/15 you posted a file named '20151211_ad_performance.csv' to a table named 'ad_performance':
+
+```
+    "ADID","DATE","CLICKS","IMPRESSIONS","CAMPAIGNID","CREATIVEID"
+    "0123","December 10, 2015","12","120","A102B","4985"
+    "4567","December 10, 2015","25","125","A904F","3212"
+```
+
+The records loaded to the ad_performance table would look like this...
+
+|**adid**|**date**|**clicks**|**impressions**|**campaignid**|**creativeid**|**ob_transaction_id**|**ob_modified_date**|
+|---|---|---|---|---|---|
+|0123|December 10, 2015|12|120|A102B|4985|abcd1234|12/11/15 8:45:20|
+|4567|December 10, 2015|25|125|A904F|3212|defg5678|12/11/15 8:45:20|
+
+You will see that the sytem fields 'ob_transaction_id' and 'ob_modified_date' have been added to your table and represent the unique id for that record and the timestamp that the record was loaded to the table.
+
+Then let's say the next day, 12/12/15 that you posted another file named '20151212_ad_performance.csv' that included ad performance data for both 12/10/15 and 12/11/15:
+
+```
+    "ADID","DATE","CLICKS","IMPRESSIONS","CAMPAIGNID","CREATIVEID"
+    "0123","December 10, 2015","12","120","A102B","4985"
+    "0123","December 11, 2015","18","100","A102B","4985"
+    "4567","December 10, 2015","25","125","A904F","3212"
+    "4567","December 11, 2015","20","180","A904F","3212"
+```
+
+The Openbridge platform will analyze this file and identify the 1st and 3rd records on this file as duplicate records because all field values are the same and exclude these records from the load process into the ad_performance table.  The ad_performace table will now look like this...
+
+|**adid**|**date**|**clicks**|**impressions**|**campaignid**|**creativeid**|**ob_transaction_id**|**ob_modified_date**|
+|---|---|---|---|---|---|
+|0123|December 10, 2015|12|120|A102B|4985|abcd1234|12/11/15 8:45:20|
+|0123|December 11, 2015|18|100|A102B|4985|hijk9012|12/12/15 10:05:10|
+|4567|December 10, 2015|25|125|A904F|3212|defg5678|12/11/15 8:45:20|
+|4567|December 11, 2015|20|180|A904F|3212|lmno3456|12/12/15 10:05:10|
