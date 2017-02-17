@@ -585,35 +585,35 @@ The Openbridge platform creates a unique id (ob_transaction_id) based on the has
 Let's say on 12/11/15 you posted a file named '20151211_ad_performance.csv' to a table named 'ad_performance':
 
 ```
-    "ADID","DATE","CLICKS","IMPRESSIONS","CAMPAIGNID","CREATIVEID"
-    "0123","December 10, 2015","12","120","A102B","4985"
-    "4567","December 10, 2015","25","125","A904F","3212"
+    "ADID","DATE","CLICKS","IMPRESSIONS","CAMPAIGNID"
+    "0123","December 10, 2015","12","120","A102B"
+    "4567","December 10, 2015","25","125","A904F"
 ```
 
 The records loaded to the ad_performance table would look like this...
 
-|**adid**|**date**|**clicks**|**impressions**|**campaignid**|**creativeid**|**ob_transaction_id**|**ob_modified_date**|
-|---|---|---|---|---|---|
-|0123|December 10, 2015|12|120|A102B|4985|abcd1234|12/11/15 8:45:20|
-|4567|December 10, 2015|25|125|A904F|3212|defg5678|12/11/15 8:45:20|
+|**adid**|**date**|**clicks**|**impressions**|**campaignid**|**ob_transaction_id**|**ob_modified_date**|
+|---|---|---|---|---|---|---|---|
+|0123|December 10, 2015|12|120|A102B|abcd1234|12/11/15 8:45:20|
+|4567|December 10, 2015|25|125|A904F|defg5678|12/11/15 8:45:20|
 
 You will see that the sytem fields 'ob_transaction_id' and 'ob_modified_date' have been added to your table and represent the unique id for that record and the timestamp that the record was loaded to the table.
 
 Then let's say the next day, 12/12/15 that you posted another file named '20151212_ad_performance.csv' that included ad performance data for both 12/10/15 and 12/11/15:
 
 ```
-    "ADID","DATE","CLICKS","IMPRESSIONS","CAMPAIGNID","CREATIVEID"
-    "0123","December 10, 2015","12","120","A102B","4985"
-    "0123","December 11, 2015","18","100","A102B","4985"
-    "4567","December 10, 2015","25","125","A904F","3212"
-    "4567","December 11, 2015","20","180","A904F","3212"
+    "ADID","DATE","CLICKS","IMPRESSIONS","CAMPAIGNID"
+    "0123","December 10, 2015","12","120","A102B"
+    "0123","December 11, 2015","18","100","A102B"
+    "4567","December 10, 2015","25","125","A904F"
+    "4567","December 11, 2015","20","180","A904F"
 ```
 
 The Openbridge platform will analyze this file and identify the 1st and 3rd records on this file as duplicate records because all field values are the same and exclude these records from the load process into the ad_performance table.  The ad_performace table will now look like this...
 
-|**adid**|**date**|**clicks**|**impressions**|**campaignid**|**creativeid**|**ob_transaction_id**|**ob_modified_date**|
-|---|---|---|---|---|---|
-|0123|December 10, 2015|12|120|A102B|4985|abcd1234|12/11/15 8:45:20|
-|0123|December 11, 2015|18|100|A102B|4985|hijk9012|12/12/15 10:05:10|
-|4567|December 10, 2015|25|125|A904F|3212|defg5678|12/11/15 8:45:20|
-|4567|December 11, 2015|20|180|A904F|3212|lmno3456|12/12/15 10:05:10|
+|**adid**|**date**|**clicks**|**impressions**|**campaignid**|**ob_transaction_id**|**ob_modified_date**|
+|---|---|---|---|---|---|---|
+|0123|December 10, 2015|12|120|A102B|abcd1234|12/11/15 8:45:20|
+|0123|December 11, 2015|18|100|A102B|hijk9012|12/12/15 10:05:10|
+|4567|December 10, 2015|25|125|A904F|defg5678|12/11/15 8:45:20|
+|4567|December 11, 2015|20|180|A904F|lmno3456|12/12/15 10:05:10|
