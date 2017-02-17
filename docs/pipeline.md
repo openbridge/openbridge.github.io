@@ -609,7 +609,7 @@ Then let's say the next day, 12/12/15 that you posted another file named '201512
     "4567","December 11, 2015","20","180","A904F"
 ```
 
-The Openbridge platform will analyze this file and identify the 1st and 3rd records on this file as duplicate records because all field values are the same and exclude these records from the load process into the ad_performance table.  The ad_performace table will now look like this...
+The Openbridge platform will analyze this file and identify the 1st and 3rd records on this file as duplicate records because all field values are the same and exclude these records from the load process into the ad_performance table.  The ad_performance table will now look like this...
 
 |**adid**|**date**|**clicks**|**impressions**|**campaignid**|**ob_transaction_id**|**ob_modified_date**|
 |---|---|---|---|---|---|---|
@@ -617,3 +617,30 @@ The Openbridge platform will analyze this file and identify the 1st and 3rd reco
 |0123|December 11, 2015|18|100|A102B|hijk9012|12/12/15 10:05:10|
 |4567|December 10, 2015|25|125|A904F|defg5678|12/11/15 8:45:20|
 |4567|December 11, 2015|20|180|A904F|lmno3456|12/12/15 10:05:10|
+
+However, let's say that your data changes slight over time or reflects lifetime values for a particular metric and the file you posted on 12/12/15 looks like this...
+
+```
+    "ADID","DATE","CLICKS","IMPRESSIONS","CAMPAIGNID"
+    "0123","December 10, 2015","12","121","A102B"
+    "0123","December 11, 2015","18","100","A102B"
+    "4567","December 10, 2015","25","125","A904F"
+    "4567","December 11, 2015","20","180","A904F"
+```
+In this case, the value in the 'impressions' field for adid on 12/10/15 changed from 120 to 121.  As a result, the row of data will no longer have the same hash value as the row from the previous file and it will be loaded to the ad_performance table which will now look like this...
+
+|**adid**|**date**|**clicks**|**impressions**|**campaignid**|**ob_transaction_id**|**ob_modified_date**|
+|---|---|---|---|---|---|---|
+|0123|December 10, 2015|12|120|A102B|abcd1234|12/11/15 8:45:20|
+|0123|December 10, 2015|12|121|A102B|pqrs7890|12/12/15 10:05:10|
+|0123|December 11, 2015|18|100|A102B|hijk9012|12/12/15 10:05:10|
+|4567|December 10, 2015|25|125|A904F|defg5678|12/11/15 8:45:20|
+|4567|December 11, 2015|20|180|A904F|lmno3456|12/12/15 10:05:10|
+
+As you can see, there are now two rows of data for adid 0123 on 12/10/15 with different values for ob_transaction_id and ob_modified_date.  Depending on how your reporting queries are structured this could result in overtstating impressions for adid 0123 on 12/10/15.
+
+If your data changes over time, it is best practice to only load data for a particular date one time.  If you are faced with this situation you have a couple of options... 
+
+1. Create a view against the ad_performance table (or modify your query logic) so that it returns the row of data with the MAX (or MIN) ob_modified_date for each adid and date combination.
+
+2. Contact Openbridge Support (support@openbridge.com) to create this view or delete the 'duplicate' data from the ad_performance table based on ob_modified_date. 
