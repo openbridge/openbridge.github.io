@@ -3,15 +3,15 @@
 You're looking at the docs for the Openbridge Data Pipeline product! The Pipeline product allows non-technical users a simple and automated toolset to deliver, process and store data of all sizes to a private warehouse. Let's dive in.
 
 - [What Is A Data Pipeline?](#what-is-a-data-pipeline)
-- [Files to Database](#files-to-database)
-	- [Getting Organized](#getting-organized)
-		- [Example: CRM Files](#example-crm-files)
-	- [Understanding Your File Layouts](#understanding-your-file-layouts)
+- [Loading Files with the Data Pipeline](#loading-files-with-the-data-pipeline)
+	- [Directories](#directories)
+		- [Example: Directory Structure](#example-directory-structure)
 	- [File Naming](#file-naming)
+		- [Example: File Delivery](#example-file-delivery)
+	- [Understanding Your File Layouts](#understanding-your-file-layouts)
 	- [File Structure/Layout](#file-structurelayout)
 	- [Dealing With File Layouts Changes](#dealing-with-file-layouts-changes)
-	- [Directories](#directories)
-- [Sending Compressed Files](#sending-compressed-files)
+- [Compressed Files](#compressed-files)
 	- [Simple Use Case: One Archive, One File](#simple-use-case-one-archive-one-file)
 	- [Complex Use Case: One Archive, Many Files](#complex-use-case-one-archive-many-files)
 - [Encoding Your Files](#encoding-your-files)
@@ -42,8 +42,9 @@ You're looking at the docs for the Openbridge Data Pipeline product! The Pipelin
 	- [CLI](#cli)
 	- [Python](#python)
 - [FAQs](#faqs)
+	- [Why isn't the data I posted to the pipeline loaded to Redshift?](#why-isnt-the-data-i-posted-to-the-pipeline-loaded-to-redshift)
+	- [What happens if I post the same data more than once?](#what-happens-if-i-post-the-same-data-more-than-once)
 
-<!-- /TOC -->
 
 
 # What Is A Data Pipeline?
@@ -85,7 +86,7 @@ Would result in a folder called:
 ```
      "customercrmfile"
 ```
-### Example: Directory Structure 
+### Example: Directory Structure
 
 Below is an example of a simple directory structure with unique directories for each type of data. First, we have a parent `customers` directory. Within `customers`, there are four subdirectories for `address`, `offers`, `rewards` and `transactions`. The parent and subdirectories reflect a structure that aligns with how data needs to be organized for delivery by external systems.
 
@@ -568,7 +569,7 @@ If you don’t see data that you are expecting to see in one or more Redshift ta
   3. Is the file delimited properly (e.g. tab or comma-quote) and are the delimiters consistent with the initial load file for the table?
   4. Are the values for each field formatted properly (e.g. text, number, date) and consistent with the initial load file for the table?
 
-   **Resolution:** Fix the error(s) in the file, re-post the file to the FTP location with a new name (e.g. if original file was named 'some_data_20150101.csv' rename new file to something like 'some_data_20150101_2.csv') and check the Redshift table to see if it has been successfully loaded.
+   **Resolution:** Fix the error(s) in the file, re-post the file to the FTP location with a new name (e.g. if original file was named `some_data_20150101.csv` rename new file to something like `some_data_20150101_2.csv`) and check the Redshift table to see if it has been successfully loaded.
 
 3. If the file passes the above checks, please submit a support ticket by emailing support@openbridge.com so that a support agent can assist with the diagnosis and resolution of the load error.  To facilitate the diagnostic efforts please be sure to include the following in the email:
 
@@ -576,13 +577,13 @@ If you don’t see data that you are expecting to see in one or more Redshift ta
   2. Criteria that can be used to identify the missing row(s) in the table (e.g. table ‘foo’ is missing data for the date = xx/xx/xxxx)
   3. Filename (and FTP path name if known) for the unloaded data
 
-The initial load file is the first file that is posted to a particular folder.  This file is what generates and defines the properties for the respective Redshift table (field names, order and formats).  Subsequent files posted to a folder need to have the same specifications as the initial load file to be loaded successfully. 
+The initial load file is the first file that is posted to a particular folder.  This file is what generates and defines the properties for the respective Redshift table (field names, order and formats).  Subsequent files posted to a folder need to have the same specifications as the initial load file to be loaded successfully.
 
 ## What happens if I post the same data more than once?
 
-The Openbridge platform creates a unique id (ob_transaction_id) based on the hash for each row of data processed.  If a row of data is subsequently processed with the same hash value, it will automatically be excluded from the load process for the table in question.  However, if any field values differ, the hash will also be different and the data will be loaded.  Let's look at an example...
+The Openbridge platform creates a unique id (`ob_transaction_id`) based on the hash for each row of data processed.  If a row of data is subsequently processed with the same hash value, it will automatically be excluded from the load process for the table in question.  However, if any field values differ, the hash will also be different and the data will be loaded.  Let's look at an example...
 
-Let's say on 12/11/15 you posted a file named '20151211_ad_performance.csv' to a table named 'ad_performance':
+Let's say on 12/11/15 you posted a file named `20151211_ad_performance.csv` to a table named `ad_performance`:
 
 ```
     "ADID","DATE","CLICKS","IMPRESSIONS","CAMPAIGNID"
@@ -590,16 +591,16 @@ Let's say on 12/11/15 you posted a file named '20151211_ad_performance.csv' to a
     "4567","December 10, 2015","25","125","A904F"
 ```
 
-The records loaded to the ad_performance table would look like this...
+The records loaded to the `ad_performance` table would look like this...
 
 |**adid**|**date**|**clicks**|**impressions**|**campaignid**|**ob_transaction_id**|**ob_modified_date**|
 |---|---|---|---|---|---|---|---|
 |0123|December 10, 2015|12|120|A102B|abcd1234|12/11/15 8:45:20|
 |4567|December 10, 2015|25|125|A904F|defg5678|12/11/15 8:45:20|
 
-You will see that the sytem fields 'ob_transaction_id' and 'ob_modified_date' have been added to your table and represent the unique id for that record and the timestamp that the record was loaded to the table.
+You will see that the sytem fields 'ob_transaction_id' and `ob_modified_date` have been added to your table and represent the unique id for that record and the timestamp that the record was loaded to the table.
 
-Then let's say the next day, 12/12/15 that you posted another file named '20151212_ad_performance.csv' that included ad performance data for both 12/10/15 and 12/11/15:
+Then let's say the next day, 12/12/15 that you posted another file named `20151212_ad_performance.csv` that included ad performance data for both 12/10/15 and 12/11/15:
 
 ```
     "ADID","DATE","CLICKS","IMPRESSIONS","CAMPAIGNID"
@@ -609,7 +610,7 @@ Then let's say the next day, 12/12/15 that you posted another file named '201512
     "4567","December 11, 2015","20","180","A904F"
 ```
 
-The Openbridge platform will analyze this file and identify the 1st and 3rd records on this file as duplicate records because all field values are the same and exclude these records from the load process into the ad_performance table.  The ad_performance table will now look like this...
+The Openbridge platform will analyze this file and identify the 1st and 3rd records on this file as duplicate records because all field values are the same and exclude these records from the load process into the `ad_performance` table.  The `ad_performance` table will now look like this...
 
 |**adid**|**date**|**clicks**|**impressions**|**campaignid**|**ob_transaction_id**|**ob_modified_date**|
 |---|---|---|---|---|---|---|
@@ -627,7 +628,7 @@ However, let's say that your data changes slight over time or reflects lifetime 
     "4567","December 10, 2015","25","125","A904F"
     "4567","December 11, 2015","20","180","A904F"
 ```
-In this case, the value in the 'impressions' field for adid on 12/10/15 changed from 120 to 121.  As a result, the row of data will no longer have the same hash value as the row from the previous file and it will be loaded to the ad_performance table which will now look like this...
+In this case, the value in the `impressions` field for `ADID` on 12/10/15 changed from 120 to 121.  As a result, the row of data will no longer have the same hash value as the row from the previous file and it will be loaded to the ad_performance table which will now look like this...
 
 |**adid**|**date**|**clicks**|**impressions**|**campaignid**|**ob_transaction_id**|**ob_modified_date**|
 |---|---|---|---|---|---|---|
@@ -637,10 +638,10 @@ In this case, the value in the 'impressions' field for adid on 12/10/15 changed 
 |4567|December 10, 2015|25|125|A904F|defg5678|12/11/15 8:45:20|
 |4567|December 11, 2015|20|180|A904F|lmno3456|12/12/15 10:05:10|
 
-As you can see, there are now two rows of data for adid 0123 on 12/10/15 with different values for ob_transaction_id and ob_modified_date.  Depending on how your reporting queries are structured this could result in overtstating impressions for adid 0123 on 12/10/15.
+As you can see, there are now two rows of data for `ADID` 0123 on 12/10/15 with different values for `ob_transaction_id` and `ob_modified_date`.  Depending on how your reporting queries are structured this could result in overtstating impressions for `ADID` 0123 on 12/10/15.
 
-If your data changes over time, it is best practice to only load data for a particular date one time.  If you are faced with this situation you have a couple of options... 
+If your data changes over time, it is best practice to only load data for a particular date one time.  If you are faced with this situation you have a couple of options...
 
-1. Create a view against the ad_performance table (or modify your query logic) so that it returns the row of data with the MAX (or MIN) ob_modified_date for each adid and date combination.
+1. Create a view against the `ad_performance table` (or modify your query logic) so that it returns the row of data with the `MAX` (or `MIN`) `ob_modified_date` for each `ADID` and date combination.
 
-2. Contact Openbridge Support (support@openbridge.com) to create this view or delete the 'duplicate' data from the ad_performance table based on ob_modified_date. 
+2. Contact Openbridge Support (support@openbridge.com) to create a customized view or you can delete the duplicate data from the `ad_performance` table based on `ob_modified_date`.
