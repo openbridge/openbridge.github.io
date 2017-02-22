@@ -23,16 +23,25 @@ The diagram describes the conceptual architecture of Openbridge, which acts as a
 ![architecture](./images/architecture.png)
 
 
+To briefly explain these six sub-systems:
+
+* **Trackers** fire Snowplow events. Currently we have 12 trackers, covering web, mobile, desktop, server and IoT
+* **Collectors** receive Snowplow events from trackers. Currently we have three different event collectors, sinking events either to Amazon S3, Apache Kafka or Amazon Kinesis
+* **Enrich** cleans up the raw Snowplow events, enriches them and puts them into storage. Currently we have a Hadoop-based enrichment process, and a Kinesis- or Kafka-based process
+* **Storage** is where the Snowplow events live. Currently we store the Snowplow events in a flatfile structure on S3, and in the Redshift and Postgres databases
+* **Data modeling** is where event-level data is joined with other data sets and aggregated into smaller data sets, and business logic is applied. This produces a clean set of tables which make it easier to perform analysis on the data. We have data models for Redshift and **[Looker] [looker]**
+* **Analytics** are performed on the Snowplow events or on the aggregate tables.
+
 ### Openbridge Technology 101
 The Openbridge Data Pipeline include three specific resources for delivery of data into our system
 
- - ** Data Bridges**: Data Bridges are considered “outbound” or "inbound" data services. They are connections that facilitate the flow of data between systems.
-  - ** Outbound Bridge **: This involves "pulling" or "fetching” from a third party data source locally to Openbridge.
-- ** Inbound Bridge **: This involves a third party "pushing" or "sending” data from to Openbridge.
- - ** Data Pipelines**: Data Bridges are considered “outbound” data services. They are adapters that are built for “fetching”  (connecting, processing and storing data) from a third party data source.
-  - ** Routing **: Processing Service is a distributed real-time computation system for processing fast, large (and small) streams of data
-  - ** Processing **: Processing Service is a distributed real-time of data as it flows through the system. Data is modeled, joined and aggregated  into usable data sets. This produces a collection of organized and accessible tables for simple consumption the data with preferred tools.
- - ** Data Warehouse **: Warehouse Services is a fast, fully-managed, petabyte-scale data warehouse service.
+* ** Data Bridges**: Data Bridges are considered “outbound” or "inbound" data services. They are connections that facilitate the flow of data between systems.
+ * ** Outbound Bridge **: This involves "pulling" or "fetching” from a third party data source locally to Openbridge.
+ * ** Inbound Bridge **: This involves a third party "pushing" or "sending” data from to Openbridge.
+* ** Data Pipelines**: Data Bridges are considered “outbound” data services. They are adapters that are built for “fetching”  (connecting, processing and storing data) from a third party data source.
+ * ** Routing **: Processing Service is a distributed real-time computation system for processing fast, large (and small) streams of data
+ * ** Processing **: Processing Service is a distributed real-time of data as it flows through the system. Data is modeled, joined and aggregated  into usable data sets. This produces a collection of organized and accessible tables for simple consumption the data with preferred tools.
+* ** Data Warehouse **: Warehouse Services is a fast, fully-managed, petabyte-scale data warehouse service.
 
 
 
