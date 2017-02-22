@@ -9,12 +9,15 @@ Feel free to fork, clone, and improve the sample code and guides.
 ## Openbridge Platform
 
 ### Challenges
+if you are an non-technical or are technical but lack the time, skills or resources, accessing data in remote systems can be challenging. If a data source provides the best SDK's and API to access you data it does not solve your access challenges given those constraints:
+
 ![gap](./images/data-gap.png)
 
-
+You objective is to close the gap, ensuring that the data is delivered to those who need to consume it. Openbridge is focsed on solving those access gaps
 
 ![gap](./images/data-access.png)
 
+Our goal is to ensure that users who want to use data for reporting, visualizations, optimization or enhancing customer experiences can access it in a timely and efficient manner.
 
 ### Openbridge Architecture
 
