@@ -1,4 +1,4 @@
-# Documentation · Data Pipeline
+# Documentation · Data Bridges
 
 You're looking at the docs for the Openbridge Data Pipeline product! The Pipeline product allows non-technical users a simple and automated toolset to deliver, process and store data of all sizes to a private warehouse. Let's dive in.
 
@@ -47,72 +47,21 @@ You're looking at the docs for the Openbridge Data Pipeline product! The Pipelin
 
 
 
-# What Is A Data Pipeline?
+# Facebook Page Insights
 
-A data pipeline is a series of well designed, intuitive, and cohesive components--built on top of he Openbridge platform. If you are familar with loading data to relational data stores you'll find this familiar, but simpler and more automated.
+With direct access to Facebook Page Insights data you can build a deeper understanding of your community and closer relationships with your customers.
 
-An important concept for data pipelines is understanding how your data is delivered and organized. Typically, you will want to make sure that the relationship between the file(s) being delivered align with how you want to have them stored in the database. Not only does this insure accuracy and consistency, it is a key element to the "hands-off" automation of your data pipeline workflows.
+## Data Definitions
 
-# Loading Files with the Data Pipeline
+Take a look at our [data definition docs](https://docs.google.com/spreadsheets/d/1nM1s8wjTjAHqGu3YPIysMc8pRgbnh7zCYUKmq97y5T0/edit?usp=sharing) for Facebook Page Insights layout and elements.
 
-## Directories
+## Delivery Time
 
-The first step is to log in to your Data Pipeline location using the credentials you were provided and create a directory for each unique set of data you will be loading. The name of each directory is very important as it will be the name of the table in the Redshift database (or other database) where you will access the data. It should therefore be a name that is descriptive enough for the end user to understand its contents. The folder name must also meet certain requirements. These requirements are outlined below...
+We collect data from Facebook Page Insights API once a day. This ensures we are within the limits Facebook places on API calls.
 
-- Must start with a letter
-- Must contain only lowercase letters
-- Can contain numbers and underscores `('_')` but no spaces or special characters (e.g. `'@'`, `'#'`, `'%'`)
+## Developer Docs
 
-Valid folder name:
-
-```
-    "customer_inquiries_jan_2014"
-```
-
-Invalid folder name:
-
-```
-     "Customer inquiries 1/14"
-```
-
-The Openbridge platform will attempt to correct issues it detects with invalid directory naming. For example, it will automatically remove spaces in names. A folder like this:
-
-```
-     "Customer crm file"
-```
-
-Would result in a folder called:
-
-```
-     "customercrmfile"
-```
-### Example: Directory Structure
-
-Below is an example of a simple directory structure with unique directories for each type of data. First, we have a parent `customers` directory. Within `customers`, there are four subdirectories for `address`, `offers`, `rewards` and `transactions`. The parent and subdirectories reflect a structure that aligns with how data needs to be organized for delivery by external systems.
-
-```
-customers/
-  ├── address/
-  ├── offers/
-  ├── rewards/
-  └── transactions/
-```
-
-With the structure in place, data can be delivered. However, it is important to understand that there needs to be some organizing principles on what data is delivered and where it is delivered. For Openbridge to properly process and route your data, each pipeline needs to have a definition that maps to the object and/or files being delivered.
-
-## File Naming
-
-The Openbridge Data Pipeline accepts any UTF-8 encoded delimited text format (e.g. comma, tab, pipe, etc.) with column headers (header row) and a valid file type extension (`.csv` or `.txt`).
-
-File names should meet the 3 criteria outlined below.
-
-- **Descriptive**: The file name should include the data source, data description and date/date range associated with the data in each file (e.g. `socialcom_paidsocial_20140801.txt` or `socialcom_paidsocial_20140701_20140801.txt`)
-
-- **Unique**: Unique files will be stored and accessible for auditing purposes. Files posted with the same name will be overwritten, making auditing impossible (e.g. `socialcom_paidsocial_20140801.txt`, `socialcom_paidsocial_20140901.txt`, `socialcom_paidsocial_20141001.txt`
-
-- **Consistent**: File naming patterns should be kept consistent over time to enable automated auditing (e.g. `socialcom_paidsocial_20140801.txt`, `socialcom_paidsocial_20140901.txt`, `socialcom_paidsocial_20141001.txt`
-
-This will facilitate any required auditing/QC of data received. **It is highly likely that use of non-standard file naming conventions will cause your import pipeline to fail or result in an outcome different than expected.**
+Check out [Facebook Developer docs](https://developers.facebook.com/docs/platforminsights/page) for more details about Facebook Page Insights API.
 
 ### Example: File Delivery
 
