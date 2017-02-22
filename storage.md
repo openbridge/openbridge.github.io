@@ -1,31 +1,5 @@
-<!doctype html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Openbridge.github.io by openbridge</title>
-
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-  </head>
-  <body>
-    <div class="wrapper">
-      <header>
-        <img src="http://cdn.openbridge.com/wp-content/uploads/2014/08/xlogo-hori-wht.png.pagespeed.ic.zkBuXuO3Dr.png" height="54px"</img>
-        <h1>Openbridge Developer Documentation</h1>
-        <p class="view">Visit us @ <a href="http://www.openbridge.com">www.openbridge.com</a> or if you need support site head over to <a href="openbridge.zendesk.com">openbridge.zendesk.com </a></p>
-
-      </header>
-
-      <section>
-<h3 class="view"><a href="index.html">&lt;-Back to Home</a></h3>
-<p><small>Last update: 12-02-2014</small></p><strong>Version: v1.0</strong>
-       <h1>Openbridge Data Warehouse Services</h1>
-       <h2>Overview</h2>
+<h1>Openbridge Data Warehouse Services</h1>
+<h2>Overview</h2>
 
 
 <p>Openbridge Data Warehouse Services is a fast, fully-managed, petabyte-scale data warehouse service. This covers the infrastructure and database software licenses as well as the administrative tasks associated with setup, configuring and monitoring your data warehouse. This includes verification of your cluster health and taking backups to applying patches and upgrades. Backups are both incremental and automatic. In addition to backups, we also support restores in the event that is ever needed.
@@ -47,41 +21,41 @@ Massively Parallel Processing (MPP):  We automatically distributes data and quer
 
 
 <table width="500" border="0">
-  <tr>
-    <td><strong>Type</strong></td>
-    <td><strong>CPU Cores</strong></td>
-    <td><strong>Memory<strong></td>
-    <td><strong>Storage Per Node</strong></td>
-    <td><strong>I/O</strong></td>
-  </tr>
-  <tr>
-    <td>CORE-X</td>
-    <td>2</td>
-    <td>15GB</td>
-    <td>2TB HDD</td>
-    <td>0.30 GB/s</td>
-  </tr>
-  <tr>
-    <td>CORE-XL</td>
-    <td>16</td>
-    <td>120GB</td>
-    <td>16TB HDD</td>
-    <td>2.40 GB/s</td>
-  </tr>
-  <tr>
-    <td>SSD-X</td>
-    <td>2</td>
-    <td>15GB</td>
-    <td>.16TB HDD</td>
-    <td>0.20 GB/s</td>
-  </tr>
-  <tr>
-     <td>SSD-XL</td>
-    <td>32</td>
-    <td>244GB</td>
-    <td>2.56TB HDD</td>
-    <td>3.70 GB/s</td>
-  </tr>
+<tr>
+<td><strong>Type</strong></td>
+<td><strong>CPU Cores</strong></td>
+<td><strong>Memory<strong></td>
+<td><strong>Storage Per Node</strong></td>
+<td><strong>I/O</strong></td>
+</tr>
+<tr>
+<td>CORE-X</td>
+<td>2</td>
+<td>15GB</td>
+<td>2TB HDD</td>
+<td>0.30 GB/s</td>
+</tr>
+<tr>
+<td>CORE-XL</td>
+<td>16</td>
+<td>120GB</td>
+<td>16TB HDD</td>
+<td>2.40 GB/s</td>
+</tr>
+<tr>
+<td>SSD-X</td>
+<td>2</td>
+<td>15GB</td>
+<td>.16TB HDD</td>
+<td>0.20 GB/s</td>
+</tr>
+<tr>
+<td>SSD-XL</td>
+<td>32</td>
+<td>244GB</td>
+<td>2.56TB HDD</td>
+<td>3.70 GB/s</td>
+</tr>
 </table>
 <ul>
 <li>CORE-X scales from 1 node to 32 nodes with up to 64TB of storage, 64 virtual cores and 480GiB of RAM
@@ -97,14 +71,3 @@ Massively Parallel Processing (MPP):  We automatically distributes data and quer
 <p>If exporting data out of the database, please consider the additional storage capacity needed from uncompressed data. For example, a 100MB of data resident in the database may require 500MB to 1TB of storage space extracted and uncompressed.
 <p> In the event a customer requirements or preferences dictate use of CORE-X, CORE-XL, SSD-X or SSD-XL we can price them out accordingly.
 <p> By default, we retains backup for 7 days. You can request this to be as long as 90+ days to meet data retention policies. There may be incremental storage costs based on your requriements.
-
-
-      </section>
-      <footer>
-        <p><small>Hosted on GitHub Pages</small></p>
-      </footer>
-    </div>
-    <script src="javascripts/scale.fix.js"></script>
-
-  </body>
-</html>

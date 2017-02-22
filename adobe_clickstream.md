@@ -1,31 +1,5 @@
-<!doctype html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>openbridge.github.io by openbridge</title>
-
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-  </head>
-  <body>
-    <div class="wrapper">
-      <header>
-        <img src="http://cdn.openbridge.com/wp-content/uploads/2014/08/xlogo-hori-wht.png.pagespeed.ic.zkBuXuO3Dr.png" height="54px"</img>
-        <h1>Openbridge Developer Documentation</h1>
-        <p class="view">Visit us @ <a href="http://www.openbridge.com">www.openbridge.com</a> or if you need support site head over to <a href="openbridge.zendesk.com">openbridge.zendesk.com </a></p>
-
-      </header>
-
-      <section>
-<h3 class="view"><a href="index.html">&lt;-Back to Home</a></h3>
-<p><small>Last update: 12-02-2014</small></p><strong>Version: v1.0</strong>
-       <h1>Setting Up Adobe Clickstream Feeds</h1>
-       <h2>Overview</h2>
+<h1>Setting Up Adobe Clickstream Feeds</h1>
+<h2>Overview</h2>
 
 <h3>Delivery Endpoints</h3>
 
@@ -106,13 +80,4 @@
 <h3>
 <a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
 
-<p>Having trouble with something? Contact us at <a href="http://openbridge.zendesk.com">http://openbridge.zendesk.com</a> or contact <a href="mailto:support@openbridge.com">support@github.com</a> and we’ll help you sort it out.</p>
-      </section>
-      <footer>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
-      </footer>
-    </div>
-    <script src="javascripts/scale.fix.js"></script>
-
-  </body>
-</html>
+<p>Having trouble with something? Contact us at <a href="http://openbridge.zendesk.com">http://openbridge.zendesk.com</a> or contact <a href="mailto:support@openbridge.com">support@openbridge.com</a> and we’ll help you sort it out.</p>

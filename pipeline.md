@@ -501,6 +501,21 @@ Openbridge employs a dynamic "ban" lists that prevents the banned user or host f
 
 Openbridge sets the maximum number of seconds a connection between the our server and your client can exist after the client has successfully authenticated. This is typically 10 minutes or 600 seconds in length. If you are idle for longer than this time allotment the server will think you are finished and disconnect your client. If this occurs you will simply need to reconnect.
 
+# Example: From Data Bridge to Pipeline
+
+## Adobe
+- **[Adobe Analytics](http://www.adobe.com/solutions/digital-analytics.html)** : Adobe Analytics provides one of the leading web analytics solutions on the market. We have detailed two methods of extracting data from Adobe to Openbridge.
+
+ - **Adobe Clickstream Feeds (ACF)**: We provided hints, considerations, samples and steps to follow for accepting Adobe Clickstream feeds.
+
+ - **Adobe Datawarehouse Feeds (ADF)**: Documentation of setting up ADF to Openbridge.
+
+
+## Kenshoo
+- **[Kenshoo](http://kenshoo.com)**: Kenshoo provides the ability to push feeds directly to Openbridge. Please contact your Kenshoo account rep to request feeds be configured.
+
+ - **Kensoo Feeds**: Notes on delivery of paid social data from Kenshoo to Openbridge.
+
 # Reference
 
 ## FTP Clients
