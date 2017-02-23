@@ -1,17 +1,17 @@
-# Documentation · Data Bridges
+# Documentation · Data Pipeline
 
 You're looking at the docs for the Openbridge Data Pipeline product! The Pipeline product allows non-technical users a simple and automated toolset to deliver, process and store data of all sizes to a private warehouse. Let's dive in.
 
 - [What Is A Data Pipeline?](#what-is-a-data-pipeline)
-- [Loading Files with the Data Pipeline](#loading-files-with-the-data-pipeline)
-	- [Directories](#directories)
-		- [Example: Directory Structure](#example-directory-structure)
-	- [File Naming](#file-naming)
-		- [Example: File Delivery](#example-file-delivery)
+- [Files to Database](#files-to-database)
+	- [Getting Organized](#getting-organized)
+		- [Example: CRM Files](#example-crm-files)
 	- [Understanding Your File Layouts](#understanding-your-file-layouts)
+	- [File Naming](#file-naming)
 	- [File Structure/Layout](#file-structurelayout)
 	- [Dealing With File Layouts Changes](#dealing-with-file-layouts-changes)
-- [Compressed Files](#compressed-files)
+	- [Directories](#directories)
+- [Sending Compressed Files](#sending-compressed-files)
 	- [Simple Use Case: One Archive, One File](#simple-use-case-one-archive-one-file)
 	- [Complex Use Case: One Archive, Many Files](#complex-use-case-one-archive-many-files)
 - [Encoding Your Files](#encoding-your-files)
@@ -35,33 +35,81 @@ You're looking at the docs for the Openbridge Data Pipeline product! The Pipelin
 	- [Account Ban and Lockout](#account-ban-and-lockout)
 	- [Idle Connection Time Limits](#idle-connection-time-limits)
 - [Reference](#reference)
-	- [FTP Clients](#ftp-clients)
+	- [SFTP Clients](#ftp-clients)
 	- [GUI](#gui)
 		- [Free](#free)
 		- [Paid](#paid)
 	- [CLI](#cli)
 	- [Python](#python)
 - [FAQs](#faqs)
-	- [Why isn't the data I posted to the pipeline loaded to Redshift?](#why-isnt-the-data-i-posted-to-the-pipeline-loaded-to-redshift)
-	- [What happens if I post the same data more than once?](#what-happens-if-i-post-the-same-data-more-than-once)
 
 
+# What Is A Data Pipeline?
 
-# Facebook Page Insights
+A data pipeline is a series of well designed, intuitive, and cohesive components--built on top of he Openbridge platform. If you are familar with loading data to relational data stores you'll find this familiar, but simpler and more automated.
 
-With direct access to Facebook Page Insights data you can build a deeper understanding of your community and closer relationships with your customers.
+An important concept for data pipelines is understanding how your data is delivered and organized. Typically, you will want to make sure that the relationship between the file(s) being delivered align with how you want to have them stored in the database. Not only does this insure accuracy and consistency, it is a key element to the "hands-off" automation of your data pipeline workflows.
 
-## Data Definitions
+# Loading Files with the Data Pipeline
 
-Take a look at our [data definition docs](https://docs.google.com/spreadsheets/d/1nM1s8wjTjAHqGu3YPIysMc8pRgbnh7zCYUKmq97y5T0/edit?usp=sharing) for Facebook Page Insights layout and elements.
+## Directories
 
-## Delivery Time
+The first step is to log in to your Data Pipeline location using the credentials you were provided and create a directory for each unique set of data you will be loading. The name of each directory is very important as it will be the name of the table in the Redshift database (or other database) where you will access the data. It should therefore be a name that is descriptive enough for the end user to understand its contents. The folder name must also meet certain requirements. These requirements are outlined below...
 
-We collect data from Facebook Page Insights API once a day. This ensures we are within the limits Facebook places on API calls.
+- Must start with a letter
+- Must contain only lowercase letters
+- Can contain numbers and underscores `('_')` but no spaces or special characters (e.g. `'@'`, `'#'`, `'%'`)
 
-## Developer Docs
+Valid folder name:
 
-Check out [Facebook Developer docs](https://developers.facebook.com/docs/platforminsights/page) for more details about Facebook Page Insights API.
+```
+    "customer_inquiries_jan_2014"
+```
+
+Invalid folder name:
+
+```
+     "Customer inquiries 1/14"
+```
+
+The Openbridge platform will attempt to correct issues it detects with invalid directory naming. For example, it will automatically remove spaces in names. A folder like this:
+
+```
+     "Customer crm file"
+```
+
+Would result in a folder called:
+
+```
+     "customercrmfile"
+```
+### Example: Directory Structure
+
+Below is an example of a simple directory structure with unique directories for each type of data. First, we have a parent `customers` directory. Within `customers`, there are four subdirectories for `address`, `offers`, `rewards` and `transactions`. The parent and subdirectories reflect a structure that aligns with how data needs to be organized for delivery by external systems.
+
+```
+customers/
+  ├── address/
+  ├── offers/
+  ├── rewards/
+  └── transactions/
+```
+
+With the structure in place, data can be delivered. However, it is important to understand that there needs to be some organizing principles on what data is delivered and where it is delivered. For Openbridge to properly process and route your data, each pipeline needs to have a definition that maps to the object and/or files being delivered.
+
+## File Naming
+
+The Openbridge Data Pipeline accepts any UTF-8 encoded delimited text format (e.g. comma, tab, pipe, etc.) with column headers (header row) and a valid file type extension (`.csv` or `.txt`).
+
+File names should meet the 3 criteria outlined below.
+
+- **Descriptive**: The file name should include the data source, data description and date/date range associated with the data in each file (e.g. `socialcom_paidsocial_20140801.txt` or `socialcom_paidsocial_20140701_20140801.txt`)
+
+- **Unique**: Unique files will be stored and accessible for auditing purposes. Files posted with the same name will be overwritten, making auditing impossible (e.g. `socialcom_paidsocial_20140801.txt`, `socialcom_paidsocial_20140901.txt`, `socialcom_paidsocial_20141001.txt`
+
+- **Consistent**: File naming patterns should be kept consistent over time to enable automated auditing (e.g. `socialcom_paidsocial_20140801.txt`, `socialcom_paidsocial_20140901.txt`, `socialcom_paidsocial_20141001.txt`
+
+This will facilitate any required auditing/QC of data received. **It is highly likely that use of non-standard file naming conventions will cause your import pipeline to fail or result in an outcome different than expected.**
 
 ### Example: File Delivery
 
@@ -319,45 +367,18 @@ Connection Details:
 
 ```
     Host:               pipeline.openbridge.io
-    Port:               2222
+    Port:               22
     Protocol:           SFTP
     User:               Provided separately
     Password:           Provided separately
 ```
 
-### FTP Explicit Mode (TLS)/(SSL)
-
-Openbridge supports FTP explicit mode (also known as `FTPES`). Your `FTPES` client must be configured to "explicitly request" SS/TLS security.
-
-The system includes support for most TLS and SSL cryptographic protocols. The system uses OpenSSL cryptographic "engine", a module within the OpenSSL library. OpenSSL will find from the supported engines the first one usable for the connection. If no usable engines are found, OpenSSL will default to its normal software implementation.
-
-SSL/TLS protocol versions used when establishing SSL/TLS sessions is **TLSv1, TLSv1.1 and TLSv1.2**. Please note SSLv3 and SSv2 are not permitted due to security gaps. You can read more about this [here][1] and [here][2]
-
-If your client connects to the FTPS server with an unknown security mechanism, the server will respond to the AUTH command with error code 504 (not supported).
-
-Connection Details:
-
-```
-    Host:             pipeline.openbridge.io
-    Port:             21
-    Protocol:         FTPES
-    User:             Provided separately
-    Password:         Provided separately
-```
 
 ### File Transfer Protocol (FTP)
 
-Openbridge does support the use of `FTP`. We recognize that there are some systems that can only deliver data via `FTP`. For example, many of the Adobe export processes typically occur via `FTP`. However, it should be noted that the use of `FTP` offers **no encryption** for connection and data transport. Using the `FTP` protocol is regarded to be unsafe. It is therefore advisable to use `SFTP` or `FTPES` connections to ensure that data is securely transferred.
+**Openbridge does support the use of `FTP`**. We recognize that there are some systems that can only deliver data via `FTP`. For example, many of the Adobe export processes typically occur via `FTP`. However, it should be noted that the use of `FTP` offers **no encryption** for connection and data transport. Using the `FTP` protocol is regarded to be unsafe. It is therefore advisable to use `SFTP` or `FTPES` connections to ensure that data is securely transferred.
 
-Connection Details:
-
-```
-    Host:             pipeline.openbridge.io
-    Port:             21
-    Protocol:         Plain FTP
-    User:             Provided separately
-    Password:         Provided separately
-```
+If you need FTP access, please contact support.
 
 ## Check Your Firewall
 
@@ -450,21 +471,6 @@ Openbridge employs a dynamic "ban" lists that prevents the banned user or host f
 
 Openbridge sets the maximum number of seconds a connection between the our server and your client can exist after the client has successfully authenticated. This is typically 10 minutes or 600 seconds in length. If you are idle for longer than this time allotment the server will think you are finished and disconnect your client. If this occurs you will simply need to reconnect.
 
-# Example: From Data Bridge to Pipeline
-
-## Adobe
-- **[Adobe Analytics](http://www.adobe.com/solutions/digital-analytics.html)** : Adobe Analytics provides one of the leading web analytics solutions on the market. We have detailed two methods of extracting data from Adobe to Openbridge.
-
- - **Adobe Clickstream Feeds (ACF)**: We provided hints, considerations, samples and steps to follow for accepting Adobe Clickstream feeds.
-
- - **Adobe Datawarehouse Feeds (ADF)**: Documentation of setting up ADF to Openbridge.
-
-
-## Kenshoo
-- **[Kenshoo](http://kenshoo.com)**: Kenshoo provides the ability to push feeds directly to Openbridge. Please contact your Kenshoo account rep to request feeds be configured.
-
- - **Kensoo Feeds**: Notes on delivery of paid social data from Kenshoo to Openbridge.
-
 # Reference
 
 ## FTP Clients
@@ -522,20 +528,24 @@ Here is a [demo](https://github.com/paramiko/paramiko/blob/master/demos/demo_sft
 
 If you don’t see data that you are expecting to see in one or more Redshift tables, there are a few steps you can take to diagnose the issue…
 
-1. Verify that the file(s) containing the data in question was successfully posted to the FTP location.  Most FTP software includes search functionality that allows  you to search the relevant folder for the filename or a portion of the filename  (e.g. filename contains ‘foo’)
+### Verify File Delivery
+Verify that the file(s) containing the data in question was successfully posted to the FTP location.  Most FTP software includes search functionality that allows  you to search the relevant folder for the filename or a portion of the filename  (e.g. filename contains ‘foo’)
 
    **Resolution:** If the file was not posted to the FTP location, attempt to re-post (or re-request) the data and check the Redshift table to see if it has loaded.  Depending on the size of the file and other files in the processing queue, this could take anywhere from a few seconds to a several minutes.
 
-2. If the file was successfully posted to the FTP location, download a copy of the file to your desktop and open the file in a text editor (e.g. Notepad) or Excel to check the following issues that could result in a load failure:
+### Verify The File Contents
+
+If the file was successfully posted to the FTP location, download a copy of the file to your desktop and open the file in a text editor (e.g. Notepad) or Excel to check the following issues that could result in a load failure:
 
   1. Does the file contain data?
   2. Is the file layout (i.e. columns and column order) the same as its corresponding Redshift table?
   3. Is the file delimited properly (e.g. tab or comma-quote) and are the delimiters consistent with the initial load file for the table?
   4. Are the values for each field formatted properly (e.g. text, number, date) and consistent with the initial load file for the table?
 
-   **Resolution:** Fix the error(s) in the file, re-post the file to the FTP location with a new name (e.g. if original file was named `some_data_20150101.csv` rename new file to something like `some_data_20150101_2.csv`) and check the Redshift table to see if it has been successfully loaded.
+**Resolution:** Fix the error(s) in the file, re-post the file to the FTP location with a new name (e.g. if original file was named `some_data_20150101.csv` rename new file to something like `some_data_20150101_2.csv`) and check the Redshift table to see if it has been successfully loaded.
 
-3. If the file passes the above checks, please submit a support ticket by emailing support@openbridge.com so that a support agent can assist with the diagnosis and resolution of the load error.  To facilitate the diagnostic efforts please be sure to include the following in the email:
+### Everything Looks Good?
+If the file passes the above checks, please submit a support ticket by emailing support@openbridge.com so that a support agent can assist with the diagnosis and resolution of the load error.  To facilitate the diagnostic efforts please be sure to include the following in the email:
 
   1. Redshift table name with the missing data
   2. Criteria that can be used to identify the missing row(s) in the table (e.g. table ‘foo’ is missing data for the date = xx/xx/xxxx)
@@ -549,7 +559,7 @@ The Openbridge platform creates a unique id (`ob_transaction_id`) based on the h
 
 Let's say on 12/11/15 you posted a file named `20151211_ad_performance.csv` to a table named `ad_performance`:
 
-```
+```bash
     "ADID","DATE","CLICKS","IMPRESSIONS","CAMPAIGNID"
     "0123","December 10, 2015","12","120","A102B"
     "4567","December 10, 2015","25","125","A904F"
