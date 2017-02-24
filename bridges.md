@@ -176,6 +176,92 @@ We collect data from the YouTube Analytics API once a day. This ensures we are w
 
 Check out the [YouTube Developer docs](https://developers.google.com/youtube/) for more details about YouTube API.
 
+# Adobe Clickstream
+
+The Adobe Clickstream data bridge allows you to extract clickstream data residing in Adobe Analytics system.
+
+## Data Definitions
+
+Clickstream data can be very wide with over 500+ columns. There are also collections of helper files to support browser, devices, etc. lookups. You can a sample set of data elements in our [data defintion doc](https://docs.google.com/spreadsheets/d/1TV4RikjlF_u7nKi3RVro1gLjr_yByH9YrMzHiYqYKVE/edit?usp=sharing)
+
+## Delivery Time
+
+Adobe delivers once a day. Data for each day is delivered after it is processed by Adobe, typically in the early AM hours. The data may arrive from Adobe as a single zipped file, or in multiple zipped files each containing approximately 2 GB of uncompressed data. The data is typically loaded into your Openbridge account within minutes of arriving.
+
+## Developer Docs
+
+For detailed Adobe Clickstream technical specifications, please refer to [Adobe documentation](http://www.adobe.com/solutions/digital-analytics.html)
+
+# NCR Aloha Point of Sale
+
+Powerful consumer purchase and loyalty behavioral data direct from NCR Aloha POS
+
+## Data Definitions
+
+Take a look at our [data definition docs](https://docs.google.com/spreadsheets/d/1XyiP9yXWlLSTk3Or_Wad-8BrpGlC9EzetKnMgFuIanc/edit?usp=sharing) for NCR Aloha POS layout and elements.
+
+## Delivery Time
+
+The frequency we collect the data from Aloha is configurable. In many cases the frequency most select is daily. We are happy to discuss options related to the frequency of data retrieval. The data is typically loaded into your Openbridge account within minutes of arriving.
+
+# Sizmek Ad IQ
+
+Sizmek Ad IQ delivers comprehensive access to your campaign and advertising performance data.
+
+## Data Definitions
+
+Take a look at our [data definition docs](https://docs.google.com/spreadsheets/d/1xAAMU6ARInXfbDHMd079i_nzGE67eSY4JrYm06h2a1k/edit?usp=sharing) for Sizmek Ad IQ layout and elements.
+
+## Delivery Time
+
+We collect data once a day. We collect data for the prior day’s activity. For example, a request on July 3rd would return data for July 2nd. More frequent requests could result in partial or no responses from Sizmek for the requested metrics. The data is typically loaded into your Openbridge account within minutes of arriving.
+
+## Developer Docs
+
+Check out [Sizmek docs](http://platform.mediamind.com/Eyeblaster.MediaMind.API.Doc/?v=3) for more details about Sizmek MDX Trafficking API.
+
+# Adobe Data Warehouse
+
+## Data Definitions
+
+Adobe Data Warehouse Reports data is tailored to your report builder queries. As a result there is no standard layout. Our system will automatically detect the custom layout and use it to define your table in your data warehouse. We have provided a sample layout [here](https://docs.google.com/spreadsheets/d/1mPoJYU8Ojiir3terkJ8t2wOvC9aLx-HmoVbv_aB3LqI/edit?usp=sharing)
+
+## Delivery Time
+
+The delivery schedule is something you can setup in Adobe. Adobe delivers once a day. Data for each day is delivered after it is processed, typically in the early AM hours. The data is typically loaded into your Openbridge account within minutes of arriving.
+
+# Google DFA Reports
+
+Define the reports in DoubleClick Campaign Manager and we will deliver them to your own private data warehouse.
+
+## Data Definitions
+
+Take a look at our [data definition docs](https://docs.google.com/spreadsheets/d/1IxLD0op2Kd3R5QwOi3WhYWuUiuSi6t8e5Bm_4zQeBh4/edit?usp=sharing) for a sample DoubleClick DFA Report layout and elements.
+
+## Delivery Time
+
+We collect data once a day. For example, a request to Google DFA Reporting API on July 3rd would return data for July 2nd. This ensures you have completed daily views for each reporting period. The data is typically loaded into your Openbridge account within minutes of arriving.
+
+## Developer Docs
+
+Check out [Google Developer docs](https://developers.google.com/doubleclick-advertisers/) for more details.
+
+# Movio Cinema
+
+Movio Cinema data bridge unleashes the full potential of your data. Tap into member, click, campaign, and segment data to inform decisions on how to optimize prospect and customer engagement strategies.
+
+## Data Definitions
+
+Take a look at our [data definition docs](https://docs.google.com/spreadsheets/d/1BtnHsAtEANH0QgOSRVDQjxdPQDMNa0PHiwf9F4LFMDU/edit?usp=sharing) for Movio Cinema layout and elements.
+
+## Delivery Time
+
+We collect data once a day. Movio provides data for the prior day’s activity. For example, when we request data on July 3rd Movio would return data for July 2nd. The data is typically loaded into your Openbridge account within minutes of arriving.
+
+
+## Developer Docs
+
+Check out [Movio support docs](https://support.movio.co/login/) for more details.
 # Example: From Data Bridge to Pipeline
 
 ## Adobe
@@ -189,4 +275,4 @@ Check out the [YouTube Developer docs](https://developers.google.com/youtube/) f
 ## Kenshoo
 - **[Kenshoo](http://kenshoo.com)**: Kenshoo provides the ability to push feeds directly to Openbridge. Please contact your Kenshoo account rep to request feeds be configured.
 
- - **Kensoo Feeds**: Notes on delivery of paid social data from Kenshoo to Openbridge.
+ - **Kenshoo Feeds**: Notes on delivery of paid social data from Kenshoo to Openbridge.
