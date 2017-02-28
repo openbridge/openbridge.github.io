@@ -141,6 +141,6 @@ Adobe supports standard username and password credential for SFTP. Openbridge wi
 ## Delivery Frequency
 You have the option of scheduling the frequency of your data warehouse with the Adobe website. We suggest that the feeds are scheduled daily, delivered between 3AM and 6AM daily.
 
-## Support or Contact
+# Support or Contact
 
 <p>Having trouble with something? Contact us at <a href="http://openbridge.zendesk.com">http://openbridge.zendesk.com</a> or contact <a href="mailto:support@openbridge.com">support@openbridge.com</a> and we’ll help you sort it out.</p>
