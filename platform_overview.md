@@ -9,7 +9,7 @@
 	- [Challenges Connecting Sources To Consumers](#challenges-connecting-sources-to-consumers)
 	- [Openbridge Architecture](#openbridge-architecture)
 		- [Data Bridges](#data-bridges)
-		- [Data Pipelines*](#data-pipelines)
+		- [Data Pipelines](#data-pipelines)
 		- [Data Warehouse](#data-warehouse)
 
 <!-- /TOC -->
@@ -52,7 +52,7 @@ Data Bridges are considered “outbound” or "inbound" data services. They are 
   - **Inbound Bridge**: This involves a third party "pushing" or "sending” data from to Openbridge.
 
 
-### Data Pipelines*
+### Data Pipelines
 Data Bridges are considered “outbound” data services. They are adapters that are built for “fetching”  (connecting, processing and storing data) from a third party data source.
   - **Routing**: Processing Service is a distributed real-time computation system for processing fast, large (and small) streams of data
   - **Processing**: Processing Service is a distributed real-time of data as it flows through the system. Data is modeled, joined and aggregated  into usable data sets. This produces a collection of organized and accessible tables for simple consumption the data with preferred tools.
