@@ -10,15 +10,6 @@ This may include tailoring the platform to meet specific campaign, CRM, Loyalty,
 * **Custom ETL and/or ELT:** Data integration analytics and design between one or more disparate data sources as well as help develop tailored data processing topologies base don your requirements
 * **Custom API and Data Sources**:Any customized data feeds can be integrated into the platform, based on the requirements of the source system
 
-## Examples
-
-Data Strategy
-
-Adobe-Google
-
-others?
-
-D
 
 ## Timing and Costs
 may vary for services depending the specifics of each customer request. For example, internal client databases may have specific security and data retention policies that would need to be cared for. We would partner with you to review each source and provide an assessment on the relative ease or complexity of integration
