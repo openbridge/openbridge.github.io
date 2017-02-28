@@ -262,17 +262,3 @@ We collect data once a day. Movio provides data for the prior day’s activity. 
 ## Developer Docs
 
 Check out [Movio support docs](https://support.movio.co/login/) for more details.
-# Example: From Data Bridge to Pipeline
-
-## Adobe
-- **[Adobe Analytics](http://www.adobe.com/solutions/digital-analytics.html)** : Adobe Analytics provides one of the leading web analytics solutions on the market. We have detailed two methods of extracting data from Adobe to Openbridge.
-
- - **Adobe Clickstream Feeds (ACF)**: We provided hints, considerations, samples and steps to follow for accepting Adobe Clickstream feeds.
-
- - **Adobe Datawarehouse Feeds (ADF)**: Documentation of setting up ADF to Openbridge.
-
-
-## Kenshoo
-- **[Kenshoo](http://kenshoo.com)**: Kenshoo provides the ability to push feeds directly to Openbridge. Please contact your Kenshoo account rep to request feeds be configured.
-
- - **Kenshoo Feeds**: Notes on delivery of paid social data from Kenshoo to Openbridge.
