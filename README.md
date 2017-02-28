@@ -11,6 +11,7 @@ Learn how to push data from external systems to Openbridge for loading into your
 
 ### Data Bridges
 
+#### Data Definitions
 See the data definitions for our bridge integrations with third parties: [See docs](/data_definitions.md).
 
 ### Where And How Data Is Stored
