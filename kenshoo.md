@@ -1,4 +1,17 @@
-# Setting Up Kenshoo Data Feeds
+<h1> Setting Up Kenshoo Data Feeds </h1>
+
+<h2> Table Of Contents </h2>
+<!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
+
+	- [Overview](#overview)
+		- [Delivery Endpoints](#delivery-endpoints)
+		- [Delivery Directory and Filemasks](#delivery-directory-and-filemasks)
+		- [Loading Kenshoo Data To The Database](#loading-kenshoo-data-to-the-database)
+	- [Access Credentials](#access-credentials)
+	- [Delivery Frequency](#delivery-frequency)
+	- [Support or Contact](#support-or-contact)
+
+<!-- /TOC -->
 
 ## Overview
 The following guide describes the process of Kenshoo sending paid search data to Openbridge. Exports from Kenshoo will require a special request to the Kenshoo support team to setup.
