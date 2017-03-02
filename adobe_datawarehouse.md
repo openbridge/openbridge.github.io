@@ -2,24 +2,20 @@
 
 <h2> Table Of Contents </h2>
 
-<!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
-
-	- [Overview](#overview)
-	- [Setup](#setup)
-		- [Adobe](#adobe)
-		- [Openbridge](#openbridge)
-		- [Delivery Endpoints](#delivery-endpoints)
-	- [Organizing Your Adobe Warehouse Exports](#organizing-your-adobe-warehouse-exports)
-		- [Report Types](#report-types)
-		- [Example](#example)
-		- [Structure Your Report Delivery](#structure-your-report-delivery)
-		- [Adobe Data Warehouse File Contents Cleanup](#adobe-data-warehouse-file-contents-cleanup)
-		- [Loading Adobe Warehouse Data To The Database](#loading-adobe-warehouse-data-to-the-database)
-		- [Access Credentials](#access-credentials)
-	- [Delivery Frequency](#delivery-frequency)
+- [Overview](#overview)
+- [Setup](#setup)
+	- [Adobe](#adobe)
+	- [Openbridge](#openbridge)
+	- [Delivery Endpoints](#delivery-endpoints)
+- [Organizing Your Adobe Warehouse Exports](#organizing-your-adobe-warehouse-exports)
+	- [Report Types](#report-types)
+	- [Example](#example)
+	- [Structure Your Report Delivery](#structure-your-report-delivery)
+	- [Adobe Data Warehouse File Contents Cleanup](#adobe-data-warehouse-file-contents-cleanup)
+	- [Loading Adobe Warehouse Data To The Database](#loading-adobe-warehouse-data-to-the-database)
+	- [Access Credentials](#access-credentials)
+- [Delivery Frequency](#delivery-frequency)
 - [Support or Contact](#support-or-contact)
-
-<!-- /TOC -->
 
 ## Overview
 
