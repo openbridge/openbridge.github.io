@@ -4,10 +4,10 @@
 
 <!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
 
-- [Setting Up Adobe Data Warehouse Feeds (AWF)](#setting-up-adobe-data-warehouse-feeds-awf)
-	- [Table Of Contents](#table-of-contents)
 	- [Overview](#overview)
 	- [Setup](#setup)
+		- [Adobe](#adobe)
+		- [Openbridge](#openbridge)
 		- [Delivery Endpoints](#delivery-endpoints)
 	- [Organizing Your Adobe Warehouse Exports](#organizing-your-adobe-warehouse-exports)
 		- [Report Types](#report-types)
@@ -17,27 +17,35 @@
 		- [Loading Adobe Warehouse Data To The Database](#loading-adobe-warehouse-data-to-the-database)
 		- [Access Credentials](#access-credentials)
 	- [Delivery Frequency](#delivery-frequency)
-	- [Support or Contact](#support-or-contact)
+- [Support or Contact](#support-or-contact)
 
 <!-- /TOC -->
 
 ## Overview
 
-The Adobe data warehouse extract process enables Adobe customers a mechanism to export data from their account to an external location.
+The process outlined in this document described how to configure Openbridge to automate reception of Adobe export feeds, processing them and load them into a database.
 
 ## Setup
-The process of defining the extracts and scheduling delivery occurs within the Adobe website. You can generate ad hoc data reports for your historical reporting data, which are delivered as CSV files via SFTP. You build a query to filter your data and isolate specific feeds. The vast majority of requests take less than a day to process, but depending on the complexity of your query and the amount of data it can take longer to process.
 
-The process outlined in this document described how to configure Openbridge to automate reception of those feeds, processing them and load them into a database.
+### Adobe
+The process of defining the extracts and scheduling delivery occurs within the Adobe website. In the Adobe management site you can generate ad hoc data reports for your historical reporting data. The reports are delivered as CSV files via SFTP from Adobe to Openbridge.
 
-Please consult the Adobe website for the latest steps to configure feeds: [see Adobe Warehouse Docs](https://marketing.adobe.com/developer/documentation/data-warehouse/c-data-warehouse-api)
+In the Adobe UI you build a query to filter your data and isolate specific feeds. The vast majority of requests take less than a day to process, but depending on the complexity of your query and the amount of data it can take longer to process.
 
-Also, see the [data pipeline](/pipeline.md) for additional context on the Adobe Data Warehouse Feed process. The document describes the additional considerations and requirements for delivery of data feeds into Openbridge.
+The following are a few Adobe documents which describe how to setup Adobe to deliver exports:
+* [Schedule Report Requests](https://marketing.adobe.com/resources/help/en_US/arb/schedule_report_requests.html)
+* [Using FTP and sFTP with the Adobe Marketing
+Cloud](https://marketing.adobe.com/resources/help/en_US/whitepapers/ftp/analytics_ftp.pdf)
+
+### Openbridge
+
+Openbridge will need to configure a private delivery location to receive files from Adobe. This will also include the appropriate credentials (user/pass) needed by Adobe to log into our system.
+
+Also, see the [data pipeline](/pipeline.md) for additional context on the Adobe Data Warehouse Feed process. The data pipeline document describes the additional considerations and requirements for delivery of data feeds into Openbridge.
 
 ### Delivery Endpoints
 
-Adobe defaults delivery to FTP. If you want to use SFTP, it will require a special request to the Adobe support team to setup.
-
+Adobe defaults delivery to FTP. If you want to use SFTP,  check to make sure a special request to the Adobe support team to setup is not needed.
 
 Delivery of files to the following:
 <ul>

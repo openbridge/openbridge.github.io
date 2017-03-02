@@ -57,7 +57,7 @@ Kenshoo provides the ability to push feeds directly to Openbridge. Please contac
 Notes on delivery of paid media data from Kenshoo to Openbridge.
 
 ## Expert Services
-We also offer expert service for development, consulting or subject matter expertise. See our [expert services offering](/expert_service.md) for more details and examples.
+We also offer expert service for development, consulting or subject matter expertise. See our [expert services offering](expert_services.md) for more details and examples.
 
 ## Contributing
 You are invited to contribute new features, fixes, or updates, large or small; we are always thrilled to receive pull requests, and do our best to process them as fast as we can.
