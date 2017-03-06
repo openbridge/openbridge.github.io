@@ -17,6 +17,7 @@
 - [Delivery Frequency](#delivery-frequency)
 - [Support or Contact](#support-or-contact)
 
+
 ## Overview
 
 The process outlined in this document described how to configure Openbridge to automate reception of Adobe export feeds, processing them and load them into a database.
