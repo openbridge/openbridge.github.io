@@ -42,17 +42,15 @@ The following are a few guides to help provide context on how to use the Openbri
 ### Adobe
 Adobe Analytics provides one of the leading web analytics solutions on the market. We have detailed two methods of extracting data from Adobe to Openbridge.
 
-* #### [Adobe Clickstream Feeds (ACF)](adobe_clickstream.md)
-We provided hints, samples and steps to follow for accepting Adobe Clickstream feeds.
+* **[Adobe Clickstream Feeds (ACF)](adobe_clickstream.md)**:We provided hints, samples and steps to follow for accepting Adobe Clickstream feeds.
 
-* #### [Adobe Datawarehouse Feeds (ADF)](adobe_datawarehouse.md)
+* **[Adobe Datawarehouse Feeds (ADF)](adobe_datawarehouse.md)**:
 Documentation of setting up ADF to Openbridge.
-
 
 ### Kenshoo
 Kenshoo provides the ability to push feeds directly to Openbridge. Please contact your Kenshoo account rep to request feeds be configured.
 
-* #### [Kenshoo Data Feeds (KDF)](kenshoo.md)
+* **[Kenshoo Data Feeds (KDF)](kenshoo.md)**:
 Notes on delivery of paid media data from Kenshoo to Openbridge.
 
 ## Expert Services
