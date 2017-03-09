@@ -59,6 +59,7 @@ The first step is to log in to your Data Pipeline location using the credentials
 - Must start with a letter
 - Must contain only lowercase letters
 - Can contain numbers and underscores `('_')` but no spaces or special characters (e.g. `'@'`, `'#'`, `'%'`)
+- **IMPORTANT**: Any data sent to a folder named `testing` will **NOT** be processed. If you wanted to test deliveries of files to the pipeline, you can post them to the `/testing/` folder. 
 
 Valid folder name:
 
