@@ -53,6 +53,18 @@ Kenshoo provides the ability to push feeds directly to Openbridge. Please contac
 * **[Kenshoo Data Feeds (KDF)](kenshoo.md)**:
 Notes on delivery of paid media data from Kenshoo to Openbridge.
 
+### Eloqua
+Eloqua provides the ability to push feeds directly to Openbridge. You may need your Eloqua admin to assist if your account is not already configured to export data.
+
+* **[Eloqua Data Feeds (EDF)](eloqua.md)**:
+Notes on delivery contact activities (like bounces, clickthroughs, sends, opens, etc.),
+
+### Litmus
+Litmus provides the ability to push campaign analytics feeds directly to Openbridge. You may need contact Litmus support to assist if your account is not already configured to export data.
+
+* **[Litmus Data Feeds (EDF)](litmus.md)**:
+Notes on delivery contact activities (like geolocation, clicks, read time, etc.),
+
 ## Expert Services
 We also offer expert service for development, consulting or subject matter expertise. See our [expert services offering](expert_services.md) for more details and examples.
 
