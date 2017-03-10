@@ -2,6 +2,19 @@
 
 Litmus Email Analytics Data Feeds provides you with the raw data behind your Email Analytics campaigns. This is perfect for those who want to integrate Email Analytics data into there customer data hub.
 
+<h2> Table Of Contents </h2>
+
+- [Prerequisites](#prerequisites)
+- [Litmus Feeds](#litmus-feeds)
+	- [Export Data Definitions](#export-data-definitions)
+	- [Organizing Your Deliveries](#organizing-your-deliveries)
+	- [File Naming](#file-naming)
+	- [Delivery Time](#delivery-time)
+	- [Service Guarantees](#service-guarantees)
+	- [Litmus Activation](#litmus-activation)
+- [References](#references)
+
+
 ## Prerequisites
 In order to take advantage of these data feeds you need to configure Litmus to push data to a Litmus Data Pipeline. Openbridge will then automate processing and importing of these files upon receipt.
 
@@ -26,7 +39,7 @@ You can also download a [sample export file](samples/litmus/sample.csv).
 
 ### Organizing Your Deliveries
 
-Please check the documentation on the considerations and best practices for [sending compressed files](/pipeline.md#sending-compressed-files) to ensure automated and continuous processing
+Please check the documentation on the considerations and best practices for [sending compressed files](pipeline.md#compressed-files) to ensure automated and continuous processing
 
 
 ### File Naming

@@ -1,10 +1,16 @@
-
 # Oracle Eloqua Data Pipelines
-
 Oracle Eloqua allows you to export contacts, accounts, or activities. These exports are can be sent to your Openbridge data pipeline for loading into your preferred data warehouse.
 
 This guide is meant to kickstart your efforts. As always, please refer to the latest Eloqua docs as they may differ slightly from the process described below.
 
+<h2> Table Of Contents </h2>
+- [Prerequisites](#prerequisites)
+- [Setting Up Your Exports](#setting-up-your-exports)
+	- [Step 1: Export Settings](#step-1-export-settings)
+	- [Step 2: Configure Delivery Destination](#step-2-configure-delivery-destination)
+	- [Step 3: Schedule Your Export](#step-3-schedule-your-export)
+	- [Step 4: Define The Data You Want In Your Export](#step-4-define-the-data-you-want-in-your-export)
+	- [Step 5: Run Your Export!](#step-5-run-your-export)
 
 ## Prerequisites
 If you want to export contact activities (like `bounces`, `clickthroughs`, `sends`, `opens`, etc.), your administrator must set up Oracle Eloqua to capture the activity data to an internal queue. This may already be in place. If not, your administrator must configure what activities to capture. To set up the external call to an internal queue, log in to `My Oracle Support` and create a service request. After this configuration is complete, Oracle Eloqua will begin collecting the activity data going forward.

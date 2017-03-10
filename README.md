@@ -4,6 +4,7 @@ This documentation is intended to get you the basics of running Openbridge appli
 
 <h2> Table Of Contents </h2>
 
+<!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
 - [Platform Overview: Philosophy and Architecture](#platform-overview-philosophy-and-architecture)
 - [How To Use Data Pipelines: Delivering Data To Openbridge](#how-to-use-data-pipelines-delivering-data-to-openbridge)
 - [Data Bridges: Integrations With Third Parties](#data-bridges-integrations-with-third-parties)
@@ -11,13 +12,13 @@ This documentation is intended to get you the basics of running Openbridge appli
 - [Data Warehouses: Where And How Data Is Stored](#data-warehouses-where-and-how-data-is-stored)
 - [How To Guides](#how-to-guides)
 	- [Adobe](#adobe)
-		- [[Adobe Clickstream Feeds (ACF)](adobe_clickstream.md)](#adobe-clickstream-feeds-acfadobeclickstreammd)
-		- [[Adobe Datawarehouse Feeds (ADF)](adobe_datawarehouse.md)](#adobe-datawarehouse-feeds-adfadobedatawarehousemd)
 	- [Kenshoo](#kenshoo)
-		- [[Kenshoo Data Feeds (KDF)](kenshoo.md)](#kenshoo-data-feeds-kdfkenshoomd)
+	- [Eloqua](#eloqua)
+	- [Litmus](#litmus)
 - [Expert Services](#expert-services)
 - [Contributing](#contributing)
 - [Support or Contact](#support-or-contact)
+
 
 
 ## Platform Overview: Philosophy and Architecture
@@ -63,7 +64,7 @@ Notes on delivery contact activities (like bounces, clickthroughs, sends, opens,
 Litmus provides the ability to push campaign analytics feeds directly to Openbridge. You may need contact Litmus support to assist if your account is not already configured to export data.
 
 * **[Litmus Data Feeds (EDF)](litmus.md)**:
-Notes on delivery contact activities (like geolocation, clicks, read time, etc.),
+Notes on campaign activities (like geolocation, clicks, read time, etc.),
 
 ## Expert Services
 We also offer expert service for development, consulting or subject matter expertise. See our [expert services offering](expert_services.md) for more details and examples.
