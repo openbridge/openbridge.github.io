@@ -655,4 +655,4 @@ Created By: John Doe
 ```
 In this example, there are 4 additional rows above the column headers and a footer row with summarized totals for the CLICKS and IMPRESSIONS fields.  The initial load of this file will fail because the first 4 rows do not contain valid delimiters.  You do not want to load either the additional header or footer rows as it will impact your ability to query these fields in the Redshift table.  We will need to modify the 'blueprint' for these files to ignore the first 4 rows and the last (footer) row.
 
-Once that chnage has been implemented, as long as the source files follow the same layout and structure as the sample file above, they will successfully load on an automated basis.
+Once that change has been implemented, as long as the source files follow the same layout and structure as the sample file above, they will successfully load on an automated basis.
