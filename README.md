@@ -63,7 +63,7 @@ Notes on delivery contact activities (like bounces, clickthroughs, sends, opens,
 ### Litmus
 Litmus provides the ability to push campaign analytics feeds directly to Openbridge. You may need contact Litmus support to assist if your account is not already configured to export data.
 
-* **[Litmus Data Feeds (EDF)](litmus.md)**:
+* **[Litmus Data Feeds (LDF)](litmus.md)**:
 Notes on campaign activities (like geolocation, clicks, read time, etc.),
 
 ## Expert Services
