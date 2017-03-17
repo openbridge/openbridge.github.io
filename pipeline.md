@@ -620,3 +620,36 @@ If your data changes over time, it is best practice to only load data for a part
 1. Create a view against the `ad_performance table` (or modify your query logic) so that it returns the row of data with the `MAX` (or `MIN`) `ob_modified_date` for each `ADID` and date combination.
 
 2. Contact Openbridge Support (support@openbridge.com) to create a customized view or you can delete the duplicate data from the `ad_performance` table based on `ob_modified_date`.
+
+## What happens if new columns are added (or removed) from my file?
+
+If the number or order of fields in your file changes and it no longer matches the layout of the initial 'blueprint' file used to create the table, the new file will fail to load.  If the change to the file layout delivered from your source is valid (i.e. not the result of an upstream processing error) you have a couple of options to resolve the issue.
+
+1. Follow the process described above to load the data to a new table.  The resulting new table will have a new 'blueprint' and subsequent files that follow the new layout will load successfully.  If you still need to reference the data from 'old' table you can still do so.  If necessary, you can create a view that merges data from both the old and the new table into one consolidated view.  The view creation process is described in Amazon's [documentation](http://docs.aws.amazon.com/redshift/latest/dg/r_CREATE_VIEW.html) or contact Openbridge Support (support@openbridge.com) for assistance.
+
+2. You can contact Openbridge Support (support@openbridge.com) to modify the 'blueprint' for the original table to follow the revised file structure so that the new files will process successfully.  Data for the new fields will only be populated going forward.  The previously loaded data will contain null values for any of the new fields.
+
+## What if the name of one of my columns changes?
+
+If only the name of the column on the source file changes (e.g.'click_percent' becomes 'click_pct') but the underlying data type and order of fields stays the same, the file should be processed successfully.  The field name in the resulting Redshift table will continue to reflect the original field name.  If for some reason you need to change the name of the field in the new table, contact Openbridge Support (support@openbridge.com).
+
+## What if the name (filemask) of my source file changes?
+
+If only the naming convention of the source file changes (e.g.'ad_performance_daily.csv' becomes 'ad_performance_yyyymmdd.csv') but the underlying data type and order of fields stays the same, the file should be processed successfully.  
+
+## What if my source files contain additional header and/or footer rows in addition to the column headers?
+
+The Openbridge pipeline is designed to automatically load delimited text files with one header row.  If the files delivered by your source system cannot be modified to remove extraneous header (or footer) rows you will need to contact Openbridge Support (support@openbridge.com) to modify the table blueprint to ignore those rows.  For example, let's say your source files looks like this...
+
+```
+Report Name: Daily Advertising Performance Report
+Date: 12/12/2015
+Created By: John Doe
+
+    "ADID","DATE","CLICKS","IMPRESSIONS","CAMPAIGNID"
+    "0123","December 10, 2015","12","120","A102B"
+    "0123","December 11, 2015","18","100","A102B"
+    "4567","December 10, 2015","25","125","A904F"
+    "4567","December 11, 2015","20","180","A904F"
+"Totals", "75", "525" 
+```
