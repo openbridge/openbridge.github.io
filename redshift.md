@@ -21,7 +21,7 @@ Did you see a list of tables? Ok, we are off to a good start!
 ### Create Database
 If you want to use a different database then the default one created when your cluster was configured, then you can run:
 
-`create database if not exists {{mydatabase}};`
+`create database {{mydatabase}};`
 
 This will create a new database in your cluster for us to use.
 
@@ -87,9 +87,9 @@ To simplify the process of getting everything setup we have included a `SQL` fil
 
 Using `psql` you connect to Redshift with your admin user you would run:
 
-`psql -h *****.us-east-1.redshift.amazonaws.com -p 5439 -U username -d mydatabase -q -f create-openbridge.sql`
+`psql -h *****.us-east-1.redshift.amazonaws.com -p 5439 -U username -q -f create-openbridge.sql`
 
-Note: You will be prompted for your password
+Note: You will be prompted for your password. Also, you will need to change the `{{username}}`, `{{username}}` and `{{mydatabase}}` to the values that reflect your system/preferences.
 
 
 ## Configure Amazon Redshift Firewall
