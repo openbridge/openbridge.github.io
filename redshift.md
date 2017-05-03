@@ -1,12 +1,17 @@
 # Redshift Self-Service
 Openbridge allows you to add your self-managed Redshift cluster as a storage location. There are a few things that need to be cared for to allow Openbridge to pipeline data to your cluster
 
-- [Setting Up Redshift Databases, Schemas and Users](#setting-up-redshift-databases-schemas-and-users)
-	- [Create Database](#create-database)
-	- [Create User](#create-user)
-	- [Create Schema](#create-schema)
-	- [Pre-Built Redshift Configuration SQL File](#pre-built-redshift-configuration-sql-file)
-- [Configure Amazon Redshift Firewall](#configure-amazon-redshift-firewall)
+<!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
+
+- [Redshift Self-Service](#redshift-self-service)
+	- [Setting Up Redshift Databases, Schemas and Users](#setting-up-redshift-databases-schemas-and-users)
+		- [Create Database](#create-database)
+		- [Create User](#create-user)
+		- [Create Schema](#create-schema)
+		- [Using Pre-Built Redshift Configuration File](#using-pre-built-redshift-configuration-file)
+	- [Configure Amazon Redshift Firewall](#configure-amazon-redshift-firewall)
+
+<!-- /TOC -->
 
 ## Setting Up Redshift Databases, Schemas and Users
 

@@ -1,70 +1,72 @@
 # Data Bridges - Data Definitions
 
-## Table of Contents
+<!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
 
-- [Facebook Page Insights](#facebook-page-insights)
-	- [Data Definitions](#data-definitions)
-	- [Delivery Time](#delivery-time)
-	- [Developer Docs](#developer-docs)
-- [YouTube Channel Insights](#youtube-channel-insights)
-	- [Data Definitions](#data-definitions)
-	- [Delivery Time](#delivery-time)
-	- [Developer Docs](#developer-docs)
-- [Google Analytics 360](#google-analytics-360)
-	- [Data Definitions](#data-definitions)
-	- [Delivery Time](#delivery-time)
-	- [Developer Docs](#developer-docs)
-- [Instagram Community IQ](#instagram-community-iq)
-	- [Data Definitions](#data-definitions)
-	- [Delivery Time](#delivery-time)
-	- [Developer Docs](#developer-docs)
-- [YouTube Video IQ](#youtube-video-iq)
-	- [Data Definitions](#data-definitions)
-	- [Delivery Time](#delivery-time)
-	- [Developer Docs](#developer-docs)
-- [Google Adwords](#google-adwords)
-	- [Data Definitions](#data-definitions)
-	- [Delivery Time](#delivery-time)
-	- [Developer Docs](#developer-docs)
-- [Salesforce Email Studio](#salesforce-email-studio)
-	- [Data Definitions](#data-definitions)
-	- [Delivery Time](#delivery-time)
-	- [Developer Docs](#developer-docs)
-- [Google DoubleClick Search](#google-doubleclick-search)
-	- [Data Definitions](#data-definitions)
-	- [Delivery Time](#delivery-time)
-	- [Developer Docs](#developer-docs)
-- [Salesforce Advertising Studio](#salesforce-advertising-studio)
-	- [Data Definitions](#data-definitions)
-	- [Delivery Time](#delivery-time)
-	- [Developer Docs](#developer-docs)
-- [YouTube Competitor](#youtube-competitor)
-	- [Data Definitions](#data-definitions)
-	- [Delivery Time](#delivery-time)
-	- [Developer Docs](#developer-docs)
-- [Adobe Clickstream](#adobe-clickstream)
-	- [Data Definitions](#data-definitions)
-	- [Delivery Time](#delivery-time)
-	- [Developer Docs](#developer-docs)
-- [NCR Aloha Point of Sale](#ncr-aloha-point-of-sale)
-	- [Data Definitions](#data-definitions)
-	- [Delivery Time](#delivery-time)
-- [Sizmek Ad IQ](#sizmek-ad-iq)
-	- [Data Definitions](#data-definitions)
-	- [Delivery Time](#delivery-time)
-	- [Developer Docs](#developer-docs)
-- [Adobe Data Warehouse](#adobe-data-warehouse)
-	- [Data Definitions](#data-definitions)
-	- [Delivery Time](#delivery-time)
-- [Google DFA Reports](#google-dfa-reports)
-	- [Data Definitions](#data-definitions)
-	- [Delivery Time](#delivery-time)
-	- [Developer Docs](#developer-docs)
-- [Movio Cinema](#movio-cinema)
-	- [Data Definitions](#data-definitions)
-	- [Delivery Time](#delivery-time)
-	- [Developer Docs](#developer-docs)
+- [Data Bridges - Data Definitions](#data-bridges-data-definitions)
+	- [Facebook Page Insights](#facebook-page-insights)
+		- [Data Definitions](#data-definitions)
+		- [Delivery Time](#delivery-time)
+		- [Developer Docs](#developer-docs)
+	- [Instagram Community IQ](#instagram-community-iq)
+		- [Data Definitions](#data-definitions)
+		- [Delivery Time](#delivery-time)
+		- [Developer Docs](#developer-docs)
+	- [YouTube Channel Insights](#youtube-channel-insights)
+		- [Data Definitions](#data-definitions)
+		- [Delivery Time](#delivery-time)
+		- [Developer Docs](#developer-docs)
+	- [YouTube Video IQ](#youtube-video-iq)
+		- [Data Definitions](#data-definitions)
+		- [Delivery Time](#delivery-time)
+		- [Developer Docs](#developer-docs)
+	- [YouTube Competitor](#youtube-competitor)
+		- [Data Definitions](#data-definitions)
+		- [Delivery Time](#delivery-time)
+		- [Developer Docs](#developer-docs)
+	- [Google Analytics 360](#google-analytics-360)
+		- [Data Definitions](#data-definitions)
+		- [Delivery Time](#delivery-time)
+		- [Developer Docs](#developer-docs)
+	- [Google Adwords](#google-adwords)
+		- [Data Definitions](#data-definitions)
+		- [Delivery Time](#delivery-time)
+		- [Developer Docs](#developer-docs)
+	- [Salesforce Email Studio](#salesforce-email-studio)
+		- [Data Definitions](#data-definitions)
+		- [Delivery Time](#delivery-time)
+		- [Developer Docs](#developer-docs)
+	- [Google DoubleClick Search](#google-doubleclick-search)
+		- [Data Definitions](#data-definitions)
+		- [Delivery Time](#delivery-time)
+		- [Developer Docs](#developer-docs)
+	- [Salesforce Advertising Studio](#salesforce-advertising-studio)
+		- [Data Definitions](#data-definitions)
+		- [Delivery Time](#delivery-time)
+		- [Developer Docs](#developer-docs)
+	- [Adobe Data Warehouse](#adobe-data-warehouse)
+		- [Data Definitions](#data-definitions)
+		- [Delivery Time](#delivery-time)
+	- [Adobe Clickstream](#adobe-clickstream)
+		- [Data Definitions](#data-definitions)
+		- [Delivery Time](#delivery-time)
+		- [Developer Docs](#developer-docs)
+	- [NCR Aloha Point of Sale](#ncr-aloha-point-of-sale)
+		- [Data Definitions](#data-definitions)
+		- [Delivery Time](#delivery-time)
+	- [Sizmek Ad IQ](#sizmek-ad-iq)
+		- [Data Definitions](#data-definitions)
+		- [Delivery Time](#delivery-time)
+		- [Developer Docs](#developer-docs)
+	- [Google DFA Reports](#google-dfa-reports)
+		- [Data Definitions](#data-definitions)
+		- [Delivery Time](#delivery-time)
+		- [Developer Docs](#developer-docs)
+	- [Movio Cinema](#movio-cinema)
+		- [Data Definitions](#data-definitions)
+		- [Delivery Time](#delivery-time)
+		- [Developer Docs](#developer-docs)
 
+<!-- /TOC -->
 
 ## Facebook Page Insights
 
@@ -82,38 +84,6 @@ We collect data from Facebook Page Insights API once a day. This ensures we are 
 
 Check out [Facebook Developer docs](https://developers.facebook.com/docs/platforminsights/page) for more details about Facebook Page Insights API.
 
-## YouTube Channel Insights
-
-Discover what drives your video content use on your channel. Identify how your subscribers react to new and existing content. Discover patterns or trends that inform content optimization and performance.
-
-### Data Definitions
-
-Take a look at our [data definition docs](https://docs.google.com/spreadsheets/d/1IZxhbTsTFGqiHvOu0PaNxcCq2AXfoNXV0qfpcf2LpXE/edit?usp=sharing) for YouTube Channel Insights layout and elements.
-
-### Delivery Time
-
-We collect data from YouTube Analytics API once a day. This ensures we are within the limits YouTube places on API calls.
-
-### Developer Docs
-
-Check out [YouTube Developer docs](https://developers.google.com/youtube/) for more details about YouTube Analytics and Reporting APIs.
-
-## Google Analytics 360
-
-Get deeper understanding of your user activity through simple, direct access to a fully automated pipeline of Google Analytics 360 sessions data direct to Amazon Redshift. Let the data drive decisions on how to optimize ongoing customer engagement and performance.
-
-### Data Definitions
-
-Take a look at our [data definition docs](https://docs.google.com/spreadsheets/d/1IVXLMSFt3hLoFni2iR3BtQ5VLzQPynY0QNh1hV6uIeU/edit?usp=sharing) for Google Analytics 360 layout and elements.
-
-### Delivery Time
-
-We collect data once a day. For example, a request to Google Analytics 360 on July 3rd would return data for July 2nd. This ensures you have completed daily views for each reporting period. The data is typically loaded into your Openbridge account within minutes of arriving.
-
-### Developer Docs
-
-Check out [Google Developer docs](https://support.google.com/analytics/answer/3437618?hl=en) for more details.
-
 ## Instagram Community IQ
 
 The Instagram Community IQ data bridge allows you to discover what drives your interactions within your Instagram community. Identify your best media and understand how it is being engaged with.
@@ -130,6 +100,22 @@ We collect data from Instagram API once a day. This ensures we are within the li
 
 Check out [Instagram Developer docs](https://www.instagram.com/developer/) for more details about Instagram APIs.
 
+## YouTube Channel Insights
+
+Discover what drives your video content use on your channel. Identify how your subscribers react to new and existing content. Discover patterns or trends that inform content optimization and performance.
+
+### Data Definitions
+
+Take a look at our [data definition docs](https://docs.google.com/spreadsheets/d/1IZxhbTsTFGqiHvOu0PaNxcCq2AXfoNXV0qfpcf2LpXE/edit?usp=sharing) for YouTube Channel Insights layout and elements.
+
+### Delivery Time
+
+We collect data from YouTube Analytics API once a day. This ensures we are within the limits YouTube places on API calls.
+
+### Developer Docs
+
+Check out [YouTube Developer docs](https://developers.google.com/youtube/) for more details about YouTube Analytics and Reporting APIs.
+
 ## YouTube Video IQ
 
 Track your competitors’ video performance data to see if their content drives engagement and adjust your YouTube strategies to stand out from the competition.
@@ -145,6 +131,38 @@ We collect data from YouTube Data API once a day. This ensures we are within the
 ### Developer Docs
 
 Check out [YouTube Developer docs](https://developers.google.com/youtube/) for more details about YouTube API.
+
+## YouTube Competitor
+
+Track your competitors’ channel data to get insight about how you perform and adjust your video content strategies to stand out from the competition.
+
+### Data Definitions
+
+Take a look at our [data definition docs](https://docs.google.com/spreadsheets/d/1HU8Yb0iCLl4TUinUlfL5oZZVnKalT45LoqH4mu62hKw/edit?usp=sharing) for YouTube Competitor layout and elements.
+
+### Delivery Time
+
+We collect data from the YouTube Analytics API once a day. This ensures we are within the limits YouTube places on API calls.
+
+### Developer Docs
+
+Check out the [YouTube Developer docs](https://developers.google.com/youtube/) for more details about YouTube API.
+
+## Google Analytics 360
+
+Get deeper understanding of your user activity through simple, direct access to a fully automated pipeline of Google Analytics 360 sessions data direct to Amazon Redshift. Let the data drive decisions on how to optimize ongoing customer engagement and performance.
+
+### Data Definitions
+
+Take a look at our [data definition docs](https://docs.google.com/spreadsheets/d/1IVXLMSFt3hLoFni2iR3BtQ5VLzQPynY0QNh1hV6uIeU/edit?usp=sharing) for Google Analytics 360 layout and elements.
+
+### Delivery Time
+
+We collect data once a day. For example, a request to Google Analytics 360 on July 3rd would return data for July 2nd. This ensures you have completed daily views for each reporting period. The data is typically loaded into your Openbridge account within minutes of arriving.
+
+### Developer Docs
+
+Check out [Google Developer docs](https://support.google.com/analytics/answer/3437618?hl=en) for more details.
 
 ## Google Adwords
 
@@ -210,21 +228,18 @@ Delivery time is between 2AM and 6AM EST. The typical approach is to deliver dat
 
 Check out [Salesforce Marketing Cloud Developer docs](https://help.marketingcloud.com/en-US/technical_library/web_service_guide/getting_started_developers_and_the_exacttarget_api/) for more details.
 
-## YouTube Competitor
-
-Track your competitors’ channel data to get insight about how you perform and adjust your video content strategies to stand out from the competition.
+## Adobe Data Warehouse
 
 ### Data Definitions
 
-Take a look at our [data definition docs](https://docs.google.com/spreadsheets/d/1HU8Yb0iCLl4TUinUlfL5oZZVnKalT45LoqH4mu62hKw/edit?usp=sharing) for YouTube Competitor layout and elements.
+Adobe Data Warehouse Reports data is tailored to your report builder queries. As a result there is no standard layout. Our system will automatically detect the custom layout and use it to define your table in your data warehouse. We have provided a sample layout [here](https://docs.google.com/spreadsheets/d/1mPoJYU8Ojiir3terkJ8t2wOvC9aLx-HmoVbv_aB3LqI/edit?usp=sharing)
 
 ### Delivery Time
 
-We collect data from the YouTube Analytics API once a day. This ensures we are within the limits YouTube places on API calls.
+The delivery schedule is something you can setup in Adobe. Adobe delivers once a day. Data for each day is delivered after it is processed, typically in the early AM hours. The data is typically loaded into your Openbridge account within minutes of arriving.
 
-### Developer Docs
 
-Check out the [YouTube Developer docs](https://developers.google.com/youtube/) for more details about YouTube API.
+Also see our [guide](adobe_datawarehouse.md) for direction and suggestions.
 
 ## Adobe Clickstream
 
@@ -272,18 +287,7 @@ We collect data once a day. We collect data for the prior day’s activity. For 
 
 Check out [Sizmek docs](http://platform.mediamind.com/Eyeblaster.MediaMind.API.Doc/?v=3) for more details about Sizmek MDX Trafficking API.
 
-## Adobe Data Warehouse
 
-### Data Definitions
-
-Adobe Data Warehouse Reports data is tailored to your report builder queries. As a result there is no standard layout. Our system will automatically detect the custom layout and use it to define your table in your data warehouse. We have provided a sample layout [here](https://docs.google.com/spreadsheets/d/1mPoJYU8Ojiir3terkJ8t2wOvC9aLx-HmoVbv_aB3LqI/edit?usp=sharing)
-
-### Delivery Time
-
-The delivery schedule is something you can setup in Adobe. Adobe delivers once a day. Data for each day is delivered after it is processed, typically in the early AM hours. The data is typically loaded into your Openbridge account within minutes of arriving.
-
-
-Also see our [guide](adobe_datawarehouse.md) for direction and suggestions.
 
 ## Google DFA Reports
 
