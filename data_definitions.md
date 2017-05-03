@@ -110,11 +110,27 @@ Take a look at our [data definition docs](https://docs.google.com/spreadsheets/d
 
 ### Delivery Time
 
-We collect data from YouTube Analytics API once a day. This ensures we are within the limits YouTube places on API calls.
+We collect data from the YouTube Analytics API once a day. This ensures we are within the limits YouTube places on API calls.
 
 ### Developer Docs
 
 Check out [YouTube Developer docs](https://developers.google.com/youtube/) for more details about YouTube Analytics and Reporting APIs.
+
+## YouTube Video Insights
+
+Understand how your content correlates with users’ behavior tapping deeper into video data. Discover patterns or trends that inform content optimization and performance.
+
+### Data Definitions
+
+Take a look at our [data definition docs](https://docs.google.com/spreadsheets/d/1O-Zn6VNx7KylW1EJaz9RDSxe2Ba3jpfl3L4cuowm7Gk/edit?usp=sharing) for YouTube Video Insights layout and elements
+
+### Delivery Time
+
+We collect data from the YouTube Data API once a day. This ensures we are within the limits YouTube places on API calls.
+
+### Developer Docs
+
+Check out [YouTube Developer docs](https://developers.google.com/youtube/) for more details about YouTube Analytics and Reporting APIs
 
 ## YouTube Video IQ
 
@@ -126,11 +142,27 @@ Take a look at our [data definition docs](https://docs.google.com/spreadsheets/d
 
 ### Delivery Time
 
-We collect data from YouTube Data API once a day. This ensures we are within the limits YouTube places on API calls.
+We collect data from the YouTube Data API once a day. This ensures we are within the limits YouTube places on API calls.
 
 ### Developer Docs
 
 Check out [YouTube Developer docs](https://developers.google.com/youtube/) for more details about YouTube API.
+
+## YouTube Audience IQ
+
+Get better understanding of your audience. Easily retrieve data points about your subscribers’ channels including comment count, subscriber count and google plus related account.
+
+### Data Definitions
+
+Take a look at our [data definition docs](https://docs.google.com/spreadsheets/d/11tuCacDhjugQgEpagt1PAA9kQayA2JY8OBv_PXWQx-8/edit?usp=sharing) for YouTube Audience IQ layout and elements.
+
+### Delivery Time
+
+We collect data from the YouTube Data API once a day. This ensures we are within the limits YouTube places on API calls.
+
+### Developer Docs
+
+Check out [YouTube Developer docs](https://developers.google.com/youtube/) for more details about YouTube Analytics and Reporting APIs
 
 ## YouTube Competitor
 
