@@ -12,18 +12,20 @@ Openbridge allows you to add your self-managed Redshift cluster as a storage loc
 
 To create an account for Openbridge you must be an admin Redshift user with the correct permissions.
 
-First, lets run a quick test to see if you can connect:
+First, lets run a quick test to see if you can connect. This command leverages PSQL or the Postgres command line utility:
 
-`psql -h *****.us-east-1.redshift.amazonaws.com -p 5439 -U username -d mydatabase \d`
+`psql -h *****.us-east-1.redshift.amazonaws.com -p 5439 -U {{username}} -d {{databasename}} \d`
 
-Did you see a list of tables? Ok, we are off to a good start!
+Use your host, user, password and database name. Did you see a list of tables? Ok, we are off to a good start!
 
 ### Create Database
+The next set of commands assumes you are connected via PSQL or some other tool to issue SQL commands to Redshift.
+
 If you want to use a different database then the default one created when your cluster was configured, then you can run:
 
 `create database {{mydatabase}};`
 
-This will create a new database in your cluster for us to use.
+This will create a new database in your cluster for Openbridge to use.
 
 To verify the database exists you can run:
 `select datname, datdba, datconnlimit from pg_database_info where datdba > 1;`
@@ -57,7 +59,7 @@ username  |      102 | true        | false    | false     | ********
 ```
 
 
-We will assign the `CREATE` permissions for `{{username}}` on `{{mydatabase}}`. The database can be the one you created with the command above or the name of the database you created when you launched the cluster:
+Assign the `CREATE` permissions for `{{username}}` on `{{mydatabase}}`. The database can be the one you created with the command above or the name of the database you created when you launched the cluster:
 
 `grant create on database {{mydatabase}} to {{username}};`
 
@@ -90,7 +92,6 @@ Using `psql` you connect to Redshift with your admin user you would run:
 `psql -h *****.us-east-1.redshift.amazonaws.com -p 5439 -U username -q -f create-openbridge.sql`
 
 Note: You will be prompted for your password. Also, you will need to change the `{{username}}`, `{{username}}` and `{{mydatabase}}` to the values that reflect your system/preferences.
-
 
 ## Configure Amazon Redshift Firewall
 Depending on your Amazon settings, you will need to grant Openbridge access to your Redshift instance via security group. Please review the [Amazon Redshift Documentation ](http://docs.aws.amazon.com/redshift/latest/mgmt/managing-security-groups-console.html) which describes how to allow us access to your cluster.
