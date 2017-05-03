@@ -85,7 +85,7 @@ If the schema already exists, then we want to make sure the correct permissions 
 `grant all on schema openbridge to {{username}};`
 
 ### Using Pre-Built Redshift Configuration File
-To simplify the process of getting everything setup we have included a `SQL` file called `create-openbridge.sql`. You can find it here: [`sql/create-openbridge.sql`](.sql/create-openbridge.sql).
+To simplify the process of getting everything setup we have included a `SQL` file called `create-openbridge.sql`. You can find it here: [`sql/create-openbridge.sql`](./sql/create-openbridge.sql).
 
 Using `psql` you connect to Redshift with your admin user you would run:
 
