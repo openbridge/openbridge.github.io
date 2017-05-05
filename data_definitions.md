@@ -84,6 +84,19 @@ We collect data from Facebook Page Insights API once a day. This ensures we are 
 
 Check out [Facebook Developer docs](https://developers.facebook.com/docs/platforminsights/page) for more details about Facebook Page Insights API.
 
+## Facebook Marketing
+
+
+### Data Definitions
+
+Take a look at our [data definition docs](https://docs.google.com/spreadsheets/d/1N14k7aztfFIzC2xoA3_Q6j6Wn17wV8WdI4-1ZKwLOi0/edit?usp=sharing) for Facebook Marketing layout and elements.
+
+### Delivery Time
+
+
+### Developer Docs
+
+
 ## Instagram Community IQ
 
 The Instagram Community IQ data bridge allows you to discover what drives your interactions within your Instagram community. Identify your best media and understand how it is being engaged with.
@@ -352,3 +365,15 @@ We collect data once a day. Movio provides data for the prior day’s activity. 
 ### Developer Docs
 
 Check out [Movio support docs](https://support.movio.co/login/) for more details.
+
+## Marin Data Passback
+
+### Data Definitions
+
+Take a look at our [data definition docs](https://docs.google.com/spreadsheets/d/1UC0YZHGipu6U1KMJJsiYTAHuAOuoXDUwHYiHmhKm5es/edit?usp=sharing) for Marin Data Passback layout and elements.
+
+### Delivery Time
+
+
+### Developer Docs
+
