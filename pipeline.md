@@ -2,16 +2,19 @@
 
 You're looking at the docs for the Openbridge Data Pipeline product! The Pipeline product allows non-technical users a simple and automated toolset to deliver, process and store data of all sizes to a private warehouse. Let's dive in.
 
+<!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
+
+- [Documentation · Data Pipeline](#documentation-data-pipeline)
 - [What Is A Data Pipeline?](#what-is-a-data-pipeline)
-- [Files to Database](#files-to-database)
-	- [Getting Organized](#getting-organized)
-		- [Example: CRM Files](#example-crm-files)
-	- [Understanding Your File Layouts](#understanding-your-file-layouts)
+- [Loading Files with the Data Pipeline](#loading-files-with-the-data-pipeline)
+	- [Directories](#directories)
+		- [Example: Directory Structure](#example-directory-structure)
 	- [File Naming](#file-naming)
+		- [Example: File Delivery](#example-file-delivery)
+	- [Understanding Your File Layouts](#understanding-your-file-layouts)
 	- [File Structure/Layout](#file-structurelayout)
 	- [Dealing With File Layouts Changes](#dealing-with-file-layouts-changes)
-	- [Directories](#directories)
-- [Sending Compressed Files](#sending-compressed-files)
+- [Compressed Files](#compressed-files)
 	- [Simple Use Case: One Archive, One File](#simple-use-case-one-archive-one-file)
 	- [Complex Use Case: One Archive, Many Files](#complex-use-case-one-archive-many-files)
 - [Encoding Your Files](#encoding-your-files)
@@ -19,10 +22,10 @@ You're looking at the docs for the Openbridge Data Pipeline product! The Pipelin
 - [How To Deliver Data](#how-to-deliver-data)
 	- [Transfer Protocols](#transfer-protocols)
 		- [Secure File Transfer Protocol (SFTP)](#secure-file-transfer-protocol-sftp)
-		- [FTP Explicit Mode (TLS)/(SSL)](#ftp-explicit-mode-tlsssl)
 		- [File Transfer Protocol (FTP)](#file-transfer-protocol-ftp)
 	- [Check Your Firewall](#check-your-firewall)
 	- [Blocked Files](#blocked-files)
+	- [Do Not Process](#do-not-process)
 	- [Hidden Files](#hidden-files)
 - [Error Handling](#error-handling)
 	- [Bulk Transfers](#bulk-transfers)
@@ -35,14 +38,24 @@ You're looking at the docs for the Openbridge Data Pipeline product! The Pipelin
 	- [Account Ban and Lockout](#account-ban-and-lockout)
 	- [Idle Connection Time Limits](#idle-connection-time-limits)
 - [Reference](#reference)
-	- [SFTP Clients](#ftp-clients)
+	- [FTP Clients](#ftp-clients)
 	- [GUI](#gui)
 		- [Free](#free)
 		- [Paid](#paid)
 	- [CLI](#cli)
 	- [Python](#python)
 - [FAQs](#faqs)
+	- [Why isn't the data I posted to the pipeline loaded to Redshift?](#why-isnt-the-data-i-posted-to-the-pipeline-loaded-to-redshift)
+		- [Verify File Delivery](#verify-file-delivery)
+		- [Verify The File Contents](#verify-the-file-contents)
+		- [Everything Looks Good?](#everything-looks-good)
+	- [What happens if I post the same data more than once?](#what-happens-if-i-post-the-same-data-more-than-once)
+	- [What happens if new columns are added (or removed) from my file?](#what-happens-if-new-columns-are-added-or-removed-from-my-file)
+	- [What if the name of one of my columns changes?](#what-if-the-name-of-one-of-my-columns-changes)
+	- [What if the name (filemask) of my source file changes?](#what-if-the-name-filemask-of-my-source-file-changes)
+	- [What if my source files contain additional header and/or footer rows in addition to the column headers?](#what-if-my-source-files-contain-additional-header-andor-footer-rows-in-addition-to-the-column-headers)
 
+<!-- /TOC -->
 
 # What Is A Data Pipeline?
 
@@ -59,7 +72,7 @@ The first step is to log in to your Data Pipeline location using the credentials
 - Must start with a letter
 - Must contain only lowercase letters
 - Can contain numbers and underscores `('_')` but no spaces or special characters (e.g. `'@'`, `'#'`, `'%'`)
-- **IMPORTANT**: Any data sent to a folder named `testing` will **NOT** be processed. If you wanted to test deliveries of files to the pipeline, you can post them to the `/testing/` folder. 
+- **IMPORTANT**: Any data sent to a folder named `testing` will **NOT** be processed. If you wanted to test deliveries of files to the pipeline, you can post them to the `/testing/` folder.
 
 Valid folder name:
 
@@ -654,7 +667,7 @@ Created By: John Doe
     "0123","December 11, 2015","18","100","A102B"
     "4567","December 10, 2015","25","125","A904F"
     "4567","December 11, 2015","20","180","A904F"
-"Totals", "75", "525" 
+"Totals", "75", "525"
 ```
 In this example, there are 4 additional rows above the column headers and a footer row with summarized totals for the CLICKS and IMPRESSIONS fields.  The initial load of this file will fail because the first 4 rows do not contain valid delimiters.  You do not want to load either the additional header or footer rows as it will impact your ability to query these fields in the Redshift table.  We will need to modify the 'blueprint' for these files to ignore the first 4 rows and the last (footer) row.
 
