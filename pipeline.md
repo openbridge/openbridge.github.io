@@ -395,6 +395,9 @@ To help protect the integrity of the data sent to Openbridge, we do not allow de
 
 If you attempt to send a file that matches a blocked file then the transfer will not be allowed.
 
+## Do Not Process
+Normally data delivered to the SFTP server will be routed to the target data warehouse. However, there is one exception. Any files placed into a `testing` directory will be ignored. By default each user has a `/testing` folder generated for them upon login. This is a safe place to upload files without the risk of the data flowing down stream to the data warehouse.
+
 ## Hidden Files
 
 Hidden files are not allowed on the server. Hidden files have a dot prefix `.` in the file name. For example, `.file.txt` or `.foo` would be considered hidden files and be blocked.
