@@ -401,7 +401,7 @@ Connection Details:
 
 ```
     Host:               pipeline.openbridge.io
-    Port:               22
+    Port:               22 or 443
     Protocol:           SFTP
     User:               Provided separately
     Password:           Provided separately
@@ -417,7 +417,7 @@ If you need FTP access, please contact support.
 
 ## Check Your Firewall
 
-If you are having connection difficulties, please make sure you can make outbound network connections for `FTPES` and `FTP` via `port:21`. For those using `SFTP` make sure outbound `port:2222` is open.
+If you are having connection difficulties, please make sure you can make outbound network connections for  `SFTP` make sure outbound `port:22` or `port:443` is open. Either can be used to connect.
 
 ## Blocked Files
 
