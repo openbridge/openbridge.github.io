@@ -367,13 +367,13 @@ The output should look contain a `charset=` which indicates the character encodi
 Notice the `charset=us-ascii` says the file is ASCII. Perfect! The file is ready to be transferred.
 
 # Large File Transfers
-If you are sending larger files (>1GB), be advised that there the connection will...This will give the appearance that the transfer has failed at or near 100%. 
+If you are sending larger files (>1GB), be advised that there are file transfer behaviours that you should be aware of. Specifically, it is possible that this behaviour will give the appearance that the transfer has failed at or near 100%.  
 
 ## How Does it Work?
-There are two parts to the system; (1) file transfer and (2) file processing. The transfer part is the time it takes for your client to deliver the file over a network to us. The second part is Openbridge processing the file once it arrives.
+Our system will not send a complete message until the end-to-end transaction is complete. There are two parts to the system; (1) file transfer and (2) file processing. The transfer part is the time it takes for your client to deliver the file over a network to us. The second part is Openbridge processing the file once it arrives. Both impact the total time for the completion of the transfer.
 
 ## What Is Happening?
-Once a transfer has completed Openbridge has recieved the file. However, it needs to perform post processing activities before it can send a success message to your client. This may give the appearance your transfer has hung or failed. THe reason for this is that the server puts the file into a remote `temp` location during the initial upload. This is to ensure the file is valid and meets the requirements of the pipeline process. The system will then transfer the file to the `production` path for loading to a database once validated. The larger the file, the longer this process takes (`temp` -> `production`).
+A transfer is not completed when Openbridge has recieved the file. The system still needs to perform post processing activities before it can send a success message to your client. This may give the appearance your transfer has hung or failed. THe reason for this is that the server puts the file into a remote `temp` location during the initial upload. This is to ensure the file is valid and meets the requirements of the pipeline process. The system will then transfer the file to the `production` path for loading to a database once validated. The larger the file, the longer this process takes (`temp` -> `production`).
 
 ### Example
 Lets assume you have a 1GB file. Tee initial transfer took about 66 seconds to reach 100%. However, the connection is still processing as previouslly described. It would likely take about the same amount of time, 60-70 seconds, to complete the (`temp` -> `production`) process. So the total time would be about 2.2 minutes.
