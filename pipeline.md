@@ -19,6 +19,7 @@ You're looking at the docs for the Openbridge Data Pipeline product! The Pipelin
 	- [Complex Use Case: One Archive, Many Files](#complex-use-case-one-archive-many-files)
 - [Encoding Your Files](#encoding-your-files)
 	- [Check Encoding](#check-encoding)
+- [Large File Transfers](#large-file-transfers)
 - [How To Deliver Data](#how-to-deliver-data)
 	- [Transfer Protocols](#transfer-protocols)
 		- [Secure File Transfer Protocol (SFTP)](#secure-file-transfer-protocol-sftp)
@@ -365,11 +366,30 @@ The output should look contain a `charset=` which indicates the character encodi
 
 Notice the `charset=us-ascii` says the file is ASCII. Perfect! The file is ready to be transferred.
 
+# Large File Transfers
+If you are sending larger files (>1GB), be advised that there the connection will...This will give the appearance that the transfer has failed at or near 100%. 
+
+## How Does it Work?
+There are two parts to the system; (1) file transfer and (2) file processing. The transfer part is the time it takes for your client to deliver the file over a network to us. The second part is Openbridge processing the file once it arrives.
+
+## What Is Happening?
+Once a transfer has completed Openbridge has recieved the file. However, it needs to perform post processing activities before it can send a success message to your client. This may give the appearance your transfer has hung or failed. THe reason for this is that the server puts the file into a remote `temp` location during the initial upload. This is to ensure the file is valid and meets the requirements of the pipeline process. The system will then transfer the file to the `production` path for loading to a database once validated. The larger the file, the longer this process takes (`temp` -> `production`).
+
+### Example
+Lets assume you have a 1GB file. Tee initial transfer took about 66 seconds to reach 100%. However, the connection is still processing as previouslly described. It would likely take about the same amount of time, 60-70 seconds, to complete the (`temp` -> `production`) process. So the total time would be about 2.2 minutes.
+
+Now, if it was a 10 GB file, the initial process may take about 840 seconds to reach 100% and then another 800-1000 seconds to complete the (`temp` -> `production`) process. So the total time is about 30 minutes, half of which was the processing time
+
+## What Should You Do?
+* Your system may think the transfer timed out, so you will want to increase your client timeout windows.
+* The process can, in various situaitions, lead to blocking other transfers from occuring while the orginal transfer is still in-progress. Queue your transfers so they occur after the confirmation of each file delivery. Also, try not performing ancillary commands to LIST directories while the process is ongoing.  
+
+
 # How To Deliver Data
 
 ## Transfer Protocols
 
-Pipeline supports three transfer methods: `SFTP`, `FTPES` and `FTP`. These are simple methods for transferring files between systems. In almost all cases, `SFTP` (or `FTPES`) is preferable to `FTP` because of its underlying security features. `FTP` is an insecure protocol that should only be used in limited cases or on networks you trust. `SFTP` , `FTPES` and `FTP` are integrated into many graphical tools or can be done directly via the command line
+Pipeline supports transfer methods: `SFTP`. The `FTPES` and `FTP` are not supported. `FTP` is an insecure protocol that should only be used in limited cases or on networks you trust. `SFTP` is integrated into many graphical tools or can be done directly via the command line.
 
 ### Secure File Transfer Protocol (SFTP)
 
@@ -393,6 +413,7 @@ Connection Details:
 **Openbridge does support the use of `FTP`**. We recognize that there are some systems that can only deliver data via `FTP`. For example, many of the Adobe export processes typically occur via `FTP`. However, it should be noted that the use of `FTP` offers **no encryption** for connection and data transport. Using the `FTP` protocol is regarded to be unsafe. It is therefore advisable to use `SFTP` or `FTPES` connections to ensure that data is securely transferred.
 
 If you need FTP access, please contact support.
+
 
 ## Check Your Firewall
 
