@@ -185,7 +185,8 @@ When additional `"*_transactions.csv"` files are delivered to `customers/transac
 
 ## File Structure/Layout
 
-The file column headers are important as they will also be the field names used in the corresponding table. As with directory names, the column headers should be descriptive enough for the end user to understand its contents. The column headers must meet the same syntax requirements. These requirements are outlined below...
+The file column 
+s are important as they will also be the field names used in the corresponding table. As with directory names, the column headers should be descriptive enough for the end user to understand its contents. The column headers must meet the same syntax requirements. These requirements are outlined below...
 
 - Must start with a letter
 - Must contain only lowercase letters
@@ -203,13 +204,14 @@ Invalid column header:
     "Inquiries to Purchase %"
 ```
 
+### Automated Cleaning Headers
 If the field names in the batch file do not meet these requirements, the system will automatically perform the following transformations...
 
 - Uppercase letters will be converted to lowercase
 - Spaces will be converted to underscores `('_')`
 - Special characters will be dropped
 
-If the system can not automatically perform this transformation data will fail to load or load in a manner that is inconsistent with expectations.
+<b>If the system can not automatically perform these transformations data will fail to load or load in a manner that is inconsistent with expectations.</b>
 
 ## Dealing With File Layouts Changes
 
