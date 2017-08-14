@@ -204,7 +204,7 @@ Invalid column header:
     "Inquiries to Purchase %"
 ```
 
-### Automated Cleaning Headers
+### Automated Header Cleaning 
 If the field names in the batch file do not meet these requirements, the system will automatically perform the following transformations...
 
 - Uppercase letters will be converted to lowercase
