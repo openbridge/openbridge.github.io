@@ -49,7 +49,8 @@ After connecting to your cluster and database, run this command to create the us
 
 `create user {{username}} with password '{{userpassword}}';`
 
-Here is another example. How you create users will be up to your own policies and preferences
+Here is another example. How you create users will be up to your own policies and preferences:
+
 `create user name_surname with password 'P455WORD' NOCREATEDB IN GROUP read_only_users;`
 
 To verify that the user was created you can run;
