@@ -71,9 +71,9 @@ Assign the `CREATE` permissions for `{{username}}` on `{{mydatabase}}`. The data
 
 `grant create on database {{mydatabase}} to {{username}};`
 
-To alter default privileges I've used following query:
+To alter default privilegesy you can use te following query:
 
-`ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT ON TABLES TO group read_only_users;`
+`ALTER DEFAULT PRIVILEGES IN SCHEMA {{schema}} GRANT SELECT ON TABLES TO group {{groupname}};`
 
 To grant privileges on particular you can get few of examples from Postgresql 8.0 documentation:
 https://www.postgresql.org/docs/8.0/static/sql-grant.html
