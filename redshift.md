@@ -49,6 +49,9 @@ After connecting to your cluster and database, run this command to create the us
 
 `create user {{username}} with password '{{userpassword}}';`
 
+Here is another example. How you create users will be up to your own policies and preferences
+`create user name_surname with password 'P455WORD' NOCREATEDB IN GROUP read_only_users;`
+
 To verify that the user was created you can run;
 
 `select * from pg_user_info;`
@@ -67,6 +70,13 @@ username  |      102 | true        | false    | false     | ********
 Assign the `CREATE` permissions for `{{username}}` on `{{mydatabase}}`. The database can be the one you created with the command above or the name of the database you created when you launched the cluster:
 
 `grant create on database {{mydatabase}} to {{username}};`
+
+To alter default privileges I've used following query:
+
+`ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT ON TABLES TO group read_only_users;`
+
+To grant privileges on particular you can get few of examples from Postgresql 8.0 documentation:
+https://www.postgresql.org/docs/8.0/static/sql-grant.html
 
 ### Create Schema
 Next, let's make sure you have a schema for Openbridge to use in `{{mydatabase}}`:
