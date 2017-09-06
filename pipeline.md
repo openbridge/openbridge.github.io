@@ -2,7 +2,6 @@
 
 You're looking at the docs for the Openbridge Data Pipeline product! The Pipeline product allows non-technical users a simple and automated toolset to deliver, process and store data of all sizes to a private warehouse. Let's dive in.
 
-![Data Stash](https://raw.githubusercontent.com/openbridge/ob_datastash/master/datastash-sftpscp.png "How It Works")
 
 <!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
 
@@ -61,6 +60,9 @@ You're looking at the docs for the Openbridge Data Pipeline product! The Pipelin
 <!-- /TOC -->
 
 # What Is A Data Pipeline?
+
+![Data Stash](https://raw.githubusercontent.com/openbridge/ob_datastash/master/datastash-sftpscp.png "How It Works")
+
 
 A data pipeline is a series of well designed, intuitive, and cohesive components--built on top of he Openbridge platform. If you are familar with loading data to relational data stores you'll find this familiar, but simpler and more automated.
 
