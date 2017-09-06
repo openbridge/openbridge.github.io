@@ -2,6 +2,8 @@
 
 You're looking at the docs for the Openbridge Data Pipeline product! The Pipeline product allows non-technical users a simple and automated toolset to deliver, process and store data of all sizes to a private warehouse. Let's dive in.
 
+![Data Stash](https://raw.githubusercontent.com/openbridge/ob_datastash/master/datastash-sftpscp.png "How It Works")
+
 <!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
 
 - [Documentation · Data Pipeline](#documentation-data-pipeline)
