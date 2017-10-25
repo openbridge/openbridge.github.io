@@ -611,10 +611,12 @@ Let's say on 12/11/15 you posted a file named `20151211_ad_performance.csv` to a
 
 The records loaded to the `ad_performance` table would look like this...
 
+
 |**adid**|**date**|**clicks**|**impressions**|**campaignid**|**ob_transaction_id**|**ob_modified_date**|
-|---|---|---|---|---|---|---|---|
+|---|---|---|---|---|---|---|
 |0123|December 10, 2015|12|120|A102B|abcd1234|12/11/15 8:45:20|
 |4567|December 10, 2015|25|125|A904F|defg5678|12/11/15 8:45:20|
+
 
 You will see that the sytem fields 'ob_transaction_id' and `ob_modified_date` have been added to your table and represent the unique id for that record and the timestamp that the record was loaded to the table.
 
