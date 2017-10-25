@@ -649,7 +649,7 @@ However, let's say that your data changes slight over time or reflects lifetime 
     "4567","December 11, 2015","20","180","A904F"
 ```
 In this case, the value in the `impressions` field for `ADID` on 12/10/15 changed from 120 to 121.  As a result, the row of data will no longer have the same hash value as the row from the previous file and it will be loaded to the ad_performance table which will now look like this...
-```
+
 |**adid**|**date**|**clicks**|**impressions**|**campaignid**|**ob_transaction_id**|**ob_modified_date**|
 |---|---|---|---|---|---|---|
 |0123|December 10, 2015|12|120|A102B|abcd1234|12/11/15 8:45:20|
@@ -657,7 +657,7 @@ In this case, the value in the `impressions` field for `ADID` on 12/10/15 change
 |0123|December 11, 2015|18|100|A102B|hijk9012|12/12/15 10:05:10|
 |4567|December 10, 2015|25|125|A904F|defg5678|12/11/15 8:45:20|
 |4567|December 11, 2015|20|180|A904F|lmno3456|12/12/15 10:05:10|
-```
+
 As you can see, there are now two rows of data for `ADID` 0123 on 12/10/15 with different values for `ob_transaction_id` and `ob_modified_date`.  Depending on how your reporting queries are structured this could result in overtstating impressions for `ADID` 0123 on 12/10/15.
 
 If your data changes over time, it is best practice to only load data for a particular date one time.  If you are faced with this situation you have a couple of options...
