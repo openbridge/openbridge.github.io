@@ -5,14 +5,16 @@
             "Effect": "Allow",
             "Action": [
                 "s3:Get*",
-                "s3:List*"
+                "s3:List*",
+                "s3:DeleteObject"
             ],
             "Resource": "arn:aws:s3:::yourbucketname/*"
         },
         {
             "Effect": "Allow",
             "Action": [
-                "s3:ListBucket"
+                "s3:ListBucket",
+                "s3:DeleteObject"
             ],
             "Resource": "arn:aws:s3:::yourbucketname"
         },
