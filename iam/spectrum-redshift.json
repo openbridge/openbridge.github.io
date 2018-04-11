@@ -4,27 +4,15 @@
         {
             "Effect": "Allow",
             "Action": [
-                "s3:Get*",
-                "s3:List*",
-                "s3:DeleteObject"
-            ],
-            "Resource": "arn:aws:s3:::yourbucketname/*"
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
+                "s3:GetBucketLocation",
+                "s3:GetObject",
+                "s3:ListMultipartUploadParts",
                 "s3:ListBucket",
-                "s3:DeleteObject"
-            ],
-            "Resource": "arn:aws:s3:::yourbucketname"
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
-                "athena:*"
+                "s3:ListBucketMultipartUploads"
             ],
             "Resource": [
-                "*"
+                "arn:aws:s3:::bucketname",
+                "arn:aws:s3:::bucketname/*"
             ]
         },
         {
