@@ -58,11 +58,11 @@ You have the option of requesting Daily Single or Daily Multiple for delivery. W
 ## Hit Data
 We have provided public repository of samples of clickstream data feeds on Github:
 
-In addition to reviewing the same data we provided, we suggest you review the Adobe specs here: [Adobe ClickStream Specs](http://microsite.omniture.com/t2/help/en_US/sc/clickstream/index.html#Clickstream_Data)
+In addition to reviewing the same data we provided, we suggest you review the Adobe specs here: [Adobe ClickStream Specs](https://marketing.adobe.com/resources/help/en_US/sc/clickstream/data-feeds-best-practices.html)
 
 If you are planning to use the full payload as defined Adobe there are consideration in complexity and storage volumes. This is due to the fact that there are in excess of 500 columns of data, each with varying lengths and data types. Each record will consume a sizable chunk of space.
 
-Take a look at Adobe's recommended subset of that superset of columns here: [Adobe ClickStream Subset Specs](http://microsite.omniture.com/t2/help/en_US/sc/clickstream/index.html#Configuring_Data)
+Take a look at Adobe's recommended subset of that superset of columns here: [Adobe ClickStream Subset Specs](https://marketing.adobe.com/resources/help/en_US/sc/clickstream/datafeeds_reference.html)
 
 
 ## Lookup/Helper Files

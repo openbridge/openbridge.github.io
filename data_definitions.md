@@ -1,9 +1,12 @@
 # Data Bridges - Data Definitions
-
 <!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
 
 - [Data Bridges - Data Definitions](#data-bridges-data-definitions)
 	- [Facebook Page Insights](#facebook-page-insights)
+		- [Data Definitions](#data-definitions)
+		- [Delivery Time](#delivery-time)
+		- [Developer Docs](#developer-docs)
+	- [Facebook Marketing](#facebook-marketing)
 		- [Data Definitions](#data-definitions)
 		- [Delivery Time](#delivery-time)
 		- [Developer Docs](#developer-docs)
@@ -15,7 +18,15 @@
 		- [Data Definitions](#data-definitions)
 		- [Delivery Time](#delivery-time)
 		- [Developer Docs](#developer-docs)
+	- [YouTube Video Insights](#youtube-video-insights)
+		- [Data Definitions](#data-definitions)
+		- [Delivery Time](#delivery-time)
+		- [Developer Docs](#developer-docs)
 	- [YouTube Video IQ](#youtube-video-iq)
+		- [Data Definitions](#data-definitions)
+		- [Delivery Time](#delivery-time)
+		- [Developer Docs](#developer-docs)
+	- [YouTube Audience IQ](#youtube-audience-iq)
 		- [Data Definitions](#data-definitions)
 		- [Delivery Time](#delivery-time)
 		- [Developer Docs](#developer-docs)
@@ -65,9 +76,12 @@
 		- [Data Definitions](#data-definitions)
 		- [Delivery Time](#delivery-time)
 		- [Developer Docs](#developer-docs)
+	- [Marin Data Passback](#marin-data-passback)
+		- [Data Definitions](#data-definitions)
+		- [Delivery Time](#delivery-time)
+		- [Developer Docs](#developer-docs)
 
 <!-- /TOC -->
-
 ## Facebook Page Insights
 
 With direct access to Facebook Page Insights data you can build a deeper understanding of your community and closer relationships with your customers.
@@ -83,6 +97,19 @@ We collect data from Facebook Page Insights API once a day. This ensures we are 
 ### Developer Docs
 
 Check out [Facebook Developer docs](https://developers.facebook.com/docs/platforminsights/page) for more details about Facebook Page Insights API.
+
+## Facebook Marketing
+
+
+### Data Definitions
+
+Take a look at our [data definition docs](https://docs.google.com/spreadsheets/d/1N14k7aztfFIzC2xoA3_Q6j6Wn17wV8WdI4-1ZKwLOi0/edit?usp=sharing) for Facebook Marketing layout and elements.
+
+### Delivery Time
+
+
+### Developer Docs
+
 
 ## Instagram Community IQ
 
@@ -110,11 +137,27 @@ Take a look at our [data definition docs](https://docs.google.com/spreadsheets/d
 
 ### Delivery Time
 
-We collect data from YouTube Analytics API once a day. This ensures we are within the limits YouTube places on API calls.
+We collect data from the YouTube Analytics API once a day. This ensures we are within the limits YouTube places on API calls.
 
 ### Developer Docs
 
 Check out [YouTube Developer docs](https://developers.google.com/youtube/) for more details about YouTube Analytics and Reporting APIs.
+
+## YouTube Video Insights
+
+Understand how your content correlates with users’ behavior tapping deeper into video data. Discover patterns or trends that inform content optimization and performance.
+
+### Data Definitions
+
+Take a look at our [data definition docs](https://docs.google.com/spreadsheets/d/1O-Zn6VNx7KylW1EJaz9RDSxe2Ba3jpfl3L4cuowm7Gk/edit?usp=sharing) for YouTube Video Insights layout and elements
+
+### Delivery Time
+
+We collect data from the YouTube Data API once a day. This ensures we are within the limits YouTube places on API calls.
+
+### Developer Docs
+
+Check out [YouTube Developer docs](https://developers.google.com/youtube/) for more details about YouTube Analytics and Reporting APIs
 
 ## YouTube Video IQ
 
@@ -126,11 +169,27 @@ Take a look at our [data definition docs](https://docs.google.com/spreadsheets/d
 
 ### Delivery Time
 
-We collect data from YouTube Data API once a day. This ensures we are within the limits YouTube places on API calls.
+We collect data from the YouTube Data API once a day. This ensures we are within the limits YouTube places on API calls.
 
 ### Developer Docs
 
 Check out [YouTube Developer docs](https://developers.google.com/youtube/) for more details about YouTube API.
+
+## YouTube Audience IQ
+
+Get better understanding of your audience. Easily retrieve data points about your subscribers’ channels including comment count, subscriber count and google plus related account.
+
+### Data Definitions
+
+Take a look at our [data definition docs](https://docs.google.com/spreadsheets/d/11tuCacDhjugQgEpagt1PAA9kQayA2JY8OBv_PXWQx-8/edit?usp=sharing) for YouTube Audience IQ layout and elements.
+
+### Delivery Time
+
+We collect data from the YouTube Data API once a day. This ensures we are within the limits YouTube places on API calls.
+
+### Developer Docs
+
+Check out [YouTube Developer docs](https://developers.google.com/youtube/) for more details about YouTube Analytics and Reporting APIs
 
 ## YouTube Competitor
 
@@ -320,3 +379,14 @@ We collect data once a day. Movio provides data for the prior day’s activity. 
 ### Developer Docs
 
 Check out [Movio support docs](https://support.movio.co/login/) for more details.
+
+## Marin Data Passback
+
+### Data Definitions
+
+Take a look at our [data definition docs](https://docs.google.com/spreadsheets/d/1UC0YZHGipu6U1KMJJsiYTAHuAOuoXDUwHYiHmhKm5es/edit?usp=sharing) for Marin Data Passback layout and elements.
+
+### Delivery Time
+
+
+### Developer Docs

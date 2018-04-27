@@ -49,6 +49,10 @@ After connecting to your cluster and database, run this command to create the us
 
 `create user {{username}} with password '{{userpassword}}';`
 
+Here is another example. How you create users will be up to your own policies and preferences:
+
+`create user name_surname with password 'P455WORD' NOCREATEDB IN GROUP read_only_users;`
+
 To verify that the user was created you can run;
 
 `select * from pg_user_info;`
@@ -67,6 +71,13 @@ username  |      102 | true        | false    | false     | ********
 Assign the `CREATE` permissions for `{{username}}` on `{{mydatabase}}`. The database can be the one you created with the command above or the name of the database you created when you launched the cluster:
 
 `grant create on database {{mydatabase}} to {{username}};`
+
+To alter default privilegesy you can use te following query:
+
+`ALTER DEFAULT PRIVILEGES IN SCHEMA {{schema}} GRANT SELECT ON TABLES TO group {{groupname}};`
+
+To grant privileges on particular you can get few of examples from Postgresql 8.0 documentation:
+https://www.postgresql.org/docs/8.0/static/sql-grant.html
 
 ### Create Schema
 Next, let's make sure you have a schema for Openbridge to use in `{{mydatabase}}`:
@@ -90,7 +101,7 @@ If the schema already exists, then we want to make sure the correct permissions 
 `grant all on schema openbridge to {{username}};`
 
 ### Using Pre-Built Redshift Configuration File
-To simplify the process of getting everything setup we have included a `SQL` file called `create-openbridge.sql`. You can find it here: [`sql/create-openbridge.sql`](.sql/create-openbridge.sql).
+To simplify the process of getting everything setup we have included a `SQL` file called `create-openbridge.sql`. You can find it here: [`sql/create-openbridge.sql`](./sql/create-openbridge.sql).
 
 Using `psql` you connect to Redshift with your admin user you would run:
 
