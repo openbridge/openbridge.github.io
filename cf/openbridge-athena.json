@@ -1,0 +1,155 @@
+{
+  "Parameters": {
+    "BucketName": {
+      "Type": "String",
+      "Default": "mycompanyname001-openrbridge-athena",
+      "Description": "Replace mycompanyname001 with your company name"
+    },
+    "UserName": {
+      "Type": "String",
+      "Default": "openbridge-amazon-athena",
+      "Description": "Leave default value or replace openbridge-amazon-athena with another user name"
+    }
+  },
+  "Resources": {
+    "S3Bucket": {
+      "Type": "AWS::S3::Bucket",
+      "Properties": {
+        "BucketName": {
+          "Ref": "BucketName"
+        }
+      }
+    },
+    "IAMUser": {
+      "Type": "AWS::IAM::User",
+      "Properties": {
+        "UserName": {
+          "Ref": "UserName"
+        },
+        "Policies": [
+          {
+            "PolicyName": "openbridge-amazon-athena-policy",
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "s3:GetObject",
+                    "s3:PutObject",
+                    "s3:AbortMultipartUpload",
+                    "s3:ListMultipartUploadParts",
+                    "s3:DeleteObject"
+                  ],
+                  "Resource": {
+                    "Fn::Join": [
+                      "",
+                      [
+                        "arn:aws:s3:::",
+                        {
+                          "Ref": "BucketName"
+                        },
+                        "/*"
+                      ]
+                    ]
+                  }
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "s3:GetBucketLocation",
+                    "s3:CreateBucket",
+                    "s3:ListBucket",
+                    "s3:ListBucketMultipartUploads",
+                    "s3:DeleteObject"
+                  ],
+                  "Resource": {
+                    "Fn::Join": [
+                      "",
+                      [
+                        "arn:aws:s3:::",
+                        {
+                          "Ref": "BucketName"
+                        }
+                      ]
+                    ]
+                  }
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "athena:*"
+                  ],
+                  "Resource": [
+                    "*"
+                  ]
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "glue:CreateDatabase",
+                    "glue:DeleteDatabase",
+                    "glue:GetDatabase",
+                    "glue:GetDatabases",
+                    "glue:UpdateDatabase",
+                    "glue:CreateTable",
+                    "glue:DeleteTable",
+                    "glue:BatchDeleteTable",
+                    "glue:UpdateTable",
+                    "glue:GetTable",
+                    "glue:GetTables",
+                    "glue:BatchCreatePartition",
+                    "glue:CreatePartition",
+                    "glue:DeletePartition",
+                    "glue:BatchDeletePartition",
+                    "glue:UpdatePartition",
+                    "glue:GetPartition",
+                    "glue:GetPartitions",
+                    "glue:BatchGetPartition"
+                  ],
+                  "Resource": [
+                    "*"
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "IAMAccessKey": {
+      "Type": "AWS::IAM::AccessKey",
+      "Properties": {
+        "UserName": {
+          "Ref": "UserName"
+        }
+      },
+      "DependsOn": "IAMUser"
+    }
+  },
+  "Outputs": {
+    "BucketName": {
+      "Value": {
+        "Ref": "BucketName"
+      }
+    },
+    "IAMUserName": {
+      "Value": {
+        "Ref": "UserName"
+      }
+    },
+    "AccessKeyforIAMUser": {
+      "Value": {
+        "Ref": "IAMAccessKey"
+      }
+    },
+    "SecretKeyforIAMUser": {
+      "Value": {
+        "Fn::GetAtt": [
+          "IAMAccessKey",
+          "SecretAccessKey"
+        ]
+      }
+    }
+  }
+}
